@@ -15,7 +15,7 @@ module.exports = class Hello extends DBF.Command{
     }
     run(params = {msg, args}){
         let msg = params.msg;
-        if(msg.guild.voiceConnection && msg.guild.member.voiceChannel.joinable && msg.guild.member.voiceChannel.speakable)
+        if(msg.guild.voiceConnection && msg.member.voiceChannel && msg.member.voiceChannel.joinable && msg.member.voiceChannel.speakable)
             msg.member.voiceChannel.join();
     }
 }
