@@ -154,7 +154,7 @@ module.exports = class BlackJack extends DBF.Command{
 
         function winner(ind){
             let embed = buildEmbed(true);
-            ind == -1 ? msg.author.rep+=amount : (ind == 0 ? ((msg.author.hand.cards.length == 2 && msg.author.hand.total == 21) ? msg.author.rep += Math.ceil(amount*1.5) : msg.author.rep += amount*2) : null);
+            ind == -1 ? msg.author.rep+=amount : (ind == 0 ? ((msg.author.hand.cards.length == 2 && msg.author.hand.total == 21) ? msg.author.rep += Math.ceil(amount*2.5) : msg.author.rep += amount*2) : null);
             if(ind == 1){
                 embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " lost", msg.author.displayAvatarURL);
                 embed.description = "You lost the game of Blackjack against Harley :c\nYou now have `" + msg.author.rep + "` rice (`-" + amount + "`).";
