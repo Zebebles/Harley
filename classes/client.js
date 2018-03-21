@@ -5,6 +5,7 @@ const Playlist = require("./playlist.js");
 const fetch = require("node-fetch");
 const snekfetch = require("snekfetch");
 var Promise = require("bluebird");
+const auth = require('../resources/auth.json');
 require("../unlisted/mysql_functions.js")();
 require("../unlisted/joinleave.js")();//
 
