@@ -40,7 +40,7 @@ module.exports = class Love extends DBF.Command{
         else if(user.bot)
             return msg.reply("What's an emotionless bot gonna do with your love?");
         
-        let rep = Math.floor(Math.random() * 34) + 1;
+        let rep = Math.floor(Math.random() * 50) + 1;
         msg.channel.send(lover + " gave " + user + " one of their love points! They redeemed it for `" + rep + "` grains of rice.");
         
         if(lover.loves == 2)
