@@ -1,0 +1,7 @@
+auth.json
+website/
+node_modules/
+backup/
+.vs/
+.nvm/
+resources/
