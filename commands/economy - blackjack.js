@@ -168,7 +168,7 @@ module.exports = class BlackJack extends DBF.Command{
             }
             else
             {
-                embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " drawed with Harley", msg.author.displayAvatarURL);
+                embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " drew with Harley", msg.author.displayAvatarURL);
                 embed.description = "You drew a game of Blackjack with Harley!\nYou still have `" + msg.author.rep + "` rice.";
             }
             updateMessage(embed);
