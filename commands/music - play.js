@@ -81,7 +81,7 @@ module.exports = class Hello extends DBF.Command{
                 addYTSongById(videoID);
             }
             else{ //if they're searching
-                snekfetch.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=' + msg.client.auth.googleKey + '&maxResults=10&q=' + args).then(body =>{
+                snekfetch.get(encodeURIComponent('https://www.googleapis.com/youtube/v3/search?part=snippet&key=' + msg.client.auth.googleKey + '&maxResults=10&q=' + args)).then(body =>{
                     //console.log("Request - Youtube Search - " + msg.guild.name);
                     let results = JSON.parse(body.text);
                     results = results.items.filter(res => res.id.kind != "youtube#channel");
