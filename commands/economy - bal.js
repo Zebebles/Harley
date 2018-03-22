@@ -8,7 +8,7 @@ module.exports = class Rep extends DBF.Command{
              triggers: ["bal", "balance", "money", "bank"], //any message (excluding prefix) that will trigger this command.
              group: "Economy", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
-             description: "Check how much rice someone has saved up, and their leaderboards position.", //this will show in the help message
+             description: "Check how much rice someone has saved up, and their leaderboard position.", //this will show in the help message
              example: ">>rice @user\n>>rice username",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel. This prevents that.
              reqArgs: true,
