@@ -16,7 +16,7 @@ module.exports = class Restart extends DBF.Command{
     }
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        msg.channel.send("Restarting!").then(msg => {
+        msg.channel.send("Resarting all servers!").then(msg => {
             snekfetch.get("http://"+msg.client.auth.webserver+"/manage/restart?pw="+msg.client.auth.password).then( r => r);           
         });
     }
