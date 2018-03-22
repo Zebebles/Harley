@@ -45,7 +45,7 @@ class myClient extends DBF.Client {
 
         this.on("guildDelete", guild => {
             var conn = mysql.createConnection({
-                host: "localhost",
+                host: this.auth.webserver.split(":")[0],
                 user: "root",
                 password: this.auth.password
             });
@@ -150,7 +150,7 @@ class myClient extends DBF.Client {
 
     loadGuilds(client) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -176,7 +176,7 @@ class myClient extends DBF.Client {
 
     loadUsers(client){
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -192,7 +192,7 @@ class myClient extends DBF.Client {
 
     syncUser(user){
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -266,7 +266,7 @@ class myClient extends DBF.Client {
 
     setPrefix(guild, prefix) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -282,7 +282,7 @@ class myClient extends DBF.Client {
 
     setAutoRole(role) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -297,7 +297,7 @@ class myClient extends DBF.Client {
 
     dropAutoRole(guild) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -312,7 +312,7 @@ class myClient extends DBF.Client {
 
     setGreeting(msg, greeting) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -333,7 +333,7 @@ class myClient extends DBF.Client {
 
     setFarewell(msg, farewell) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -355,7 +355,7 @@ class myClient extends DBF.Client {
 
     dropGreeting(guild) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -376,7 +376,7 @@ class myClient extends DBF.Client {
 
     dropFarewell(guild) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -397,7 +397,7 @@ class myClient extends DBF.Client {
 
     disableCommand(guild, channelId, commandName) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
@@ -416,7 +416,7 @@ class myClient extends DBF.Client {
 
     enableCommand(guild, channelId, commandName) {
         var conn = mysql.createConnection({
-            host: "localhost",
+            host: this.auth.webserver.split(":")[0],
             user: "root",
             password: this.auth.password
         });
