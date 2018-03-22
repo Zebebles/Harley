@@ -1,5 +1,6 @@
 const DBF = require('discordjs-bot-framework');
 const Discord = require("discord.js");
+const snekfetch = require("snekfetch")
 
 module.exports = class Restart extends DBF.Command{
     constructor(){

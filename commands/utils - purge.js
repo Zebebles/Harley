@@ -1,6 +1,5 @@
 const DBF = require('discordjs-bot-framework');
 const Discord = require("discord.js");
-const snekfetch = require("snekftech");
 
 
 module.exports = class UDefine extends DBF.Command{
