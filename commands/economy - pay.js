@@ -25,10 +25,12 @@ module.exports = class Pay extends DBF.Command{
             return msg.channel.send("Bot's don't accept rice payments, sorry :c.");
         
         args = args ? args.replace(user.id, "") : null;
-        if(!args || !args.match(/\d+/g))
-            return msg.channel.send("Please specify the amount of rice you wish to send in this payment.");
         
-        let amount = parseInt(args.match(/(-)?\d+/g)[0]);
+        if(!args || !args.match(/(\d+|all|half)/gi))
+        return msg.channel.send("Please specify the amount of rice you wish to send in this payment.");
+        
+        let amount = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)[0]) : (args.match(/all/gi) ? msg.author.rep : Math.floor(msg.author.rep/2));
+        
         if(amount < 0)
             return msg.channel.send("Nice try, but you can't send negative rice");
         if(amount > msg.author.rep)

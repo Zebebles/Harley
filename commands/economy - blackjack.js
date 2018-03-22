@@ -162,7 +162,7 @@ module.exports = class BlackJack extends DBF.Command{
             else if(ind != -1){    
                 embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " won", msg.author.displayAvatarURL);
                 if(msg.author.hand.cards.length == 2 && msg.author.hand.total == 21)
-                    embed.description = "You won the game of Blackjack against Harley!\nYou now have `" + msg.author.rep + "` rice (`+" +  Math.ceil(amount/2) + "`).";
+                    embed.description = "You won the game of Blackjack against Harley!\nYou now have `" + msg.author.rep + "` rice (`+" +  Math.ceil(amount*1.5) + "`).";
                 else
                     embed.description = "You won the game of Blackjack against Harley!\nYou now have `" + msg.author.rep + "` rice (`+" +  amount + "`).";
             }
