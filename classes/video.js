@@ -40,7 +40,7 @@ module.exports = class Video{
                     default:
                         reject("Not youtube or soundcloud");
                 }
-            });
+            }).catch(err => reject(err));
         })
     }
 
@@ -63,7 +63,7 @@ module.exports = class Video{
                     return reject("Couldn't get video.");
                 this.duration = video.durationSeconds;
                 resolve(video.durationSeconds); 
-            });
+            }).catch(err => reject(err));
         });
     }
 

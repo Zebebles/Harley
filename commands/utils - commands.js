@@ -70,7 +70,7 @@ module.exports = class Commands extends DBF.Command{
             
             let command = msg.client.commands.find(cmd => cmd.areYou(args.toLowerCase()));
             if(command.ownerOnly && msg.author.id != msg.client.author)
-                return msg.channel.send("The command **" + command.name + "** is only avaliable for my Developer.")
+                return msg.channel.send("The command **" + command.name + "** is only avaliable for my Developer.").catch(err => console.log(err));
             embed.setTitle("Command specific information");
             let guildOnly = "❌";
             if(command.guildOnly)
@@ -90,8 +90,8 @@ module.exports = class Commands extends DBF.Command{
                                 + "**Example:** `" + command.example.replace(">>", prefix).split("\n").join("`\n`") + "`");
         }
         else
-            return msg.channel.send("Couldn't find any commands or groups under **" + args + "**.");
+            return msg.channel.send("Couldn't find any commands or groups under **" + args + "**.").catch(err => console.log(err));
 
-        msg.channel.send("", {embed});
+        msg.channel.send("", {embed}).catch(err => console.log(err));
     }
 }

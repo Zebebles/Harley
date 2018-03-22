@@ -18,7 +18,7 @@ module.exports = class Choose extends DBF.Command{
     }
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
-        if(!params.args || params.args == "") return params.msg.channel.send("Usage: `" + params.msg.client.prefix + "choose opt1,opt2,opt3`");
+        if(!params.args || params.args == "") return params.msg.channel.send("Usage: `" + params.msg.client.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
         
         let msg = params.msg; let args = params.args; let user = params.user;        
         let teamNames = [
@@ -36,11 +36,11 @@ module.exports = class Choose extends DBF.Command{
         shuffle(opts);
         
         if(opts.length < 2) 
-            return msg.channel.send("Usage: `" + msg.client.prefix + "choose opt1,opt2,opt3`");
+            return msg.channel.send("Usage: `" + msg.client.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
         if(!nTeams || isNaN(nTeams) || nTeams > teamNames.length || nTeams < 2)
-            return msg.channel.send("You need to specify a number of teams between `2` and `" + teamNames.length + "` before you start listing members.");
+            return msg.channel.send("You need to specify a number of teams between `2` and `" + teamNames.length + "` before you start listing members.").catch(err => console.log(err));
         else if(ppt <= 0)
-            return msg.channel.send("There must be more players than teams.");
+            return msg.channel.send("There must be more players than teams.").catch(err => console.log(err));
         if(ppt == 0)
             nTeams = opts.length;
 
@@ -63,7 +63,7 @@ module.exports = class Choose extends DBF.Command{
             var message = "";
             t.members.filter(mem => mem != null).forEach(mem => message += "\n`" + mem.trim() + "`");
             myEmbed.setDescription(message);
-            msg.channel.send("", {"embed":  myEmbed});
+            msg.channel.send("", {"embed":  myEmbed}).catch(err => console.log(err));
         });
         
         function shuffle(a) {

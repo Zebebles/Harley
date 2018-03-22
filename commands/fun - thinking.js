@@ -20,6 +20,6 @@ module.exports = class Thinking extends DBF.Command{
         let msgembed = new Discord.RichEmbed();
 		msgembed.setColor([255, 212, 71]);
 		msgembed.setImage('http://i.imgur.com/86HXb8i.png');
-		msg.channel.send(':thinking:', {"embed" : msgembed});
+		msg.channel.send(':thinking:', {"embed" : msgembed}).catch(err => console.log(err));
     }
 }

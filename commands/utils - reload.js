@@ -19,6 +19,6 @@ module.exports = class Restart extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         snekfetch.get("http://"+msg.client.auth.webserver+"/manage/reload?pw="+msg.client.auth.password+"&cmd="+args).then(r => {
             msg.channel.send("Reloaded `" + r.text + "` under `" + args + "` on all servers.");                           
-        });
+        }).catch(err => console.log(err));
     }
 }

@@ -21,7 +21,7 @@ module.exports = class Rule34 extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         let embed = new Discord.RichEmbed();
         if(!msg.channel.nsfw)
-            return msg.channel.send("That command is only allowed in NSFW channels.");
+            return msg.channel.send("That command is only allowed in NSFW channels.").catch(err => console.log(err));
         if(msg.guild)
             embed.setColor(msg.guild.me.displayColor);
         else
@@ -32,9 +32,9 @@ module.exports = class Rule34 extends DBF.Command{
         booru.search('rule34.paheal.net', args.split(" "), {limit: 1, random: true}).then(images => booru.commonfy(images).then(images => {
             embed.setTitle("Rule 34 search - " + args.substr(0,50));
             embed.setImage(images[0].common.file_url);
-            msg.channel.send("", {embed});
+            msg.channel.send("", {embed}).catch(err => console.log(err));
         }).catch(err => {
-            msg.channel.send("Couldn't find any images under `" + args.substr(0,100) + "`");
+            msg.channel.send("Couldn't find any images under `" + args.substr(0,100) + "`").catch(err => console.log(err));
         }));
     }
 }

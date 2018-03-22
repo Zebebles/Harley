@@ -15,6 +15,6 @@ module.exports = class Hello extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        msg.channel.send("Hello! - `" + msg.client.ping.toFixed(2) + "ms`");
+        msg.channel.send("Hello! - `" + msg.client.ping.toFixed(2) + "ms`").catch(err => console.log(err));
     }
 }

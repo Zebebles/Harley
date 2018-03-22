@@ -19,8 +19,8 @@ module.exports = class saySomething extends DBF.Command{
         if ((msg.member.hasPermission("ADMINISTRATOR")) || (msg.author.id === msg.client.author) || (msg.author.id == msg.guild.ownerID)){
             let message = args;
             if(message == "" || !message) return;
-            msg.channel.send(message);
-			msg.delete();
+            msg.channel.send(message).catch(err => console.log(err));
+			msg.delete().catch(err => console.log(err));
 		}
     }
 }

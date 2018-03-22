@@ -19,6 +19,6 @@ module.exports = class changeGame extends DBF.Command{
         let msg = params.msg; let args = params.args;
         if(!args) return;
         msg.client.user.setPresence({game : {name : args, type: 0}});
-		msg.channel.send("Ok!");	
+		msg.channel.send("Ok!").catch(err => console.log(err));
     }
 }

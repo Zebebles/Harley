@@ -53,6 +53,6 @@ module.exports = class UDefine extends DBF.Command{
         myEmbed.addField("Uptime", uptime);
         
         myEmbed.addField("Bot Invite", "[**Invite me!**](https://discordapp.com/oauth2/authorize?client_id=300828323443900416&scope=bot&permissions=305654848)")
-        msg.channel.send("", {"embed": myEmbed});
+        msg.channel.send("", {"embed": myEmbed}).catch(err => console.log(err));
     }
 } 

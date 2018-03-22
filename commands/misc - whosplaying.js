@@ -22,7 +22,7 @@ module.exports = class WhosPlaying extends DBF.Command{
 		myEmbed.setColor(msg.guild.me.displayColor);		
 		let guild = msg.guild;
 		let game = args;
-		if(!game) return msg.channel.send("Game must be over 2 characters long.");
+		if(!game) return msg.channel.send("Game must be over 2 characters long.").catch(err => console.log(err));
 		let members = guild.members.array().filter(m => !m.user.bot);
 		let result = [];
 		let gameIndex = [];
@@ -53,7 +53,7 @@ module.exports = class WhosPlaying extends DBF.Command{
 					}
 			}//end for
 			if (result.length == 0)
-				return msg.channel.send("No ones playing games with the tag `" + game + "`.");
+				return msg.channel.send("No ones playing games with the tag `" + game + "`.").catch(err => console.log(err));
 
 			myEmbed.setTitle("People currently playing games with the tag `" + game + "`");
 			let message = "";
@@ -69,9 +69,9 @@ module.exports = class WhosPlaying extends DBF.Command{
 			try{
 				myEmbed.setDescription(message);
 			}catch(e){
-				msg.channel.send("Too many people are playing games with the tag **" + game + "** to send in one message.");
+				msg.channel.send("Too many people are playing games with the tag **" + game + "** to send in one message.").catch(err => console.log(err));
 			}finally{
-				msg.channel.send("", {"embed":  myEmbed});				
+				msg.channel.send("", {"embed":  myEmbed}).catch(err => console.log(err));
 			}
 		}else{
 			msg.channel.send("Game must be 3 characters or more.");

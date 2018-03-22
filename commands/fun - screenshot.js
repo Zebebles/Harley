@@ -56,19 +56,19 @@ module.exports = class Screenshot extends DBF.Command{
 					fs.writeFile( "resources/imgs.json", JSON.stringify( entries ), "utf8", (err) => {
 						if(err) throw err;
 					});        ;
-					return msg.channel.send("Photo added!");
+					return msg.channel.send("Photo added!").catch(err => console.log(err));
 				}
 				else if(args == ""){
 					msgembed.setTitle(entries[imgnum].name);
 					msgembed.setImage(entries[imgnum].link);
 					found = true;
-					msg.channel.send("", {"embed": msgembed});					
+					msg.channel.send("", {"embed": msgembed}).catch(err => console.log(err));
 				}
 				else if(entries[imgnum].name.toLowerCase() == args.toLowerCase()){
 					msgembed.setTitle(entries[imgnum].name);
 					msgembed.setImage(entries[imgnum].link);
 					found = true;
-					msg.channel.send("", {"embed": msgembed});					
+					msg.channel.send("", {"embed": msgembed}).catch(err => console.log(err));					
 				}
 				else if(args.toLowerCase().trim() == "amy"){
 					var voiceCh = msg.member.voiceChannel;					
@@ -79,20 +79,20 @@ module.exports = class Screenshot extends DBF.Command{
 					else{ //voice channel exists, and is joinable
 						voiceCh.join().then(connection => {
 							var disp = connection.playFile('/root/Harley/resources/hey_f_off.mp3');
-							disp.on("end", () => connection.disconnect());
-						});
+							disp.on("end", () => connection.disconnect())
+						}).catch(err => console.log(err));
 						found = true;											
 					}
 					msgembed.setImage("https://i.imgur.com/VIJZXJj.jpg");
-					msg.channel.send("", {"embed": msgembed});	
+					msg.channel.send("", {"embed": msgembed}).catch(err => console.log(err));
 				}
 				else if(!entries.find(e => e.name.toLowerCase() == args.toLowerCase().trim())){
 					found = true;
-					msg.channel.send("Can't find any images under `" + args + "`");
+					msg.channel.send("Can't find any images under `" + args + "`").catch(err => console.log(err));
 				}
 			}
 		}else{
-		  msg.channel.send('No :)');
+		  msg.channel.send('This server needs to be whitelisted for that command.').catch(err => console.log(err));
 		}
     }
 }

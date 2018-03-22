@@ -40,7 +40,7 @@ module.exports = class Help extends DBF.Command{
             + "**Support Server:** " + "[Click here!](https://discord.gg/Wy5AjGS)"
             + "\n**Commands:** You can find a list of commands on the [website](http://www.harleybot.me/commands), or with `" + prefix + "commands`");
 
-            msg.channel.send("", {"embed": embed});
+            msg.channel.send("", {"embed": embed}).catch(err => console.log(err));
         }
     }
 }

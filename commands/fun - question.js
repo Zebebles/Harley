@@ -17,10 +17,10 @@ module.exports = class Question extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
 		let msg = params.msg; let args = params.args; let user = params.user;
 		if(!args)
-			return msg.channel.send("You see the thing about questions is that you actually have to ask something... :wink:");		
+			return msg.channel.send("You see the thing about questions is that you actually have to ask something... :wink:").catch(err => console.log(err));		
 		let responses = ["Yes.", "No.", "Maybe.", "It seems so.", "Most likely.", "Probably.", "Unlikely.", "Probably not.", "No way!", "Definitely!"];
 		var max = Math.floor(1);
 		var ans = Math.floor(Math.random() * responses.length);
-        msg.channel.send(responses[ans]);
+        msg.channel.send(responses[ans]).catch(err => console.log(err));
      }
 }

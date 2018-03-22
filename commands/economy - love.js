@@ -26,22 +26,22 @@ module.exports = class Love extends DBF.Command{
             lover.loves = 2;
         if(!user)
             if(lover.loves == 0)
-                return msg.reply("Sorry love, you're all outta love.  Don't worry, you're getting more in "+ getTimeString(lover.refreshLoves));            
+                return msg.reply("Sorry love, you're all outta love.  Don't worry, you're getting more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
             else if(lover.loves == 1)
-                return msg.reply("You have `1` love point left.  You're due to get more in "+ getTimeString(lover.refreshLoves));
+                return msg.reply("You have `1` love point left.  You're due to get more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
             else
-                return msg.reply("You've still got all of your love!");    
+                return msg.reply("You've still got all of your love!").catch(err => console.log(err));
         else if(lover.loves == 0) //if the author is out of smacks.
-            return msg.reply("You've used up all of your love. Don't worry, you're getting more in " + getTimeString(lover.refreshLoves));
+            return msg.reply("You've used up all of your love. Don't worry, you're getting more in " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
         else if(lover == user)
-            return msg.reply("You can't love yourself, that'd just be sad.");
+            return msg.reply("You can't love yourself, that'd just be sad.").catch(err => console.log(err));
         else if(user.id == msg.client.user.id)
-            return msg.reply("I'm not that kind of bot ...");
+            return msg.reply("I'm not that kind of bot ...").catch(err => console.log(err));
         else if(user.bot)
-            return msg.reply("What's an emotionless bot gonna do with your love?");
+            return msg.reply("What's an emotionless bot gonna do with your love?").catch(err => console.log(err));
         
         let rep = Math.floor(Math.random() * 50) + 1;
-        msg.channel.send(lover + " gave " + user + " one of their love points! They redeemed it for `" + rep + "` grains of rice.");
+        msg.channel.send(lover + " gave " + user + " one of their love points! They redeemed it for `" + rep + "` grains of rice.").catch(err => console.log(err));
         
         if(lover.loves == 2)
             lover.refreshLoves = new Date().getTime() + 21600000;

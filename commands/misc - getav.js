@@ -26,6 +26,6 @@ module.exports = class Getav extends DBF.Command{
 		let msgembed = new Discord.RichEmbed();
 		msgembed.setColor(msg.guild.me.displayColor);
         msgembed.setImage(avatar);
-		msg.channel.send("**" + mem.user.username + "**'s avatar", {"embed" : msgembed});  
+		msg.channel.send("**" + mem.user.username + "**'s avatar", {"embed" : msgembed}).catch(err => console.log(err));
     }
 }

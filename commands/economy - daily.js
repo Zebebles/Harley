@@ -27,9 +27,9 @@ module.exports = class Daily extends DBF.Command{
             msg.author.rep += rep;
             msg.author.repRefresh = new Date().getTime() + 86400000;
             msg.client.syncUser(msg.author);
-            return msg.reply("You received `" + rep + "` grains of rice in your daily ration.");                
+            return msg.reply("You received `" + rep + "` grains of rice in your daily ration.").catch(err => console.log(err));
         }else
-            return msg.reply("You've already recieved your ration.  Come back in " + getTimeString(msg.author.repRefresh));                ;
+            return msg.reply("You've already recieved your ration.  Come back in " + getTimeString(msg.author.repRefresh)).catch(err => console.log(err));
         
         function getTimeString(time){
             var delta = (time - new Date().getTime())/1000;

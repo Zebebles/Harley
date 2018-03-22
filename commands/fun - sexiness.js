@@ -19,7 +19,7 @@ module.exports = class Sexiness extends DBF.Command{
 		if(!user)
 			user = msg.author;
 		if(!user) 
-			return msg.channel.send("Couldn't find anyone under `" + args + "`");
+			return msg.channel.send("Couldn't find anyone under `" + args + "`").catch(err => console.log(err));
 		let name = user.username;
 		let sexiness = 0;
 		var charcodetotal = 0;
@@ -40,6 +40,6 @@ module.exports = class Sexiness extends DBF.Command{
 			emoji = ":kissing_heart:";
 		else
 			emoji = ":heart_eyes:";
-		msg.channel.send(user + ', your sexiness has been calculated, our results show that you\'re `' + sexiness + '%` sexy. ' + emoji);
+		msg.channel.send(user + ', your sexiness has been calculated, our results show that you\'re `' + sexiness + '%` sexy. ' + emoji).catch(err => console.log(err));
     }
 }

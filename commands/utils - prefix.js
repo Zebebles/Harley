@@ -17,14 +17,14 @@ module.exports = class prefix extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user" : user}){ //all the code for your command goes in here.
         let msg = params.msg; var args = params.args;
         if(!args)
-            msg.channel.send("The prefix for this server is `" + msg.guild.prefix + "`.");
+            msg.channel.send("The prefix for this server is `" + msg.guild.prefix + "`.").catch(err => console.log(err));
         else{
             args = args.replace(/['"`]/g);
             if(args.length > 3)
-                return msg.channel.send("Custom prefixes must be between 1 and 3 characters in length.");
+                return msg.channel.send("Custom prefixes must be between 1 and 3 characters in length.").catch(err => console.log(err));
             let old = msg.guild.prefix;
             msg.client.setPrefix(msg.guild, args);
-            msg.channel.send("Prefix successfully changed from `" + old + "` to `" + args +"`");
+            msg.channel.send("Prefix successfully changed from `" + old + "` to `" + args +"`").catch(err => console.log(err));;
         }
     }
 }

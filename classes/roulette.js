@@ -34,7 +34,7 @@ module.exports = class Roulette{
         embed.addField("Team", user.team[0].toUpperCase() + user.team.substr(1,user.team.length-1).toLowerCase(), true);
         embed.addField("Bet", user.bet,true);
         u.lastMessage.delete(5000);
-        this.updateMessage().then(() => this.channel.send("", {embed}).then(m => m.delete(5000)));
+        this.updateMessage().then(() => this.channel.send("", {embed}).then(m => m.delete(5000))).catch(err => console.log(err));
     }
 
     updateMessage(){

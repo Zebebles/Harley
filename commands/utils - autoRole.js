@@ -23,7 +23,7 @@ module.exports = class prefix extends DBF.Command{
         else{
             if(args.trim().toLowerCase() == "none" || args.trim().toLowerCase() == "remove" || args.trim().toLowerCase() == "everyone"){
                 msg.client.dropAutoRole(msg.guild);
-                msg.channel.send("Successfully removed auto role.");
+                msg.channel.send("Successfully removed auto role.").catch(err => console.log(err));
             }else{
                 let role;
                 if(msg.mentions.roles)
@@ -33,11 +33,11 @@ module.exports = class prefix extends DBF.Command{
                 if(!role)
                     return msg.channel.send("Could not find that role.");
                 if(msg.guild.me.highestRole.position < role.position)
-                    return msg.channel.send("I need to have a role that is ordered above `" + role.name + "` to add people to it.");
+                    return msg.channel.send("I need to have a role that is ordered above `" + role.name + "` to add people to it.").catch(err => console.log(err));
                 else if (role.managed)
                     return msg.channel.send("I can't add people to a bot role.");
                 msg.client.setAutoRole(role);
-                msg.channel.send("Auto role successfully set to `" + role.name + "`!");
+                msg.channel.send("Auto role successfully set to `" + role.name + "`!").catch(err => console.log(err));
             }
         }
     }

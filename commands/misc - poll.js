@@ -23,8 +23,8 @@ module.exports = class Hello extends DBF.Command{
         
         let options = args.match(/[\w\d \'\-\_\"]*/g).filter(s => s != "");
         
-        if(options.length < 2) return msg.channel.send("There must be at least 2 poll options.");
-        if(options.length > 7) return msg.channel.send("There is a maxiumum of 7 options allowed, sorry.");
+        if(options.length < 2) return msg.channel.send("There must be at least 2 poll options.").catch(err => console.log(err));
+        if(options.length > 7) return msg.channel.send("There is a maxiumum of 7 options allowed, sorry.").catch(err => console.log(err));
         let reaccs = [{emoji: "♥",name: "heart"},{emoji: "💩", name: "poop"},{emoji: "🤔",name: "thinking"},{emoji: "🤷", name: "shrug"},{emoji: "🔥", name: "fire"},{emoji:"🤖", name: "robot"},{emoji: "😍", name: "heart_eyes"}];
         myEmbed.setTitle("A poll has begun!  You all have 60 seconds to vote");
         myEmbed.setColor([255,0,0]);
@@ -60,6 +60,6 @@ module.exports = class Hello extends DBF.Command{
                 voteMessage.edit("", {"embed": myEmbed});
                 voteMessage.clearReactions();
             },60000);
-        });
+        }).catch(err => console.log(err));
     }
 }

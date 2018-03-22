@@ -20,17 +20,17 @@ module.exports = class BlackJack extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
         if(!args || !args.match(/(\d+|all|half)/gi))
-            return msg.channel.send("Usage: `" + msg.guild.prefix +"bj <amount>`" );
+            return msg.channel.send("Usage: `" + msg.guild.prefix +"bj <amount>`" ).catch(err => console.log(err));
         
         let amount = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)[0]) : (args.match(/all/gi) ? msg.author.rep : Math.floor(msg.author.rep/2));
 
         if(!msg.author.rep || msg.author.rep < amount)
-            return msg.channel.send("You don't enough rice for that bet.");
+            return msg.channel.send("You don't enough rice for that bet.").catch(err => console.log(err));
         else if(amount < 5)
-            return msg.channel.send("You can't bet less than 5 rice on one game.");
+            return msg.channel.send("You can't bet less than 5 rice on one game.").catch(err => console.log(err));
         
         if(msg.author.hand)
-            return msg.channel.send("You're already in a game of Blackjack.");        
+            return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     
 
         let reactions = msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS");
         let filter;
@@ -58,7 +58,7 @@ module.exports = class BlackJack extends DBF.Command{
                 filter = (r, user) => user.id == msg.author.id && emojis.find(e => r.emoji.name == e);
                 collector = new Discord.ReactionCollector(msg.author.bjm, filter);
                 reactions = true;
-                msg.author.bjm.react(emojis[0]).then(r => msg.author.bjm.react(emojis[1]));            
+                msg.author.bjm.react(emojis[0]).then(r => msg.author.bjm.react(emojis[1]).catch(err => console.log(err))).catch(err => console.log(err));            
             }else{
                 filter = m => m.author.id == msg.author.id && m.content.match(/hit|draw|stand|stay/gi);
                 collector = new Discord.MessageCollector(msg.channel, filter);
@@ -205,7 +205,7 @@ module.exports = class BlackJack extends DBF.Command{
 
         function cleanUp(){
             if(reactions && msg.author.bjm)
-                msg.author.bjm.clearReactions().catch(err => err);
+                msg.author.bjm.clearReactions().catch(err => console.log(err));
             msg.author.bjm = null;
             msg.author.hand = null;
             msg.author.emoji = null;

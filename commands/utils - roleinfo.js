@@ -27,7 +27,7 @@ module.exports = class userinfo extends DBF.Command{
             role = msg.mentions.roles.first(); 
         //END GET THE ROLE
         if(!role)
-            return msg.channel.send("Usage: `roleinfo @role or role_name`");
+            return msg.channel.send("Usage: `roleinfo @role or role_name`").catch(err => console.log(err));
 
         //declare info variables
         let roleName = role.name;
@@ -46,8 +46,8 @@ module.exports = class userinfo extends DBF.Command{
             myEmbed.addField("Members", memCount,true);
             myEmbed.addField("Position", position,true);
             myEmbed.addField("Created",created);
-            msg.channel.send("", {embed: myEmbed});
-        });
+            msg.channel.send("", {embed: myEmbed}).catch(err => console.log(err));
+        }).catch(err => console.log(err));
 
 		function getTimeString(current){
 			var delta = Math.abs(now - current) / 1000;

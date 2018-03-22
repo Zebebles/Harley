@@ -20,14 +20,14 @@ module.exports = class Color extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        if(!args || args == "") return msg.channel.send("Usage: `clr #000000`");
+        if(!args || args == "") return msg.channel.send("Usage: `clr #000000`").catch(err => console.log(err));
 
         let hexRegex = new RegExp("([0-9a-f]{6}|[0-9a-f]{3})", "gi");
         let rgbRegex = new RegExp("(2[0-5]{2}|[0-1]?[0-9]{1,2})[, :.]+(2[0-5]{2}|[0-1]?[0-9]{1,2})[, :.]+(2[0-5]{2}|[0-1]?[0-9]{1,2})", "gi")
         let rgb = args.match(rgbRegex);
         let hex = args.match(hexRegex);
         if( (!hex || args.replace(hex,"").length != 0)  &&  !rgb   )
-            return msg.channel.send("Color input must be in hex or rgb format. e.g `color #000000` or `color 255,255,255`");
+            return msg.channel.send("Color input must be in hex or rgb format. e.g `color #000000` or `color 255,255,255`").catch(err => console.log(err));
                 
         if(rgb)
         {
@@ -49,7 +49,7 @@ module.exports = class Color extends DBF.Command{
         
         let img = new Discord.Attachment(canvas.toBuffer(), "color.png");
 
-        msg.channel.send(`**HEX**\t\`#${hex}\`\n**RGB**\t\`${rgb}\``, img);
+        msg.channel.send(`**HEX**\t\`#${hex}\`\n**RGB**\t\`${rgb}\``, img).catch(err => console.log(err));
 
     }
 }

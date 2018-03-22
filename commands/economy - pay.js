@@ -20,9 +20,9 @@ module.exports = class Pay extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         
         if(!user)
-            return msg.channel.send("I couldn't find who you're trying to pay.");
+            return msg.channel.send("I couldn't find who you're trying to pay.").catch(err => console.log(err));
         if(user.bot)
-            return msg.channel.send("Bot's don't accept rice payments, sorry :c.");
+            return msg.channel.send("Bot's don't accept rice payments, sorry :c.").catch(err => console.log(err));
         
         args = args ? args.replace(user.id, "") : null;
         
@@ -41,6 +41,6 @@ module.exports = class Pay extends DBF.Command{
         msg.client.syncUser(msg.author);
         msg.client.syncUser(user);
 
-        msg.reply("You sent a payment of `" + amount + "` rice to " + user);
+        msg.reply("You sent a payment of `" + amount + "` rice to " + user).catch(err => console.log(err));
     }
 }

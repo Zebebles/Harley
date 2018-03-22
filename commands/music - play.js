@@ -30,18 +30,20 @@ module.exports = class Hello extends DBF.Command{
         ytas = new yta(msg.client.auth.googleKey);
         let channel = msg.member.voiceChannel;
         if((!args || args == "") && !msg.guild.playlist.paused) 
-            return msg.channel.send("**Usage:**\t`" + msg.client.prefix + "play <url, song name, or lyrics> -first (optional) -choose (optional)`");
+            return msg.channel.send("**Usage:**\t`" + msg.client.prefix + "play <url, song name, or lyrics> -first (optional) -choose (optional)`").catch(err => console.log(err));
         else if((!args || args == "") && msg.guild.playlist.paused) 
             return msg.client.commands.find(cmd => cmd.areYou("pause")).run(params);
         if(!msg.member.voiceChannel) 
-            return msg.channel.send("You are not in a voice channel.");
+            return msg.channel.send("You are not in a voice channel.").catch(err => console.log(err));
         let djrole = msg.guild.roles.find(r => r.name.match(/dj[^a-zA-Z]|[^a-zA-Z]dj/gi) || r.name.toLowerCase() == "dj");
         if(djrole && msg.member.voiceChannel && msg.member.voiceChannel.members.find(m => m.roles.find(r => r.id == djrole.id)) && !msg.member.roles.find(r => r.id == djrole.id))
-            return msg.channel.send("The role `" + djrole.name + "` has been recognised as a DJ role, and at least one person in the channel has it. You must have this role to interact with the music.").then(m => m.delete(3000));
+            return msg.channel.send("The role `" + djrole.name + "` has been recognised as a DJ role, and at least one person in the channel has it. You must have this role to interact with the music.")
+                .then(m => m.delete(3000).catch(err => console.log(err)))
+                .catch(err => console.log(err));
         if(!msg.member.voiceChannel.joinable || !msg.member.voiceChannel.speakable) 
-            return msg.channel.send("I can't join that voice channel.");
+            return msg.channel.send("I can't join that voice channel.").catch(err => console.log(err));
         if(msg.guild.playlist.qing)
-            return msg.channel.send("Please wait until the current song or playlist has finished being added before queueing something else.");
+            return msg.channel.send("Please wait until the current song or playlist has finished being added before queueing something else.").catch(err => console.log(err));
 
         let playNext = false;
         if(args.match(/-(\s*)?(next|first)/gi)){
@@ -86,7 +88,7 @@ module.exports = class Hello extends DBF.Command{
                     let results = JSON.parse(body.text);
                     results = results.items.filter(res => res.id.kind != "youtube#channel");
                     if(results.length == 0)
-                        return msg.channel.send("No song or playlist found.");
+                        return msg.channel.send("No song or playlist found.").catch(err => console.log(err));
                     if(!choose)
                         if(results[0].id.kind == "youtube#playlist")
                             return addYTPlaylistById(results[0].id.playlistId);
@@ -103,16 +105,16 @@ module.exports = class Hello extends DBF.Command{
                     message += "\nType **just** a number in chat to choose or `cancel`.\ne.g. `1` will play the first option.";
                     
                     let botMessage;
-                    msg.channel.send(message).then(m => botMessage = m);
+                    msg.channel.send(message).then(m => botMessage = m).catch(err => console.log(err));
                     
                     const filter = m => m.author.id == msg.author.id;
                     msg.channel.awaitMessages(filter, {maxMatches: 1, time: 15000}).then( collected => {
                         if(!collected || collected.size == 0)
-                            return botMessage.edit("Selection timed out.  Nothing will be played.");
+                            return botMessage.edit("Selection timed out.  Nothing will be played.").catch(err => console.log(err));
                         if(collected.first().content.toLowerCase() == "cancel")
-                            return botMessage.edit("Selection cancelled.  Nothing will be played.");
+                            return botMessage.edit("Selection cancelled.  Nothing will be played.").catch(err => console.log(err));
                         if(!collected.first().content.match(/\d{1}/g) || collected.first().content.match(/\d{1}/g).length > 1)
-                            return botMessage.edit("That is not a valid choice.");
+                            return botMessage.edit("That is not a valid choice.").catch(err => console.log(err));
                         let choice = collected.first().content.match(/\d{1}/g)[0]-1;
                         botMessage.delete();
                         
@@ -120,7 +122,7 @@ module.exports = class Hello extends DBF.Command{
                             addYTPlaylistById(results[choice].id.playlistId, videoID);
                         else
                             addYTSongById(results[choice].id.videoId);
-                    }).catch(err => botMessage.edit("Selection timed out.  Nothing will be played."));
+                    }).catch(err => botMessage.edit("Selection timed out.  Nothing will be played.").catch(err => console.log(err)))
     
                 }).catch(err => {
                     console.log("Error searching for " + args + " in " + msg.guild.name + ".\n\n" + err);
@@ -151,12 +153,16 @@ module.exports = class Hello extends DBF.Command{
                 msg.guild.playlist.addSong(song, playNext); //add the song to the playlist
                 msg.guild.playlist.sendQueueMessage(msg, song); //send the "song is queued message"
                 if(!msg.guild.voiceConnection) //join the channel and play first song if it's the first one in the queue
-                    channel.join().then(conn => msg.guild.playlist.playNext());
+                    channel.join().then(conn => msg.guild.playlist.playNext()).catch(err => console.log(err));
             }).catch(err => { //handle any errors
                 if(msg.guild.playlist.qmessage)
-                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing YouTube track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing YouTube track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //delete the "searching for" messaging
                 else
-                    msg.channel.send("", {embed: {title: "⚠ Error queuing YouTube track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.channel.send("", {embed: {title: "⚠ Error queuing YouTube track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //delete the "searching for" messaging
 
                 console.log("Error queing YouTube song in " + msg.guild.name + "\n" + err.err + "\n" + err);
             }).finally(() => msg.guild.playlist.qing = false) //let people play music again.
@@ -196,12 +202,16 @@ module.exports = class Hello extends DBF.Command{
             }).then( (playlistInfo) => {
                 msg.guild.playlist.sendQueueMessage(msg, playlistInfo);
                 if(!msg.guild.voiceConnection)
-                    channel.join().then(conn => msg.guild.playlist.playNext());
+                    channel.join().then(conn => msg.guild.playlist.playNext()).catch(err => console.log(err));
             }).catch( err => {
                 if(msg.guild.playlist.qmessage)
-                    msg.guild.playlist.qmessage.edit("", {embed:{title: "⚠ Error queuing YouTube playlist.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //edit the qmessage with the error
+                    msg.guild.playlist.qmessage.edit("", {embed:{title: "⚠ Error queuing YouTube playlist.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //edit the qmessage with the error
                 else
-                    msg.channel.send("", {embed: {title: "⚠ Error queuing YouTube playlist.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //send the error message
+                    msg.channel.send("", {embed: {title: "⚠ Error queuing YouTube playlist.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //send the error message
                 
                 console.log("Error queing YouTube playlist in " + msg.guild.name + "\n" + err.err + "\n" + err);
             }).finally(() => msg.guild.playlist.qing = false); //let people queue music again.
@@ -223,14 +233,14 @@ module.exports = class Hello extends DBF.Command{
                     request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + msg.client.auth.scID, (err, response, track) => {
                         addSCTrack(track);
                     });
-                });
+                }).catch(err => console.log(err));
             }else{
                 let qm = msg.channel.send("",{embed: {title: "🔎 Searching for playlist ...", color: msg.guild.me.displayColor}}).then(qm => {
                     msg.guild.playlist.qmessage = qm;
                     request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + msg.client.auth.scID, (err, response, playlist) => {
                         addSCPlaylist(playlist);
                     });
-                });
+                }).catch(err => console.log(err));
             }
         }
 
@@ -253,17 +263,21 @@ module.exports = class Hello extends DBF.Command{
                         song = {url: track.permalink_url,link: track.stream_url , type: "soundcloud", title: track.title, duration: track.duration/1000, startTime: 0, seeks: 0, image : "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c537.png"};
                     msg.guild.playlist.textChannel = msg.channel; //set the text channel
                     resolve(song);
-                });
+                }).catch(err => reject(err));
             }).then(song => {
                 msg.guild.playlist.addSong(song, playNext); //add the song to the playlist
                 msg.guild.playlist.sendQueueMessage(msg, song); //send the "song is queued message"
                 if(!msg.guild.voiceConnection)
-                    channel.join().then(conn => msg.guild.playlist.playNext());
+                    channel.join().then(conn => msg.guild.playlist.playNext()).catch(err => console.log(err));;
             }).catch(err => { //handle any errors
                 if(msg.guild.playlist.qmessage)
-                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing Soundcloud track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing Soundcloud track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null) //delete the "searching for" messaging
+                        .catch(err => console.log(err));
                 else
-                    msg.channel.send("", {embed: {title: "⚠ Error queuing Soundcloud track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.channel.send("", {embed: {title: "⚠ Error queuing Soundcloud track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null) //delete the "searching for" messaging
+                        .catch(err => console.log(err));
 
                 if(err.err)
                     console.log("Error queing Soundcloud song in " + msg.guild.name + "\n" + err.err);
@@ -294,16 +308,20 @@ module.exports = class Hello extends DBF.Command{
                     });
                     msg.guild.playlist.textChannel = msg.channel; //set the text channel
                     resolve({tracks: msg.guild.playlist.queue.length-originalN, title: playlist.title})
-                });
+                }).catch(err => reject(err));
             }).then( (playlistInfo) => {
                 msg.guild.playlist.sendQueueMessage(msg, playlistInfo);
                 if(!msg.guild.voiceConnection)
-                    channel.join().then(conn => msg.guild.playlist.playNext());
+                    channel.join().then(conn => msg.guild.playlist.playNext()).catch(err => console.log(err));
             }).catch( err => {
                 if(msg.guild.playlist.qmessage)
-                    msg.guild.playlist.qmessage.edit("", {embed:{title: "⚠ Error queuing Soundcloud playlist.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //edit the qmessage with the error
+                    msg.guild.playlist.qmessage.edit("", {embed:{title: "⚠ Error queuing Soundcloud playlist.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //edit the qmessage with the error
                 else
-                    msg.channel.send("", {embed: {title: "⚠ Error queuing Soundclud playlist.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //send the error message
+                    msg.channel.send("", {embed: {title: "⚠ Error queuing Soundclud playlist.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //send the error message
                 
                 console.log("Error queing Soundclud playlist in " + msg.guild.name + "\n" + err.err);
             }).finally(() => msg.guild.playlist.qing = false); //let people queue music again.
@@ -330,7 +348,7 @@ module.exports = class Hello extends DBF.Command{
             else if(args.match(/album(\/|:)/g))
                 albumId = args.match(/album(\/|:).[^\/: \n]*/g)[0].replace(/album(\/|:)/g,"");
             else
-                return msg.channel.send("That doesn't look like a valid spotify url.");
+                return msg.channel.send("That doesn't look like a valid spotify url.").catch(err => console.log(err));
     
             new Promise(function(resolve, reject){
                 msg.guild.playlist.qing = true;
@@ -350,7 +368,7 @@ module.exports = class Hello extends DBF.Command{
                                 resolve(song);
                             });//end of second qm
                         }).catch(err => reject({err:"Error getting spotify track in " + msg.guild.name +"\n" + err, reason: "Error getting track from spotify."}));
-                    });//end of first qm                
+                    }).catch(err => reject(err));//end of first qm                
                 }else if (albumId){ //if we're after an album
                     let originalN = msg.guild.playlist.queue.length;
                     let qm = msg.channel.send("",{embed: {title: "🔎 Searching for album ...", color: msg.guild.me.displayColor}}).then(qm => {
@@ -366,9 +384,9 @@ module.exports = class Hello extends DBF.Command{
                                     msg.guild.playlist.addSong({type: "spotify", title, duration: track.duration_ms/1000}, false);
                                 });
                                 resolve({tracks: msg.guild.playlist.queue.length-originalN, title: data.body.name});
-                            });//end of second qm
+                            }).catch(err => reject(err));//end of second qm
                         }).catch(err => reject({err:"Error getting spotify album in " + msg.guild.name +"\n" + err, reason: "Error getting album from Spotify."}));
-                    });//end of first qm
+                    }).catch(err => reject(err));
                 }else{ //if we're after a playlist
                     let originalN = msg.guild.playlist.queue.length;
                     let qm = msg.channel.send("",{embed: {title: "🔎 Searching for playlist ...", color: msg.guild.me.displayColor}}).then(qm => {
@@ -384,9 +402,9 @@ module.exports = class Hello extends DBF.Command{
                                     msg.guild.playlist.addSong({type: "spotify", title, duration: track.track.duration_ms/1000}, false);
                                 });
                                 resolve({tracks: msg.guild.playlist.queue.length-originalN, title: data.body.name});
-                            });//end of second qm
+                            }).catch(err => reject(err));
                         }).catch(err => reject({err: "Error getting spotify playlist in " + msg.guild.name +"\n" + err, reason: "Error getting playlist from Spotify."}));
-                    });//end of first qm
+                    }).catch(err => reject(err));
                 }
             }).then(song => { //the .then takes care of sending the queued message and joining the channel.
                 msg.guild.playlist.sendQueueMessage(msg, song);
@@ -394,9 +412,13 @@ module.exports = class Hello extends DBF.Command{
                     channel.join().then(conn => msg.guild.playlist.playNext());
             }).catch(err => { //takes care of any errors that might've happened
                 if(msg.guild.playlist.qmessage)
-                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing Spotify track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.guild.playlist.qmessage.edit("", {embed: {title: "⚠ Error queuing Spotify track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //delete the "searching for" messaging
                 else
-                    msg.channel.send("", {embed: {title: "⚠ Error queuing Spotify track.", color: 16106519, description: "**Reason:** " + err.reason}}).then(m => msg.guild.playlist.qmessage = null); //delete the "searching for" messaging
+                    msg.channel.send("", {embed: {title: "⚠ Error queuing Spotify track.", color: 16106519, description: "**Reason:** " + err.reason}})
+                        .then(m => msg.guild.playlist.qmessage = null)
+                        .catch(err => console.log(err)); //delete the "searching for" messaging
     
                 console.log(err.err);
             }).finally(() => msg.guild.playlist.qing = false);

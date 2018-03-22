@@ -26,7 +26,7 @@ module.exports = class Puppy extends DBF.Command{
         
         snek.get("http://aws.random.cat/meow").then( r => {
             embed.setImage(r.body.file);
-            msg.channel.send("", {"embed": embed});
-        });
+            msg.channel.send("", {"embed": embed}).catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
 }

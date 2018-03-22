@@ -38,9 +38,9 @@ module.exports = class userinfo extends DBF.Command{
             if(serverInvite)
                 embed.addField("This Server", "[Click here!](" + serverInvite.url + ")", true);
             
-            msg.channel.send("", {"embed": embed});
+            msg.channel.send("", {"embed": embed}).catch(err => console.log(err));;
         }).catch(() => {
-            msg.channel.send("", {"embed": embed});
+            msg.channel.send("", {"embed": embed}).catch(err => console.log(err));;
         });
     }
 }

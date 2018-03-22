@@ -30,7 +30,7 @@ class myClient extends DBF.Client {
             }));
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
-            });
+            }).catch(err => console.log(err));
             this.sendStatus(false);            
         });
 
@@ -68,7 +68,7 @@ class myClient extends DBF.Client {
             }));
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
-            });
+            }).catch(err => console.log(err));
             this.sendStatus(false);
         });
 
@@ -99,7 +99,7 @@ class myClient extends DBF.Client {
                     else if(!channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
                         return;
                     else
-                        channel.send(message);
+                        channel.send(message).catch(err => console.log(err));
             }
             if(member.guild.autoRole && (member.guild.me.hasPermission("MANAGE_ROLES")||member.guild.me.hasPermission("ADMINISTRATOR")))
             {
@@ -141,7 +141,7 @@ class myClient extends DBF.Client {
                 else if(!channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
                     return;
                 else
-                    channel.send(message);
+                    channel.send(message).catch(err => console.log(err));
             }
             if(member.guild.channels.filter(ch => ch.type == "text" && ch.topic).find(ch => ch.topic.toLowerCase().includes(member.guild.prefix + "join")) && member != member.guild.me)
                 announceLeave(member);

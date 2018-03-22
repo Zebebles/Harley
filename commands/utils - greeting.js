@@ -22,13 +22,15 @@ module.exports = class prefix extends DBF.Command{
                 .replace(/\$mention\$/gi, "<@" + msg.member.user.id + ">")
                 .replace(/\$count\$/gi, msg.member.guild.members.size);
 
-            return msg.channel.send("This server has a greeting set-up.  You can remove it with `"+msg.guild.prefix+"greeting none`\nThis is what it'll look like when someone joins the server:").then(() => msg.channel.send(example));
+            return msg.channel.send("This server has a greeting set-up.  You can remove it with `"+msg.guild.prefix+"greeting none`\nThis is what it'll look like when someone joins the server:")
+            .then(() => msg.channel.send(example).catch(err => console.log(err)))
+            .catch(err => console.log(err));
         }
         else if(!args)
-            return msg.channel.send("There is no server greeting yet.  \nUse `" + msg.guild.prefix + "greeting Welcome, $mention$|$name$.  $count$ members in $server$` or similar to set it.");
+            return msg.channel.send("There is no server greeting yet.  \nUse `" + msg.guild.prefix + "greeting Welcome, $mention$|$name$.  $count$ members in $server$` or similar to set it.").catch(err => console.log(err));
         else if(args.trim() == "none"){
             msg.client.dropGreeting(msg.guild);
-            msg.channel.send("Greeting successfully removed.");
+            msg.channel.send("Greeting successfully removed.").catch(err => console.log(err));
         }
         else{
             args = args.replace(/[^a-zA-Z0-9\|\[\]\{\}\-\=\_\+\(\)\*\&\^\%\$\#\@\!\~\;\:\,\.\/\?\>\< ]/g, "");
@@ -39,7 +41,9 @@ module.exports = class prefix extends DBF.Command{
                 .replace(/\$name\$/gi, msg.member.displayName)
                 .replace(/\$mention\$/gi, "<@" + msg.member.user.id + ">")
                 .replace(/\$count\$/gi, msg.member.guild.members.size);
-            msg.channel.send("Greeting successfully set! Here's what it'll look like when someone joins the server:").then(() => msg.channel.send(example));
+            msg.channel.send("Greeting successfully set! Here's what it'll look like when someone joins the server:")
+                .then(() => msg.channel.send(example).catch(err => console.log(err)))
+                .catch(err => console.log(err));
         }
     }
 }

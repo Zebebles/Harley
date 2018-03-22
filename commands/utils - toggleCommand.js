@@ -23,21 +23,21 @@ module.exports = class ToggleCommand extends DBF.Command{
         //filter out toggle and help, filter commands by group and name/triggers.  Will return an array of either 1 or many.
         let command = msg.client.commands.filter(cmd => (!cmd.areYou("toggle") && !cmd.areYou("help") && (cmd.areYou(args) || cmd.group.trim().toLowerCase() == args.trim().toLowerCase())));
         if(!command || !command[0])
-            return msg.channel.send("Couldn't find any commands under `" + args + "`.  Usage: `toggle command_name`");
+            return msg.channel.send("Couldn't find any commands under `" + args + "`.  Usage: `toggle command_name`").catch(err => console.log(err));
         if(command.length > 1)
-            msg.channel.send("Would you like to toggle **" + command[0].group + "** for the whole server, or just this channel? Type `server` or `channel`.");
+            msg.channel.send("Would you like to toggle **" + command[0].group + "** for the whole server, or just this channel? Type `server` or `channel`.").catch(err => console.log(err));
         else
-            msg.channel.send("Would you like to toggle **" + command[0].name + "** for the whole server, or just this channel? Type `server` or `channel`.");
+            msg.channel.send("Would you like to toggle **" + command[0].name + "** for the whole server, or just this channel? Type `server` or `channel`.").catch(err => console.log(err));
         
         const filter = m => m.author.id == msg.author.id;
         msg.channel.awaitMessages(filter, {maxMatches: 1, time: 10000}).then( collected => {
             if(!collected || collected.size == 0)
-                return msg.channel.send("Timed out.  Please try again :)");
+                return msg.channel.send("Timed out.  Please try again :)").catch(err => console.log(err));
             let channelId = "all";
             if(collected.first().content.match("channel"))
                 channelId = msg.channel.id;
             else if (!collected.first().content.match("server"))
-                return msg.channel.send("Invalid choice.  Please try again :)");
+                return msg.channel.send("Invalid choice.  Please try again :)").catch(err => console.log(err));
             let enabled = 0;
             let disabled = 0;
             command.forEach(comm => {
@@ -62,7 +62,7 @@ module.exports = class ToggleCommand extends DBF.Command{
             else
                 message += "for **" + msg.channel.name + "**";
             
-            msg.channel.send(message);
+            msg.channel.send(message).catch(err => console.log(err));
                 
         }).catch(err => msg.channel.send("Timed out.  Please try again :)" + err));            
         function listDisabledCommands(){
@@ -77,7 +77,7 @@ module.exports = class ToggleCommand extends DBF.Command{
             msg.channel.disabledCommands.forEach(cmd => message += "`"+cmd + "`\n");
             if(message == "") message = "N/A";
             myEmbed.addField("This channel only", message, true);
-            msg.channel.send("",{"embed": myEmbed});
+            msg.channel.send("",{"embed": myEmbed}).catch(err => console.log(err));
         }
     }
 }

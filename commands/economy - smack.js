@@ -26,17 +26,17 @@ module.exports = class Smack extends DBF.Command{
             smacker.smacks = 2;
         if(!user)
             if(smacker.smacks == 0)
-                return msg.reply("You don't have any slaps.  They're due to reset in "+ getTimeString(smacker.refreshSmacks));            
+                return msg.reply("You don't have any slaps.  They're due to reset in "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));         
             else if(smacker.smacks == 1)
-                return msg.reply("You have `1` slap left.  They're due to reset in "+ getTimeString(smacker.refreshSmacks));
+                return msg.reply("You have `1` slap left.  They're due to reset in "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
             else
-                return msg.reply("You still have both of your slaps available and ready!");    
+                return msg.reply("You still have both of your slaps available and ready!").catch(err => console.log(err));
         else if(smacker.smacks == 0) //if the author is out of smacks.
-            return msg.reply("You can't slap anyone for " + getTimeString(smacker.refreshSmacks));
+            return msg.reply("You can't slap anyone for " + getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
         else if(smacker == user)
-            return msg.reply("Have you every tried slapping yourself? It just doesn't work too well.");
+            return msg.reply("Have you every tried slapping yourself? It just doesn't work too well.").catch(err => console.log(err));
         else if(user.bot)
-            return msg.reply("Bot's don't have a face to slap, silly!");
+            return msg.reply("Bot's don't have a face to slap, silly!").catch(err => console.log(err));
         
 
         if(smacker.smacks == 2)
@@ -54,7 +54,8 @@ module.exports = class Smack extends DBF.Command{
         msg.client.syncUser(smacker);
         msg.client.syncUser(user);
 
-        msg.channel.send(smacker + ", you slapped " + user + " so hard that they dropped `" + lost + "` grains of rice! :open_mouth:. You managed to salvage `" + gained + "` grains, but lost the rest in the dirt.");
+        msg.channel.send(smacker + ", you slapped " + user + " so hard that they dropped `" + lost + "` grains of rice! :open_mouth:. You managed to salvage `" + gained + "` grains, but lost the rest in the dirt.")
+            .catch(err => console.log(err));
 
         
         function getTimeString(time){

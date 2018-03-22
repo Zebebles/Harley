@@ -51,11 +51,11 @@ module.exports = class Rep extends DBF.Command{
         
         let embed = generateMessage(page);
 
-        let qm = msg.channel.send("", {embed});
+        let qm = msg.channel.send("", {embed}).catch(err => console.log(err));
 
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
-            qm.then(m => m.react("⬅")
-            .then(prev => m.react("➡").then(next => {
+            qm.then(m => m.react("⬅").catch(err => console.log(err))
+            .then(prev => m.react("➡").catch(err => console.log(err)).then(next => {
                 const filter = (r,user) => user.id != m.client.user.id && (r.emoji.name == prev.emoji.name || r.emoji.name == next.emoji.name);
                 let collector = new Discord.ReactionCollector(m, filter);
                 let timeout = setTimeout(() => {
@@ -75,7 +75,7 @@ module.exports = class Rep extends DBF.Command{
                         else if(page < 0)
                             page = pages-1;
                         embed = generateMessage(page);
-                        m.edit("", {embed});
+                        m.edit("", {embed}).catch(err => console.log(err));
 
                         timeout = setTimeout(() => {
                             m.clearReactions();

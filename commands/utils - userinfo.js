@@ -25,7 +25,7 @@ module.exports = class userinfo extends DBF.Command{
 		if( !params.args || params.args == "")
 			user = msg.author;
 		else if(!user)
-			 return msg.channel.send("No server member or role found.");
+			 return msg.channel.send("No server member or role found.").catch(err => console.log(err));
 		
 		let mem = msg.guild.members.get(user.id);
 		let id = user.id;
@@ -65,7 +65,7 @@ module.exports = class userinfo extends DBF.Command{
 		myembed.addField("Joined server", membertime);
 		myembed.addField("Highest role", highestrole);
 
-		msg.channel.send("", {"embed":myembed});
+		msg.channel.send("", {"embed":myembed}).catch(err => console.log(err));
 
 		function getTimeString(current){
 			var delta = Math.abs(now - current) / 1000;

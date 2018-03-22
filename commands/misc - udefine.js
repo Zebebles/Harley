@@ -27,7 +27,7 @@ module.exports = class UDefine extends DBF.Command{
 			word = "ran";
 		}
 		let def = "";
-		if(!(word.match(/[a-zA-Z]/g))) return msg.channel.send("That isn't a word!");
+		if(!(word.match(/[a-zA-Z]/g))) return msg.channel.send("That isn't a word!").catch(err => console.log(err));
 		if(rand){
 			uDictionary.random().first(res => {
 				if (res == null) return msg.channel.send("Word not found.");
@@ -43,7 +43,7 @@ module.exports = class UDefine extends DBF.Command{
 							+ word + "*"
 							+ "\n\n**Definition**\n*"
 							+ def);
-				msg.channel.send("", {"embed":  myembed});
+				msg.channel.send("", {"embed":  myembed}).catch(err => console.log(err));
 			});
 		}else{
 			uDictionary(word).first(res => {
@@ -60,7 +60,7 @@ module.exports = class UDefine extends DBF.Command{
 							+ word + "*"
 							+ "\n\n**Definition**\n*"
 							+ def);
-				msg.channel.send("", {"embed":  myembed});
+				msg.channel.send("", {"embed":  myembed}).catch(err => console.log(err));
 			});
 		}
     }

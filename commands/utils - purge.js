@@ -21,7 +21,8 @@ module.exports = class UDefine extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;  
         if(!args.match(/\d+|bot/gi))
-            return msg.channel.send("Please specify the number of messages you wish to prune.").then(m => m.delete(4000));
+            return msg.channel.send("Please specify the number of messages you wish to prune.").then(m => m.delete(4000).catch(err => console.log(err)))
+                    .catch(err => console.log(err));
         let n = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)) : 74;
         let bot = args.match(/bot/gi) ? true : false;
         n > 100 ? n = 100 : n = n;
@@ -35,7 +36,7 @@ module.exports = class UDefine extends DBF.Command{
                         if(bot)
                             msg.channel.send("Successfully removed `" + deleted.size + "` messages from the channel.").then(m => m.delete(2500));
                     }).catch(err => msg.channel.send("There was an error doing that ... You might have to delete them all manually :confounded:").then(m => m.delete(3000)));
-            });
-        });
+            }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
 }

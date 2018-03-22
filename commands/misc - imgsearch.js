@@ -33,7 +33,7 @@ module.exports = class ImgSearch extends DBF.Command{
 					return nsfw = true;
 			});
 			if(nsfw)
-				return msg.channel.send("That search query has been flagged as NSFW. Use an NSFW channel if you want to search for NSFW content.");
+				return msg.channel.send("That search query has been flagged as NSFW. Use an NSFW channel if you want to search for NSFW content.").catch(err => console.log(err));
 		}		
 		http.get({
 			host: "www.googleapis.com",
@@ -45,25 +45,25 @@ module.exports = class ImgSearch extends DBF.Command{
 			response.on('end', function (){ 
 				var parsed = JSON.parse(body);
 				var num;
-				if(parsed.error != null) return msg.channel.send("There was an error! May be out of free API quota");
-				if(parsed.items == null) return msg.channel.send("No image found.");
-				if(parsed.items.length == 0) return msg.channel.send("No image found.");
+				if(parsed.error != null) return msg.channel.send("There was an error! May be out of free API quota").catch(err => console.log(err));
+				if(parsed.items == null) return msg.channel.send("Couldn't find any images :(").catch(err => console.log(err));
+				if(parsed.items.length == 0) return msg.channel.send("Couldn't find any images :(").catch(err => console.log(err));
 				var good = false;
 				var ttl = 20;
 				while(!good){
 					num = Math.floor(Math.random() * (19 - 0 + 1)) + 0;
 					if(parsed.items[num] != null) good = true;
 					ttl --;
-					if(ttl == 0) return msg.channel.send("No img found :c");
+					if(ttl == 0) return msg.channel.send("Couldn't find any images :(").catch(err => console.log(err));
 				}
-				if(parsed.items[num].link == null) return msg.channel.send("No img found");
+				if(parsed.items[num].link == null) return msg.channel.send("Couldn't find any images :(").catch(err => console.log(err));
 				let msgembed = new Discord.RichEmbed();
 				if(msg.guild)
             		msgembed.setColor(msg.guild.me.displayColor);
         		else
 					msgembed.setColor([127, 161, 216]);				
 				msgembed.setImage(parsed.items[num].link);
-				msg.channel.send("", {"embed" : msgembed});
+				msg.channel.send("", {"embed" : msgembed}).catch(err => console.log(err));
 			})
 		});
     }

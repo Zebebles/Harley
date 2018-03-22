@@ -40,7 +40,7 @@ module.exports = class ServerInfo extends DBF.Command{
         embed.addField("Custom Emojis", customEmojis,true);
         embed.addField("Created at", created);
         embed.addField("Owner", owner);
-        msg.channel.send("", {"embed":  embed});
+        msg.channel.send("", {"embed":  embed}).catch(err => console.log(err));
 
         //TURNS MILLISECONDS INTO DAYS HOURS MINUTES SECONDS
         function getTimeString(current){

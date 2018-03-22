@@ -26,6 +26,6 @@ module.exports = class Choose extends DBF.Command{
         
         let rolled = Math.floor(Math.random() * num);
 
-        msg.channel.send("I rolled `" + rolled + "`!");
+        msg.channel.send("I rolled `" + rolled + "`!").catch(err => console.log(err));
      }
 }

@@ -21,24 +21,28 @@ module.exports = class prefix extends DBF.Command{
                 .replace(/\$name\$/gi, msg.member.displayName)
                 .replace(/\$mention\$/gi, "<@" + msg.member.user.id + ">")
                 .replace(/\$count\$/gi, msg.member.guild.members.size);
-            return msg.channel.send("This server has a farewell set-up.  You can remove it with `"+msg.guild.prefix+"farewell none`\nThis is what it'll look like when someone leaves the server:").then(() => msg.channel.send(example));
+            return msg.channel.send("This server has a farewell set-up.  You can remove it with `"+msg.guild.prefix+"farewell none`\nThis is what it'll look like when someone leaves the server:")
+                    .then(() => msg.channel.send(example).catch(err => console.log(err)))
+                    .catch(err => console.log(err));;
         }
         else if(!args)
-            return msg.channel.send("There is no server farewell message yet.  \nUse `" + msg.guild.prefix + "farewell Bye $mention$ | $name$.  $count$ members in $server$` or similar to set it.");
+            return msg.channel.send("There is no server farewell message yet.  \nUse `" + msg.guild.prefix + "farewell Bye $mention$ | $name$.  $count$ members in $server$` or similar to set it.").catch(err => console.log(err));
         else if(args.trim() == "none"){
             msg.client.dropFarewell(msg.guild);
-            msg.channel.send("Farewell successfully removed.");            
+            msg.channel.send("Farewell successfully removed.").catch(err => console.log(err));
         }
         else{
             args = args.replace(/[^a-zA-Z0-9\|\[\]\{\}\-\=\_\+\(\)\*\&\^\%\$\#\@\!\~\;\:\,\.\/\?\>\< ]/g, "");
             if(args.length > 150)
-                return msg.channel.send("Server farewell message must be less than 150 characters long.");
+                return msg.channel.send("Server farewell message must be less than 150 characters long.").catch(err => console.log(err));
             msg.client.setFarewell(msg, args);
             var example = args.replace(/\$server\$/gi, msg.member.guild.name)
                 .replace(/\$name\$/gi, msg.member.displayName)
                 .replace(/\$mention\$/gi, "<@" + msg.member.user.id + ">")
                 .replace(/\$count\$/gi, msg.member.guild.members.size);
-            msg.channel.send("Farewell successfully set! Here's what it'll look like when someone leaves the server:").then(() => msg.channel.send(example));
+            msg.channel.send("Farewell successfully set! Here's what it'll look like when someone leaves the server:")
+            .then(() => msg.channel.send(example).catch(err => console.log(err)))
+            .catch(err => console.log(err));;
         }
     }
 }

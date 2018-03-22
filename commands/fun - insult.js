@@ -21,7 +21,7 @@ module.exports = class Puppy extends DBF.Command{
         if(user)
             insult = "<@" + user.id + ">, ";
         else
-            return msg.channel.send("I can't spit fire at no-one :c. Make sure you include an @mention or username of the person you want me to roast.")
+            return msg.channel.send("I can't spit fire at no-one :c. Make sure you include an @mention or username of the person you want me to roast.").catch(err => console.log(err));
         
         insult += require("insult-compliment").Insult();
         msg.channel.send(insult);

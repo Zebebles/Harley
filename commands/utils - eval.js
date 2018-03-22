@@ -43,9 +43,9 @@ module.exports = class changeGame extends DBF.Command{
             } else {
                 out = res;
             }
-            return msg.channel.send(`**Success:**\n\`\`\`js\n${out}\n\`\`\``);
+            return msg.channel.send(`**Success:**\n\`\`\`js\n${out}\n\`\`\``).catch(err => console.log(err));
         }).catch(err => {
-            return msg.channel.send(`**An error occured:**\n\`\`\`js\n${err.message || err}\n\`\`\``);
+            return msg.channel.send(`**An error occured:**\n\`\`\`js\n${err.message || err}\n\`\`\``).catch(err => console.log(err));
         });
     }
 }

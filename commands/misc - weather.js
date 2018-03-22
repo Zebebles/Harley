@@ -19,7 +19,7 @@ module.exports = class Weather extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        if(!args || args == "") return msg.channel.send("Usage: `weather Melbourne`");
+        if(!args || args == "") return msg.channel.send("Usage: `weather Melbourne`").catch(err => console.log(err));
 
         var Canvas = require('canvas')
         , canvas = new Canvas(800, 175) //150 height, each day gets 100 width plus a gap of 20 between each day. 
@@ -45,7 +45,7 @@ module.exports = class Weather extends DBF.Command{
         //SEARCH WEATHER
         weather.find({search: args, degreeType: "C"}, function(err, result) {
             if(err || !result || result.length < 1){
-                return msg.channel.send("Could not find weather for **" + args + "**");
+                return msg.channel.send("Could not find weather for **" + args + "**").catch(err => console.log(err));
             }
             result = result[0];
             ctx.fillStyle = "#ffffff";
@@ -81,7 +81,7 @@ module.exports = class Weather extends DBF.Command{
             }
 
             img = new Discord.Attachment(canvas.toBuffer(), "weather.png");
-            msg.channel.send("Here's the weather for **" + result.location.name + "**", img);
+            msg.channel.send("Here's the weather for **" + result.location.name + "**", img).catch(err => console.log(err));
         });
 
         function getIcon(skycode){

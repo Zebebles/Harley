@@ -20,12 +20,16 @@ module.exports = class Hello extends DBF.Command{
         let seekTime;
         let h = false;
         let ms = 0;
-        if(!channel) return msg.channel.send("There isn't anything playing?");
+        if(!channel) return msg.channel.send("There isn't anything playing?").catch(err => console.log(err));
         if(channel.channel != msg.member.voiceChannel)
-            return msg.channel.send("You have to be in the same channel as me to do that.").then(m => m.delete(2500));
+            return msg.channel.send("You have to be in the same channel as me to do that.")
+                .then(m => m.delete(2500).catch(err => console.log(err)))
+                .catch(err => console.log(err));
         let djrole = msg.guild.roles.find(r => r.name.match(/dj[^a-zA-Z]|[^a-zA-Z]dj/gi) || r.name.toLowerCase() == "dj");
         if(djrole && msg.member.voiceChannel && msg.member.voiceChannel.members.find(m => m.roles.find(r => r.id == djrole.id)) && !msg.member.roles.find(r => r.id == djrole.id))
-            return msg.channel.send("The role `" + djrole.name + "` has been recognised as a DJ role, and at least one person in the channel has it. You must have this role to interact with the music.").then(m => m.delete(3000));
+            return msg.channel.send("The role `" + djrole.name + "` has been recognised as a DJ role, and at least one person in the channel has it. You must have this role to interact with the music.")
+                .then(m => m.delete(3000).catch(err => console.log(err)))
+                .catch(err => console.log(err));
         if(!channel && !channel.dispatcher) return msg.channel.send("There isn't anything playing??");
         if(!channel.dispatcher) return;
         
@@ -57,7 +61,7 @@ module.exports = class Hello extends DBF.Command{
         else if(ms < 0)
             return msg.channel.send("You can't seek before the start of the song.");
         
-        msg.channel.send("Seeking to `" + msg.guild.playlist.getDurationString(ms/1000) + "` as requested by **" + msg.member.displayName + "**");
+        msg.channel.send("Seeking to `" + msg.guild.playlist.getDurationString(ms/1000) + "` as requested by **" + msg.member.displayName + "**").catch(err => console.log(err));
         msg.guild.playlist.queue[0].startTime = ms;
         msg.guild.playlist.queue[0].seeks++;
         msg.guild.playlist.queue.splice(0,0,msg.guild.playlist.queue[0]);

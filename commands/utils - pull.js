@@ -20,7 +20,7 @@ module.exports = class Pull extends DBF.Command{
         Git.pull((err, update) => {
             if(err)
                 return msg.channel.send("There was an error: ```" + err + "```");
-            msg.channel.send("Pull successful!```" + update.summary.changes + "```");
+            msg.channel.send("Pull successful!```" + update.summary.changes + "```").catch(err => console.log(err));
         });
     }
 }

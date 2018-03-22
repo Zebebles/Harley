@@ -24,7 +24,7 @@ module.exports = class Puppy extends DBF.Command{
             embed.setColor([127, 161, 216]);
         require("random-puppy")().then(url => {
             embed.setImage(url);
-            msg.channel.send("", {"embed": embed});
-        });
+            msg.channel.send("", {"embed": embed}).catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
 }
