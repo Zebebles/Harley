@@ -25,9 +25,9 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
         
         let bot = new myClient({
             author: "221568707141435393", //this is used to check if the message was sent by the bot creator for ownerOnly commands
-            prefix: "??", //this is used as the prefix for any command your bot will respond to.  The bot will also respont to @mentions followed by command triggers.
+            prefix: ">>", //this is used as the prefix for any command your bot will respond to.  The bot will also respont to @mentions followed by command triggers.
             cmddir: require('path').join(__dirname, 'commands'), //this is the directory of your command folder.
-            token: "MzU0NDU5MTQ1OTY3MjM5MTY5.DZSfMw.CBssOAjPMCVl0fQ3iYqEFRirc4U",//auth.mildredtoken, //this is your bots token.  It is used to log in as the client, and hence, should not be shared.
+            token: auth.mildredtoken, //this is your bots token.  It is used to log in as the client, and hence, should not be shared.
             MentionsTrigger: true
         });
         bot.auth = auth;
