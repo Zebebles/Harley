@@ -1,8 +1,6 @@
 const DBF = require('discordjs-bot-framework');
 const snekfetch = require("snekfetch");
 const yta = require("simple-youtube-api");
-const auth = require("../resources/auth.json");
-const ytas = new yta(auth.googleKey);
 
 module.exports = class Hello extends DBF.Command{
     constructor(){
@@ -18,7 +16,7 @@ module.exports = class Hello extends DBF.Command{
     }
     run(params = {msg, args}){
         let msg = params.msg;
-
+        const ytas = new yta(msg.client.auth.googleKey);
         let channel = msg.member.voiceChannel;
         if(!channel) return msg.channel.send("There isn't any music playing.");
         if(!channel && !channel.dispatcher) return msg.channel.send("There isn't any music playing.");

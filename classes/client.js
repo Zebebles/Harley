@@ -31,7 +31,7 @@ class myClient extends DBF.Client {
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
             });
-            this.sendStatus(true);            
+            this.sendStatus(false);            
         });
 
         this.on("channelCreate", channel => {
@@ -69,7 +69,7 @@ class myClient extends DBF.Client {
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
             });
-            this.sendStatus(true);
+            this.sendStatus(false);
         });
 
         this.on("guildMemberAdd", member => {
@@ -222,43 +222,46 @@ class myClient extends DBF.Client {
             guild.playlist.message.collector.stop();
         if(guild.playlist && guild.playlist.timeout)
             clearTimeout(guild.playlist.timeout);
-        this.sendStatus();            
+        this.sendStatus(true,false);            
         delete guild.playlist;
         guild.playlist = new Playlist(guild);
     }
 
-    sendStatus(dbl){
-        fetch("http://localhost:3001/sendStatus", res => res).catch(err => err);
-        if(dbl)
-            snekfetch.post("https://discordbots.org/api/bots/stats")
-                .set({ Authorization: auth.dblkey })
-                .send({server_count: this.guilds.size})
-                .end();
-    }
-    getStatus(extended){
-        var status;
-        if(this != null && this.status != null && this.status == 0){
-            status = {
-                status: this.user.presence.status,
-                guilds: this.guilds.size,
-                connections: this.voiceConnections.size,
-                connlist : new Array()
-            }
-            if(this.voiceConnections.size > 0 && extended)
-                this.voiceConnections.forEach(conn => {
-                    status.connlist.push({guild: conn.channel.guild.name
-                                , members: conn.channel.members.size,
-                                length: conn.channel.guild.playlist.queue.length+1});
+    sendStatus(extended){
+        
+        let status = {
+            status: this.user.presence.status,
+            guilds: this.guilds.size,
+            connections: this.voiceConnections.size,
+            connlist: []
+        };
+        if(extended)
+            this.voiceConnections.forEach(conn => 
+                status.connlist.push({
+                    guild: conn.channel.guild.name,
+                    length: conn.channel.guild.playlist.queue.length,
+                    members: conn.channel.members.size
+                }));
+        snekfetch.post("http://"+this.auth.webserver + "/servers/status")
+                .send({status})
+                .end()
+                .catch(err => {
+                    this.reRegister();
+                    this.sendStatus();
                 });
-        }
-        else
-            status = {
-                status: "offline",
-                guilds: "N/A",
-                connections: 0,
-                connlist: new Array()
-            }
-        return status;
+    }
+
+    reRegister(){
+        snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
+            if(response.status != 200)
+                return console.log("Error re-registering server");
+            snekfetch.get("http://"+auth.webserver + "/servers/auth").then(authResponse => {
+                if(authResponse.status != 200)
+                    return console.log("Error fetching auth.");
+                    
+                this.auth = JSON.parse(authResponse.text);
+            }).catch(err => console.log("Error re-authorising)"));
+        }).catch(err => console.log("Error re-registering server"));
     }
 
     setPrefix(guild, prefix) {

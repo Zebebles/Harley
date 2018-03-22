@@ -1,6 +1,5 @@
 const DBF = require('discordjs-bot-framework');
 const Discord = require("discord.js");
-const auth = require("../resources/auth.json");
 const snekfetch = require("snekfetch");
 
 module.exports = class Restart extends DBF.Command{
@@ -18,7 +17,7 @@ module.exports = class Restart extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
         msg.channel.send("Restarting!").then(msg => {
-            snekfetch.get("http://localhost:3001/restart?pw=" + auth.password).then( r => r);           
+            snekfetch.get("http://"+msg.client.auth.webserver+"/manage/restart?pw="+msg.client.auth.password).then( r => r);           
         });
     }
 }

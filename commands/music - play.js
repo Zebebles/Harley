@@ -2,11 +2,10 @@ const DBF = require('discordjs-bot-framework');
 const Discord = require('discord.js');
 const snekfetch = require("snekfetch");
 const request = require("request");
-const auth = require("../resources/auth.json");
 const SC = require("node-soundcloud");
 const spotify = require("spotify-web-api-node");
 const yta = require("simple-youtube-api");
-const ytas = new yta(auth.googleKey);
+let ytas;
 var Promise = require("bluebird");
 const ypi = require("youtube-playlist-info");
 
@@ -28,6 +27,7 @@ module.exports = class Hello extends DBF.Command{
 
     run(params = {msg, args}){
         let msg = params.msg; let args = params.args;
+        ytas = new yta(msg.client.auth.googleKey);
         let channel = msg.member.voiceChannel;
         if((!args || args == "") && !msg.guild.playlist.paused) 
             return msg.channel.send("**Usage:**\t`" + msg.client.prefix + "play <url, song name, or lyrics> -first (optional) -choose (optional)`");
@@ -81,7 +81,7 @@ module.exports = class Hello extends DBF.Command{
                 addYTSongById(videoID);
             }
             else{ //if they're searching
-                snekfetch.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=' + auth.googleKey + '&maxResults=10&q=' + args).then(body =>{
+                snekfetch.get('https://www.googleapis.com/youtube/v3/search?part=snippet&key=' + msg.client.auth.googleKey + '&maxResults=10&q=' + args).then(body =>{
                     //console.log("Request - Youtube Search - " + msg.guild.name);
                     let results = JSON.parse(body.text);
                     results = results.items.filter(res => res.id.kind != "youtube#channel");
@@ -168,10 +168,10 @@ module.exports = class Hello extends DBF.Command{
                 let originalN = msg.guild.playlist.queue.length;
                 let qm = msg.channel.send("",{embed: {title: "🔎 Searching for playlist ...", color: msg.guild.me.displayColor}}).then(qm => {//notify the user that the playlist is being searched for.
                     msg.guild.playlist.qmessage = qm //set the queuemessage
-                    ypi(auth.googleKey, id).then(function(items) { //search for the playlist (tracks)
+                    ypi(msg.client.auth.googleKey, id).then(function(items) { //search for the playlist (tracks)
                         if(!items || !items.length > 0)
                             return reject({err:"Items array empty.", reason:"I can't play that playlist"});    
-                        snekfetch.get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=' + auth.googleKey + '&id=' + id ).then(body =>{ //get the title and what not from the playlist
+                        snekfetch.get('https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=' + msg.client.auth.googleKey + '&id=' + id ).then(body =>{ //get the title and what not from the playlist
                             let playlistInfo = JSON.parse(body.text).items[0];//get the playlist info
                             let playlistItems = items.filter(vid => vid.title != "Deleted video" && vid.title != "Private video");//filter out bad results
                             if(playlistItems.length == 0)
@@ -220,14 +220,14 @@ module.exports = class Hello extends DBF.Command{
             if(!playlist){
                 let qm = msg.channel.send("",{embed: {title: "🔎 Searching for song ...", color: msg.guild.me.displayColor}}).then(qm => {
                     msg.guild.playlist.qmessage = qm;
-                    request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + auth.scID, (err, response, track) => {
+                    request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + msg.client.auth.scID, (err, response, track) => {
                         addSCTrack(track);
                     });
                 });
             }else{
                 let qm = msg.channel.send("",{embed: {title: "🔎 Searching for playlist ...", color: msg.guild.me.displayColor}}).then(qm => {
                     msg.guild.playlist.qmessage = qm;
-                    request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + auth.scID, (err, response, playlist) => {
+                    request("https://api.soundcloud.com/resolve?url=" + args + "&client_id=" + msg.client.auth.scID, (err, response, playlist) => {
                         addSCPlaylist(playlist);
                     });
                 });

@@ -1,18 +1,17 @@
 const Discord = require("discord.js");
 var ytdl = require('ytdl-core');
-const auth = require("../resources/auth.json");
+let auth;// = require("../resources/auth.json");
 const snekfetch = require("snekfetch");
 const yta = require("simple-youtube-api");
-const ytas = new yta(auth.googleKey);
+let ytas;// = new yta(auth.googleKey);
 const yt = require("youtube-node");
 const youTube = new yt();
 var Promise = require("bluebird");
 const req = require("request");
-youTube.setKey(auth.googleKey);
 
 module.exports = class Video{
 
-    constructor (params){
+    constructor (params,authorization){
         this.title = params.title;
         this.type = params.type;
         this.seeks = params.seeks; 
@@ -21,6 +20,11 @@ module.exports = class Video{
         this.startTime = params.startTime;
         this.duration = params.duration;
         this.url = params.url;
+        
+        auth = authorization;
+        ytas = new yta(auth.googleKey);
+        youTube.setKey(auth.googleKey);
+
     }
 
     getStream(bitrate){

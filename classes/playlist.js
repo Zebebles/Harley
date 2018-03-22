@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const auth = require("../resources/auth.json");
+let auth;// = require("../resources/auth.json");
 const Video = require("./video.js");
 
 
@@ -10,10 +10,11 @@ module.exports = class Playlist{
         this.paused = false;
         this.dontRelate = new Array();
         this.bitrate = 64;
+        auth = guild.client.auth;
     }
 
     addSong(song, first){
-        let vid = new Video(song);
+        let vid = new Video(song, auth);
         if(!this.queue) this.queue = new Array();
         if(first)
             this.queue.splice(1, 0, vid);
@@ -22,7 +23,7 @@ module.exports = class Playlist{
     }
 
     playNext(){
-        this.textChannel.guild.client.sendStatus();
+        this.textChannel.guild.client.sendStatus(true);
         this.paused = false;        
         if(this.queue.length == 0){
             this.updateMessage("Ran of out songs to play.");

@@ -1,8 +1,6 @@
 const DBF = require('discordjs-bot-framework');
 const http = require("https");
 const Discord = require("discord.js");
-const auth = require("../resources/auth.json");
-
 
 module.exports = class ImgSearch extends DBF.Command{
     constructor(){
@@ -39,7 +37,7 @@ module.exports = class ImgSearch extends DBF.Command{
 		}		
 		http.get({
 			host: "www.googleapis.com",
-			path: "/customsearch/v1?key="+auth.googleKey + "&cx=013774790275612872185:1gwwruxm81m&searchType=image&q=" + searchquery
+			path: "/customsearch/v1?key="+msg.client.auth.googleKey + "&cx=013774790275612872185:1gwwruxm81m&searchType=image&q=" + searchquery
 		}, response => {
 			response.on('data', d => {
 				body += d;

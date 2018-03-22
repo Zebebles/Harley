@@ -16,10 +16,18 @@ module.exports = class Restart extends DBF.Command{
     }
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        let reloaded = msg.client.reloadCommands(args);
-        if(reloaded != null)
-            return msg.channel.send("Successfully reloaded `" + reloaded + "` commands under `" + args + "`");
+        if(args && args.toLowerCase() == "local")
+        {
+            let reloaded = msg.client.reloadCommands(args);
+            if(reloaded != null)
+                return msg.channel.send("Successfully reloaded `" + reloaded + "` commands under `" + args + "`");
+            else
+                return msg.channel.send("Didn't reload any commands.");
+        }
         else
-            return msg.channel.send("Didn't reload any commands.");
+        {
+            snekfetch.get("http://"+msg.client.auth.webserver+"/manage/reload?pw="+msg.client.auth.password).then(r => r);
+            msg.channel.send("Reloaded all commands on all servers.");           
+        }
     }
 }
