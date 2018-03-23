@@ -100,9 +100,11 @@ module.exports = class Playlist{
             {
                 if(this.timeout)
                     clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                    dispatcher.end();
-                },(this.queue[0].duration*1000) - (25+this.queue[0].startTime));
+                dispatcher.on("start", () => {
+                    this.timeout = setTimeout(() => {
+                        dispatcher.end();
+                    },(this.queue[0].duration*1000) - (25+this.queue[0].startTime));
+                });
             }
             
             dispatcher.on("end", reason => {
