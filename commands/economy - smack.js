@@ -45,9 +45,9 @@ module.exports = class Smack extends DBF.Command{
         if(!user.rep)
             user.rep = 0;
         
-        let rep = (Math.floor(Math.random() * 25) + 1);                    
+        let rep = (Math.floor(Math.random(new Date().getTime()) * 25) + 1);                    
         let lost = rep > user.rep ? user.rep : rep;
-        let gained = Math.ceil(lost * Math.random());
+        let gained = Math.ceil(lost * Math.random(new Date().getTime()+1000));
         user.rep -= lost;
         smacker.rep += gained;
 
