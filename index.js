@@ -55,6 +55,10 @@ app.get("/pull", function(req, res) {
     });
 });
 
+app.get("/output", function(req,res){
+    res.send(harley.log);
+});
+
 
 /*status messages
 400 -> bad request
