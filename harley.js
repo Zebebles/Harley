@@ -200,6 +200,17 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
         {
             res.sendStatus(200);
         });
+
+        bot.express.get("/commmands", function(req,res)
+        {
+            res.send(bot.commandsList);
+        });
+
+        bot.express.get("/status", function(req,res)
+        {
+            bot.sendStatus();
+            res.sendStatus(200);
+        });
     }).catch(err => console.log("Error getting authentication\n"+err))
 }).catch(err => console.log("Failed registering server.\n"+err));
 
