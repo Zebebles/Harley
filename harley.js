@@ -201,9 +201,8 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             res.sendStatus(200);
         });
 
-        bot.express.get("/commmands", function(req,res)
+        bot.express.get("/commands", function(req,res)
         {
-            console.log("trued");
             res.send(bot.commandsList);
         });
 
