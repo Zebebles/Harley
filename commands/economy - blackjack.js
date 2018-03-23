@@ -33,6 +33,11 @@ module.exports = class BlackJack extends DBF.Command{
             return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     
 
         let reactions = msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS");
+        let cardsPool = [1,2,3,4,5,6,7,8,9,10,11,12,13
+                        ,1,2,3,4,5,6,7,8,9,10,11,12,13
+                        ,1,2,3,4,5,6,7,8,9,10,11,12,13
+                        ,1,2,3,4,5,6,7,8,9,10,11,12,13];
+        shuffle(cardsPool);
         let filter;
         let collector;
         var emojis = ["👊", "🤞"];
@@ -99,10 +104,19 @@ module.exports = class BlackJack extends DBF.Command{
             });
             
         });
- 
+        
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+        }
 
         function hit(ind){
-            var card = Math.floor((Math.random() * 12) + 1);
+            var card = cardsPool.splice((Math.random()*cardsPool.length-1)+1,1)[0];
             if(card == 1)
                 players[ind].hand.cards.push({type: "A", val: card});            
             else if(card == 11)
