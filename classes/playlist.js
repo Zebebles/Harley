@@ -103,7 +103,7 @@ module.exports = class Playlist{
                 dispatcher.on("start", () => {
                     this.timeout = setTimeout(() => {
                         dispatcher.end();
-                    },(this.queue[0].duration*1000) - (100+this.queue[0].startTime));
+                    },(this.queue[0].duration*1000) - (25+this.queue[0].startTime));
                 });
             }
             
