@@ -209,7 +209,7 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
 
         bot.express.get("/status", function(req,res)
         {
-            bot.sendStatus();
+            bot.sendStatus(true);
             res.sendStatus(200);
         });
     }).catch(err => console.log("Error getting authentication\n"+err))
