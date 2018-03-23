@@ -117,6 +117,7 @@ module.exports = class BlackJack extends DBF.Command{
 
         function hit(ind){
             var card = cardsPool.splice((Math.random()*cardsPool.length-1)+1,1)[0];
+            console.log(cardsPool);
             if(card == 1)
                 players[ind].hand.cards.push({type: "A", val: card});            
             else if(card == 11)
