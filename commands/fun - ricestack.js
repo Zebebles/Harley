@@ -61,7 +61,7 @@ module.exports = class BlackJack extends DBF.Command{
             },45000);
 
             collector.on("collect", collected => {
-                if(collected.emoji.name == emojis[0])
+                if(collected.emoji.name == emojis[1])
                 {
                     clearTimeout(timeout);
                     embed.description = bowls.join("\n") + ":japanese_goblin: Congratulations, I could stack that many plates! Thank you, here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
