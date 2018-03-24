@@ -145,7 +145,7 @@ class myClient extends DBF.Client {
                             conn.end();
                         });
                     });
-                else if(channel.permissionsFor(channel.guild.me) && !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
+                else if(!channel.permissionsFor(channel.guild.me) || !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
                     return;
                 else
                     channel.send(message).catch(err => console.log(err));
