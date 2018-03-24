@@ -38,7 +38,7 @@ module.exports = class BlackJack extends DBF.Command{
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Bad Rice | " + msg.author.username, msg.author.displayAvatarURL);
         embed.setColor(msg.guild.me.displayColor);
-        embed.description = ":japanese_goblin: You have 2 bad rice, 1 good rice. Which one's good?!\n\t\t" + emojis.join(" ");
+        embed.description = ":japanese_goblin: You have 2 bad rice, 1 good rice. Which one's good?!\n\t\t " + emojis.join(" ");
         
         msg.channel.send("", {embed}).then(gameMsg => {
             gameMsg.react(emojis[0]).then(r => gameMsg.react(emojis[1]).then(r => gameMsg.react(emojis[2]).catch(err => console.log(err))).catch(err => console.log(err))).catch(err => console.log(err));
