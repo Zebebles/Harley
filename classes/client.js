@@ -213,7 +213,6 @@ class myClient extends DBF.Client {
             updateUser(conn, user).catch(err => {
                 console.log("Error updating user " + user.username + ".\n" + err);
             }).finally(() => {
-                console.log("Synced user");
                 conn.end();
                 snekfetch.post("http://" + webserver + "/servers/updateUser")
                     .send({"id" : user.id})
@@ -237,7 +236,6 @@ class myClient extends DBF.Client {
             loadUser(conn, user).catch(err => {
                 console.log("Error loading user " + user.username + ".\n" + err);
             }).finally(() => {
-                console.log("Loaded user");
                 conn.end();
             });
         });
