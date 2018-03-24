@@ -42,7 +42,7 @@ module.exports = class BlackJack extends DBF.Command{
         msg.channel.send("", {embed}).then(gameMsg => {
             gameMsg.react(emojis[0]).then(r => gameMsg.react(emojis[1]).then(r => gameMsg.react(emojis[2]).catch(err => console.log(err))).catch(err => console.log(err))).catch(err => console.log(err));
 
-            const filter = (user, reaction) => user.id == msg.author.id && emojis.find(emoji => reaction.emoji.name == emoji);
+            const filter = (r, user) => user.id == msg.author.id && emojis.find(e => r.emoji.name == e);
             const collector = new Discord.ReactionCollector(gameMsg, filter, {max: 1,time: 20000});
 
             collector.on("collect", collected => {
