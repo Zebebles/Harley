@@ -451,6 +451,26 @@ module.exports = function () {
         });
     }
 
+    this.loadUser = function(conn, user){
+        return new Promise((resolve, reject) => {
+            conn.query("Use Users", (err, res) => {
+                if(err)
+                    return reject(err);
+                conn.query("SELECT * FROM Users NATURAL JOIN Economy WHERE id = '" + user.id + "';", (err, res) => {
+                    if(err || res.length < 1)
+                        return resolve();
+                    user.smacks = tuple.smacks;
+                    user.loves = tuple.loves;
+                    user.rep = tuple.rep;
+                    user.refreshLoves = tuple.lovereset;
+                    user.refreshSmacks = tuple.smacksreset;
+                    user.repRefresh = tuple.reprefresh;
+                    resolve(conn);
+                });
+            }); 
+        });
+    }
+
     this.updateUser = function(conn, user){
         return new Promise((resolve, reject) => {
             this.addUserToEconomy(conn,user).then(conn => {

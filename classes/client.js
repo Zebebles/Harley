@@ -212,6 +212,32 @@ class myClient extends DBF.Client {
             updateUser(conn, user).catch(err => {
                 console.log("Error updating user " + user.username + ".\n" + err);
             }).finally(() => {
+                console.log("Synced user");
+                conn.end();
+                snekfetch.post("http://" + this.auth.webserver + "/servers/updateUser")
+                    .send({"id" : user.id})
+                    .end()
+                    .catch(err => {
+                        this.reRegister();
+                        this.syncUser(user);
+                    });
+            });
+        });
+    }
+
+    loadUser(user)
+    {
+        var conn = mysql.createConnection({
+            host: this.auth.webserver.split(":")[0],
+            user: "root",
+            password: this.auth.password
+        });
+
+        conn.connect(function(err) {
+            loadUser(conn, user).catch(err => {
+                console.log("Error loading user " + user.username + ".\n" + err);
+            }).finally(() => {
+                console.log("Loaded user");
                 conn.end();
             });
         });
