@@ -61,7 +61,7 @@ module.exports = class BlackJack extends DBF.Command{
             },45000);
 
             collector.on("collect", collected => {
-                collected.remove(reaction.users.find(u => !u.bot)).then(() => {
+                collected.remove(collected.users.find(u => !u.bot)).then(() => {
                     if(collected.emoji.name == emojis[1])
                     {
                         clearTimeout(timeout);
