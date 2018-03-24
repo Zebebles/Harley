@@ -80,7 +80,10 @@ module.exports = class BlackJack extends DBF.Command{
                             collector.stop();
                             return winner(won);
                         }
-                        updateMessage(buildEmbed());
+                        updateMessage(buildEmbed()).catch(err => {
+                            console.log(err);
+                            return cleanUp();
+                        });
                     }else{
                         stand();
                         collector.stop();
@@ -94,7 +97,10 @@ module.exports = class BlackJack extends DBF.Command{
                             collector.stop();
                             return winner(won);
                         }
-                        updateMessage(buildEmbed()); 
+                        updateMessage(buildEmbed()).catch(err => {
+                            console.log(err);
+                            return cleanUp();
+                        });; 
                     }else
                     {
                         stand();
@@ -103,7 +109,10 @@ module.exports = class BlackJack extends DBF.Command{
                 }
             });
             
-        });
+        }).catch(err => {
+            console.log(err);
+            return cleanUp();
+        });;
         
         function shuffle(a) {
             var j, x, i;
