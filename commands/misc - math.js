@@ -21,10 +21,15 @@ module.exports = class Solve extends DBF.Command{
             return msg.channel.send("Usage: `" + msg.guild.prefix +"solve 9+10`.  Use `" + msg.guild.prefix + "commands solve` for more examples.");
         
         try{
+            let qs = args.split(/,:;/g) ? args.split(/,:;/g) : [args];
+            let message = "";
+            qs.forEach(question => {
+                message += "\n`" + question + "`\t=\t`" + math.eval(question) + "`";
+            })
             let ans = math.eval(args);
-            msg.channel.send(`**Here's what I got:**\n\`${args}\`\t=\t\`${ans}\``);
+            msg.channel.send(`**Here's what I got**${message}`);
         }catch(err){
-            msg.channel.send("Sorry, I was unable to solve `" + args + "` for you.");
+            msg.channel.send("Sorry, I was unable to solve that for you.");
         }
      }
 }
