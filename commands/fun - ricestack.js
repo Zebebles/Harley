@@ -64,7 +64,9 @@ module.exports = class BlackJack extends DBF.Command{
                 if(collected.emoji.name == emojis[1])
                 {
                     clearTimeout(timeout);
-                    embed.description = bowls.join("\n") + ":japanese_goblin: Congratulations, I could stack that many plates! Thank you, here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
+                    embed.description = bowls.join("\n") + ":japanese_goblin: Congratulations, I could stack that many plates!";
+                    if(amount)
+                        embed.description += "Thank you, here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
                     gameMsg.edit("", {embed}).catch(err => console.log(err));
                 }
                 else
