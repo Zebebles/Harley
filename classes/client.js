@@ -219,7 +219,6 @@ class myClient extends DBF.Client {
                     .send({"id" : user.id})
                     .end()
                     .catch(err => {
-                        console.log(err);
                         bot.reRegister();
                         bot.syncUser(user);
                     });
