@@ -38,7 +38,7 @@ module.exports = class BlackJack extends DBF.Command{
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Bad Rice | " + msg.author.username, msg.author.displayAvatarURL);
         embed.setColor(msg.guild.me.displayColor);
-        embed.description = ":japanese_goblin: You have 2 bad rice, 1 good rice. Which one's good?!\n" + emojis.join(" ");
+        embed.description = ":japanese_goblin: You have 2 bad rice, 1 good rice. Which one's good?!\n\t\t" + emojis.join(" ");
         
         msg.channel.send("", {embed}).then(gameMsg => {
             gameMsg.react(emojis[0]).then(r => gameMsg.react(emojis[1]).then(r => gameMsg.react(emojis[2]).catch(err => console.log(err))).catch(err => console.log(err))).catch(err => console.log(err));
@@ -49,6 +49,7 @@ module.exports = class BlackJack extends DBF.Command{
             let timeout = setTimeout(() => {
                 if(!collector.ended)
                 {
+                    gameMsg.clearReactions();
                     collector.stop();
                     embed.description = "😞 You waited too long, all the rice went bad!";
                     gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
@@ -57,13 +58,17 @@ module.exports = class BlackJack extends DBF.Command{
 
             collector.on("collect", collected => {
                 collector.stop();
+                gameMsg.clearReactions();
+                console.log(goodRice);
                 let chosen = emojis.find(e => e == collected.emoji.name);
+                console.log(chosen);
                 embed.description = goodRice == chosen ? "🤢 You chose the bad rice. " : "😌 You chose the good rice! ";
                 embed.description += amount>0 ? (goodRice == chosen ? "It cost you `" + amount + "` rice." : "You managed to salvage `" + amount*2 + "` rice from the bowl."): "";
                 msg.author.rep += goodRice == chosen ? msg.author.rep += amount*2 : 0;
                 msg.client.syncUser(msg.author);
                 gameMsg.edit("", {embed}).catch(err => console.log(err));
             }).catch(err => {
+                gameMsg.clearReactions();
                 embed.description = "😞 You waited too long, all the rice went bad!";
                 gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
             });
