@@ -26,7 +26,6 @@ module.exports = class Solve extends DBF.Command{
             qs.forEach(question => {
                 message += "\n`" + question + "`\t=\t`" + math.eval(question) + "`";
             })
-            let ans = math.eval(args);
             msg.channel.send(`**Here's what I got**${message}`);
         }catch(err){
             msg.channel.send("Sorry, I was unable to solve that for you.");
