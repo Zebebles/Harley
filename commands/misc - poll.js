@@ -9,7 +9,7 @@ module.exports = class Hello extends DBF.Command{
              group: "Misc", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Emoji poll!", //this will show in the help message
-             example: ">>poll option 1, option 2, option 3",             
+             example: ">>poll question? option 1, option 2, option 3\n>>poll which discord bot is best? Harley, Harley, Harley",             
              guildOnly : false, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs : true,
              reqBotPerms: ["MANAGE_MESSAGES", "ADD_REACTIONS"]
@@ -19,9 +19,15 @@ module.exports = class Hello extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let myEmbed = new Discord.RichEmbed();
         let msg = params.msg; let args = params.args; let user = params.user;
-        if(!args || args == "") return msg.channel.send("Usage: `poll opt1,opt2,opt3`");
-        
-        let options = args.match(/[\w\d \'\-\_\"]*/g).filter(s => s != "");
+        if(!args || args == "") return msg.channel.send("Usage: `poll question? opt1,opt2,opt3`");
+
+        if(!args.split("?"))
+            return msg.channel.send("You need to provide a question.  Usage: `" + msg.guild.prefix + "poll which discord bot is best? Harley, Harley, Harley`");
+
+        let question = args.split("?")[0];
+        args = args.replace(question, "");
+
+        let options = args.split(/,;:\//g).filter(s => s != "");
         
         if(options.length < 2) return msg.channel.send("There must be at least 2 poll options.").catch(err => console.log(err));
         if(options.length > 7) return msg.channel.send("There is a maxiumum of 7 options allowed, sorry.").catch(err => console.log(err));
