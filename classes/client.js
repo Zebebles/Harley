@@ -41,7 +41,7 @@ class myClient extends DBF.Client {
                 + "**<http://www.harleybot.me/commands>**");
 
             guild.members.forEach(member => {
-                this.loadUser(member);
+                this.loadUser(member.user);
             });
         });
 
