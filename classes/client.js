@@ -219,8 +219,7 @@ class myClient extends DBF.Client {
                     .send({"id" : user.id})
                     .end()
                     .catch(err => {
-                        bot.reRegister();
-                        bot.syncUser(user);
+                        console.log(err);
                     });
             });
         });
@@ -273,8 +272,7 @@ class myClient extends DBF.Client {
                 .send({status})
                 .end()
                 .catch(err => {
-                    this.reRegister();
-                    this.sendStatus();
+                    console.log(err);
                 });
     }
 
