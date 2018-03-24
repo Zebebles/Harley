@@ -25,7 +25,7 @@ module.exports = class Hello extends DBF.Command{
             return msg.channel.send("You need to provide a question.  Usage: `" + msg.guild.prefix + "poll which discord bot is best? Harley, Harley, Harley`");
 
         let question = args.split("?")[0];
-        args = args.replace(question, "");
+        args = args.replace(question+"?", "");
 
         let options = args.split(/[,;:\/]/g).filter(s => s != "");
         
