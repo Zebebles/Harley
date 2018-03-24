@@ -44,7 +44,16 @@ module.exports = class BlackJack extends DBF.Command{
             gameMsg.react(emojis[0]).then(r => gameMsg.react(emojis[1]).then(r => gameMsg.react(emojis[2]).catch(err => console.log(err))).catch(err => console.log(err))).catch(err => console.log(err));
 
             const filter = (r, user) => user.id == msg.author.id && emojis.find(e => r.emoji.name == e);
-            const collector = new Discord.ReactionCollector(gameMsg, filter, {time: 20000});
+            const collector = new Discord.ReactionCollector(gameMsg, filter);
+            
+            let timeout = setTimeout(() => {
+                if(!collector.ended)
+                {
+                    collector.stop();
+                    embed.description = "😞 You waited too long, all the rice went bad!";
+                    gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                }
+            },20000);
 
             collector.on("collect", collected => {
                 collector.stop();
