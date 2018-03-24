@@ -72,7 +72,7 @@ module.exports = class BlackJack extends DBF.Command{
                 else
                 {
                     bowls.push("🍚");
-                    if(new Math.random() > chances[bowls.length-1])
+                    if(Math.random() > chances[bowls.length-1])
                     {
                         embed.description = ":scream: You made me stack too many bowls! I dopped them all!!";
                         if(amount)
