@@ -64,6 +64,8 @@ module.exports = class BlackJack extends DBF.Command{
                 if(collected.emoji.name == emojis[1])
                 {
                     clearTimeout(timeout);
+                    collector.end();
+                    gameMsg.clearReactions();
                     embed.description = bowls.join("\n") + ":japanese_goblin: Congratulations, I could stack that many plates!";
                     if(amount)
                         embed.description += "Thank you, here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
@@ -74,14 +76,20 @@ module.exports = class BlackJack extends DBF.Command{
                     bowls.push("🍚");
                     if(Math.random() > chances[bowls.length-1])
                     {
+                        clearTimeout(timeout);
+                        collector.end();
+                        gameMsg.clearReactions();
                         embed.description = ":scream: You made me stack too many bowls! I dopped them all!!";
                         if(amount)
                             embed.description += " You owe me `" + amount + "` rice!!!";
                         gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                         msg.client.syncUser(msg.author);
                     }
-                    embed.description = bowls.join("\n") + ":japanese_goblin: Quick! I have a big order, how many bowls of rice can I stack?!";
-                    gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                    else
+                    {
+                        embed.description = bowls.join("\n") + ":japanese_goblin: Quick! I have a big order, how many bowls of rice can I stack?!";
+                        gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                    }
                 }
             });
 
