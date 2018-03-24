@@ -33,6 +33,7 @@ module.exports = class BlackJack extends DBF.Command{
 
         let emojis = ["🍛", "🍚", "🍙"];
         shuffle(emojis);
+
         let goodRice = emojis[Math.floor(Math.random() * emojis.length - 2)+1];
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Bad Rice | " + msg.author.username, msg.author.displayAvatarURL);
@@ -43,9 +44,10 @@ module.exports = class BlackJack extends DBF.Command{
             gameMsg.react(emojis[0]).then(r => gameMsg.react(emojis[1]).then(r => gameMsg.react(emojis[2]).catch(err => console.log(err))).catch(err => console.log(err))).catch(err => console.log(err));
 
             const filter = (r, user) => user.id == msg.author.id && emojis.find(e => r.emoji.name == e);
-            const collector = new Discord.ReactionCollector(gameMsg, filter, {max: 1,time: 20000});
+            const collector = new Discord.ReactionCollector(gameMsg, filter, {time: 20000});
 
             collector.on("collect", collected => {
+                collector.stop();
                 let chosen = emojis.find(e => e == collected[0].emoji.name);
                 embed.description = goodRice == chosen ? "🤢 You chose the bad rice. " : "😌 You chose the good rice! ";
                 embed.description += amount>0 ? (goodRice == chosen ? "It cost you `" + amount + "` rice." : "You managed to salvage `" + amount*2 + "` rice from the bowl."): "";
@@ -56,6 +58,7 @@ module.exports = class BlackJack extends DBF.Command{
                 embed.description = "😞 You waited too long, all the rice went bad!";
                 gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
             });
+
         }).catch(err => {
             msg.author.rep += amount;
         });
