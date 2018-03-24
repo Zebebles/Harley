@@ -120,7 +120,7 @@ module.exports = class Playlist{
                         this.dontRelate.push(this.queue[0].title);
                         if(this.dontRelate.length > 5)
                             this.dontRelate.splice(0,1);
-                        this.queue.push(new Video(song));
+                        this.queue.push(new Video(song, auth));
                         this.queue.splice(0,1);
                         this.playNext();
                     }).catch(err => {
