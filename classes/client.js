@@ -160,34 +160,61 @@ class myClient extends DBF.Client {
         });
     }
 
-    loadGuilds(client) {
-        var conn = mysql.createConnection({
-            host: this.auth.webserver.split(":")[0],
-            user: "root",
-            password: this.auth.password
-        });
-        conn.connect(function (err) {
-            loadPrefixes(conn, client).then(conn => {
-                console.log("Successfully loaded prefixes for " + client.guilds.size + " servers!");
-                loadAutoRoles(conn, client).then(conn => {
-                    console.log("Successfully loaded default roles for " + client.guilds.size + " servers!");
-                    loadGreetings(conn, client).then(conn => {
-                        console.log("Successfully loaded greetings and farewells for " + client.guilds.size + " servers!");
-                        loadDisabledCommands(conn, client).then(conn => {
-                            console.log("Successfully loaded disabled commands for " + client.guilds.size + " servers!");
-                            conn.end();
-                        }).catch(err => {
-                            console.log("Error: " + err);
-                            conn.end();
-                        });
-                    }).catch(err => console.log(err)); //catch loadGreetings
-                }).catch(err => console.log(err)); //catch loadAutoRoles
-            }).catch(err => console.log(err)); //catch loadPrefixes
-        });
 
-        client.guilds.forEach(guild => {
-            guild.defaultTextChannel = this.getDefaultChannel(guild);
-        });
+    initPlaylist(guild) {
+        if (guild.playlist && guild.playlist.message && guild.playlist.message.collector)
+            guild.playlist.message.collector.stop();
+        if(guild.playlist && guild.playlist.timeout)
+            clearTimeout(guild.playlist.timeout);
+        this.sendStatus(true,false);            
+        delete guild.playlist;
+        guild.playlist = new Playlist(guild);
+    }
+
+    getDefaultChannel(guild)
+    {
+        if(guild.defaultRole.hasPermission("ADMINISTRATOR"))
+            return guild.channels.filter(ch => ch.type == "text").sort((a,b) => a.position-b.position).first();
+        else if(guild.defaultRole.hasPermission("SEND_MESSAGES"))
+            return guild.channels.filter(ch => ch.type == "text" && !ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.deny).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
+        else
+            return guild.channels.filter(ch => ch.type == "text" && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
+    }
+
+    sendStatus(extended){
+        
+        let status = {
+            status: this.user.presence.status,
+            guilds: this.guilds.size,
+            connections: this.voiceConnections.size,
+            connlist: []
+        };
+        if(extended)
+            this.voiceConnections.forEach(conn => 
+                status.connlist.push({
+                    guild: conn.channel.guild.name,
+                    length: conn.channel.guild.playlist.queue.length,
+                    members: conn.channel.members.size
+                }));
+        snekfetch.post("http://"+this.auth.webserver + "/servers/status")
+                .send({status})
+                .end()
+                .catch(err => {
+                    console.log(err);
+                });
+    }
+
+    reRegister(){
+        snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
+            if(response.status != 200)
+                return console.log("Error re-registering server");
+            snekfetch.get("http://"+auth.webserver + "/servers/auth").then(authResponse => {
+                if(authResponse.status != 200)
+                    return console.log("Error fetching auth.");
+                    
+                this.auth = JSON.parse(authResponse.text);
+            }).catch(err => console.log("Error re-authorising)"));
+        }).catch(err => console.log("Error re-registering server"));
     }
 
     loadUsers(client){
@@ -256,61 +283,35 @@ class myClient extends DBF.Client {
             });
         });
     }
+    
+    loadGuilds(client) {
+        var conn = mysql.createConnection({
+            host: this.auth.webserver.split(":")[0],
+            user: "root",
+            password: this.auth.password
+        });
+        conn.connect(function (err) {
+            loadPrefixes(conn, client).then(conn => {
+                console.log("Successfully loaded prefixes for " + client.guilds.size + " servers!");
+                loadAutoRoles(conn, client).then(conn => {
+                    console.log("Successfully loaded default roles for " + client.guilds.size + " servers!");
+                    loadGreetings(conn, client).then(conn => {
+                        console.log("Successfully loaded greetings and farewells for " + client.guilds.size + " servers!");
+                        loadDisabledCommands(conn, client).then(conn => {
+                            console.log("Successfully loaded disabled commands for " + client.guilds.size + " servers!");
+                            conn.end();
+                        }).catch(err => {
+                            console.log("Error: " + err);
+                            conn.end();
+                        });
+                    }).catch(err => console.log(err)); //catch loadGreetings
+                }).catch(err => console.log(err)); //catch loadAutoRoles
+            }).catch(err => console.log(err)); //catch loadPrefixes
+        });
 
-    initPlaylist(guild) {
-        if (guild.playlist && guild.playlist.message && guild.playlist.message.collector)
-            guild.playlist.message.collector.stop();
-        if(guild.playlist && guild.playlist.timeout)
-            clearTimeout(guild.playlist.timeout);
-        this.sendStatus(true,false);            
-        delete guild.playlist;
-        guild.playlist = new Playlist(guild);
-    }
-
-    getDefaultChannel(guild)
-    {
-        if(guild.defaultRole.hasPermission("ADMINISTRATOR"))
-            return guild.channels.filter(ch => ch.type == "text").sort((a,b) => a.position-b.position).first();
-        else if(guild.defaultRole.hasPermission("SEND_MESSAGES"))
-            return guild.channels.filter(ch => ch.type == "text" && !ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.deny).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
-        else
-            return guild.channels.filter(ch => ch.type == "text" && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
-    }
-
-    sendStatus(extended){
-        
-        let status = {
-            status: this.user.presence.status,
-            guilds: this.guilds.size,
-            connections: this.voiceConnections.size,
-            connlist: []
-        };
-        if(extended)
-            this.voiceConnections.forEach(conn => 
-                status.connlist.push({
-                    guild: conn.channel.guild.name,
-                    length: conn.channel.guild.playlist.queue.length,
-                    members: conn.channel.members.size
-                }));
-        snekfetch.post("http://"+this.auth.webserver + "/servers/status")
-                .send({status})
-                .end()
-                .catch(err => {
-                    console.log(err);
-                });
-    }
-
-    reRegister(){
-        snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
-            if(response.status != 200)
-                return console.log("Error re-registering server");
-            snekfetch.get("http://"+auth.webserver + "/servers/auth").then(authResponse => {
-                if(authResponse.status != 200)
-                    return console.log("Error fetching auth.");
-                    
-                this.auth = JSON.parse(authResponse.text);
-            }).catch(err => console.log("Error re-authorising)"));
-        }).catch(err => console.log("Error re-registering server"));
+        client.guilds.forEach(guild => {
+            guild.defaultTextChannel = this.getDefaultChannel(guild);
+        });
     }
 
     setPrefix(guild, prefix) {

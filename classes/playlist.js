@@ -89,7 +89,7 @@ module.exports = class Playlist{
             let startSong = this.queue[0];
             
             if(!this.textChannel.guild.voiceConnection)
-                return;
+                return this.textChannel.client.initPlaylist();
             var dispatcher = this.textChannel.guild.voiceConnection.playStream(
                 stream,
                 {volume: 0.5,
