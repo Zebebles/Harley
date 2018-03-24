@@ -34,7 +34,7 @@ module.exports = class Commands extends DBF.Command{
         
         if(!args)
         { //if they want a list of all commands
-            embed.setTitle("Avaliable Comamnds");
+            embed.setTitle("Available Comamnds");
             embed.setDescription("Use `" + prefix + "command group` for more detailed information about commands in a specific group, or `" +
                                 prefix + "command command_name` for more detailed information about a specific command.\n\n");
             groups.forEach(group => {
@@ -70,7 +70,7 @@ module.exports = class Commands extends DBF.Command{
             
             let command = msg.client.commands.find(cmd => cmd.areYou(args.toLowerCase()));
             if(command.ownerOnly && msg.author.id != msg.client.author)
-                return msg.channel.send("The command **" + command.name + "** is only avaliable for my Developer.").catch(err => console.log(err));
+                return msg.channel.send("The command **" + command.name + "** is only available for my Developer.").catch(err => console.log(err));
             embed.setTitle("Command specific information");
             let guildOnly = "❌";
             if(command.guildOnly)
