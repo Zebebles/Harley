@@ -24,15 +24,15 @@ module.exports = class Hello extends DBF.Command{
         if(!args.split("?"))
             return msg.channel.send("You need to provide a question.  Usage: `" + msg.guild.prefix + "poll which discord bot is best? Harley, Harley, Harley`");
 
-        let question = args.split("?")[0];
-        args = args.replace(question+"?", "");
+        let question = args.split("?")[0] + "?";
+        args = args.replace(question, "");
 
         let options = args.split(/[,;:\/]/g).filter(s => s != "");
         
         if(options.length < 2) return msg.channel.send("There must be at least 2 poll options.").catch(err => console.log(err));
         if(options.length > 7) return msg.channel.send("There is a maxiumum of 7 options allowed, sorry.").catch(err => console.log(err));
         let reaccs = [{emoji: "♥",name: "heart"},{emoji: "💩", name: "poop"},{emoji: "🤔",name: "thinking"},{emoji: "🤷", name: "shrug"},{emoji: "🔥", name: "fire"},{emoji:"🤖", name: "robot"},{emoji: "😍", name: "heart_eyes"}];
-        myEmbed.setTitle("A poll has begun!  You all have 60 seconds to vote");
+        myEmbed.setTitle(question + "\t|\t60 seconds to vote!");
         myEmbed.setColor([255,0,0]);
         let message = "";
         let nOptions = new Array();
@@ -61,7 +61,7 @@ module.exports = class Hello extends DBF.Command{
                 options.sort(function(a,b) { return b.count - a.count});                
                 options.forEach(op => message += "\n" + op.react.emoji + " - `" + op.opt + "` got `" + op.count + "` votes.");
                 myEmbed.setColor([0,255,0]);
-                myEmbed.setTitle("Vote ended!");
+                myEmbed.setTitle(question + "\t|\tPoll ended!");
                 myEmbed.setDescription(message);
                 voteMessage.edit("", {"embed": myEmbed});
                 voteMessage.clearReactions();
