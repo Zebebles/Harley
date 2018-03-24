@@ -18,9 +18,9 @@ module.exports = class Hello extends DBF.Command{
         let msg = params.msg;
         const ytas = new yta(msg.client.auth.googleKey);
         let channel = msg.member.voiceChannel;
-        if(!channel) return msg.channel.send("There isn't any music playing.").catch(err => console.log(err));
-        if(!channel && !channel.dispatcher) return msg.channel.send("There isn't any music playing.").catch(err => console.log(err));
-        if(msg.guild.playlist.queue.length == 0) return msg.channel.send("There isn't any music playing.").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
+        if(!channel && !channel.dispatcher) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
+        if(msg.guild.playlist.queue.length == 0) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
         if(channel != msg.member.voiceChannel)
             return msg.channel.send("You have to be in the same channel as me to do that.")
                 .then(m => m.delete(2500).catch(err => console.log(err)))

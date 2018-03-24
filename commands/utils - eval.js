@@ -1,4 +1,5 @@
 const DBF = require('discordjs-bot-framework');
+const Discord = require("discord.js");
 
 module.exports = class changeGame extends DBF.Command{
     constructor(){
@@ -16,7 +17,10 @@ module.exports = class changeGame extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user" : user}){ //all the code for your command goes in here.
         let msg = params.msg; var args = params.args;
-        return Promise.all([
+        let embed = new Discord.RichEmbed();
+        embed.setTitle("Eval results.");
+        embed.addField("Input","```javascript\n" + args + "```:arrow_down:");
+        Promise.all([
             new Promise((resolve, reject) => {
                 let ev;
 
@@ -43,9 +47,11 @@ module.exports = class changeGame extends DBF.Command{
             } else {
                 out = res;
             }
-            return msg.channel.send(`**Success:**\n\`\`\`js\n${out}\n\`\`\``).catch(err => console.log(err));
+            embed.addField(`Success`,`\`\`\`js\n${out}\n\`\`\``);
+            msg.channel.send("",{embed});
         }).catch(err => {
-            return msg.channel.send(`**An error occured:**\n\`\`\`js\n${err.message || err}\n\`\`\``).catch(err => console.log(err));
+            embed.addField(`Success`,`\`\`\`js\n${err.message || err}\`\`\``);
+            msg.channel.send("",{embed});
         });
     }
 }

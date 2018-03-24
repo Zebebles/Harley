@@ -41,8 +41,8 @@ module.exports = class prefix extends DBF.Command{
                 .replace(/\$mention\$/gi, "<@" + msg.member.user.id + ">")
                 .replace(/\$count\$/gi, msg.member.guild.members.size);
             msg.channel.send("Farewell successfully set! Here's what it'll look like when someone leaves the server:")
-            .then(() => msg.channel.send(example).catch(err => console.log(err)))
-            .catch(err => console.log(err));;
+                .then(() => msg.channel.send(example).catch(err => console.log(err)))
+                .catch(err => console.log(err));;
         }
     }
 }

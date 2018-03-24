@@ -24,10 +24,12 @@ module.exports = class BlackJack extends DBF.Command{
         
         let amount = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)[0]) : (args.match(/all/gi) ? msg.author.rep : Math.floor(msg.author.rep/2));
 
-        if(!msg.author.rep || msg.author.rep < amount)
-            return msg.channel.send("You don't enough rice for that bet.").catch(err => console.log(err));
+        if(!msg.author.rep)
+            return msg.channel.send("You don't have any rice to bet.  Use `" + msg.giuld.prefix +"daily` to claim your daily ration.").catch(err => console.log(err));
+        else if(msg.author.rep < amount)
+            return msg.channel.send("You only have `" + msg.author.rep + "` rice to bet.").catch(err => console.log(err));
         else if(amount < 5)
-            return msg.channel.send("You can't bet less than 5 rice on one game.").catch(err => console.log(err));
+            return msg.channel.send("You can't bet more than 5 rice on one game.").catch(err => console.log(err));
         
         if(msg.author.hand)
             return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     

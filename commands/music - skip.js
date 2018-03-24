@@ -18,7 +18,7 @@ module.exports = class Hello extends DBF.Command{
         let msg = params.msg; let args = params.args;
         let channel = msg.guild.voiceConnection;
         let incrementN;
-        if(!channel) return msg.channel.send("There isn't anything playing?").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("There has to be something playing for me to skip.").catch(err => console.log(err));
         if(channel.channel != msg.member.voiceChannel)
             return msg.channel.send("You have to be in the same channel as me to do that.")
                 .then(m => m.delete(2500).catch(err => console.log(err)))

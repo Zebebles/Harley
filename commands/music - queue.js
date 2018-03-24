@@ -21,8 +21,8 @@ module.exports = class Queue extends DBF.Command{
         let msg = params.msg; let args = params.args;
         let channel = msg.guild.voiceConnection;
         let playlist = msg.guild.playlist;
-        if(!channel) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
-        if(!channel && !channel.dispatcher) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
+        if(!channel && !channel.dispatcher) return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
         let page;
         if(args) page = parseInt(args);
         if(!page || isNaN(page)) page = 1;
@@ -36,7 +36,7 @@ module.exports = class Queue extends DBF.Command{
         if(embed)    
             qm = msg.channel.send("", {embed}).catch(err => console.log(err));
         else
-            return msg.channel.send("There is nothing in the queue.").catch(err => console.log(err));
+            return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
 
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
             qm.then(m => m.react("⬅").catch(err => console.log(err))

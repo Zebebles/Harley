@@ -26,19 +26,19 @@ module.exports = class Love extends DBF.Command{
             lover.loves = 2;
         if(!user)
             if(lover.loves == 0)
-                return msg.reply("Sorry love, you're all outta love.  Don't worry, you're getting more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
+                return msg.channel.send("**" + msg.member.displayName + "**, you're all outta love.  Don't worry, you're getting more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
             else if(lover.loves == 1)
-                return msg.reply("You have `1` love point left.  You're due to get more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
+                return msg.channel.send("**" + msg.member.displayName + "**, you have *1* love point left.  You're due to get more in "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
             else
-                return msg.reply("You've still got all of your love!").catch(err => console.log(err));
+                return msg.channel.send("**" + msg.member.displayName + "**, you've still got both of your love points!").catch(err => console.log(err));
         else if(lover.loves == 0) //if the author is out of smacks.
-            return msg.reply("You've used up all of your love. Don't worry, you're getting more in " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
+            return msg.channel.send("**" + msg.member.displayName + "**, you've used up all of your love. Don't worry, you're getting more in " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
         else if(lover == user)
-            return msg.reply("You can't love yourself, that'd just be sad.").catch(err => console.log(err));
+            return msg.channel.send("**" + msg.member.displayName + "**, you can't love yourself, that'd just be sad.").catch(err => console.log(err));
         else if(user.id == msg.client.user.id)
-            return msg.reply("I'm not that kind of bot ...").catch(err => console.log(err));
+            return msg.channel.send("**" + msg.member.displayName + "**, noooo thank you.").catch(err => console.log(err));
         else if(user.bot)
-            return msg.reply("What's an emotionless bot gonna do with your love?").catch(err => console.log(err));
+            return msg.reply("There's not a lot that a bot can do with that.").catch(err => console.log(err));
         
         let rep = Math.floor(Math.random() * 50) + 1;
         msg.channel.send(lover + " gave " + user + " one of their love points! They redeemed it for `" + rep + "` grains of rice.").catch(err => console.log(err));

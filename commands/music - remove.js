@@ -22,8 +22,8 @@ module.exports = class Remove extends DBF.Command{
         let msg = params.msg; let args = params.args;
         let channel = msg.guild.voiceConnection;
         let playlist = msg.guild.playlist;
-        if(!channel) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
-        if(!channel && !channel.dispatcher) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("There aren't any tracks queued for me to remove.").catch(err => console.log(err));
+        if(!channel && !channel.dispatcher) return msg.channel.send("There aren't any tracks queued for me to remove").catch(err => console.log(err));
         if(channel.channel != msg.member.voiceChannel)
             return msg.channel.send("You have to be in the same channel as me to do that.").then(m => m.delete(2500).catch(err => console.log(err))).catch(err => console.log(err));
         let djrole = msg.guild.roles.find(r => r.name.match(/dj[^a-zA-Z]|[^a-zA-Z]dj/gi) || r.name.toLowerCase() == "dj");
@@ -32,7 +32,7 @@ module.exports = class Remove extends DBF.Command{
                 .then(m => m.delete(3000).catch(err => console.log(err)))
                 .catch(err => console.log(err));;
         if(playlist.queue.length == 1)
-            return msg.channel.send("There are no songs in the queue to remove.").catch(err => console.log(err));
+            return msg.channel.send("There aren't any tracks queued for me to remove.").catch(err => console.log(err));
         let track;
         if(!args.match(/\d+(-\d+)?/g) || args.replace(/\d+(-\d+)?/g,"") != "") //if args is not a number or a range of numbers
             track = playlist.queue.indexOf(playlist.queue.find(t => t.title.toLowerCase().includes(args.toLowerCase())))

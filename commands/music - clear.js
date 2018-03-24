@@ -17,8 +17,8 @@ module.exports = class Clear extends DBF.Command{
         let msg = params.msg; let args = params.args;
         let channel = msg.guild.voiceConnection;
         let playlist = msg.guild.playlist;
-        if(!channel) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
-        if(!channel && !channel.dispatcher) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("There aren't any songs queued for me to remove.").catch(err => console.log(err));
+        if(!channel && !channel.dispatcher) return msg.channel.send("There aren't any songs queued for me to remove.").catch(err => console.log(err));
         if(channel.channel != msg.member.voiceChannel)
             return msg.channel.send("You have to be in the same channel as me to do that.")
                 .catch(err => console.log(err))

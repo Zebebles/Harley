@@ -30,7 +30,7 @@ module.exports = class Hello extends DBF.Command{
             return msg.channel.send("The role `" + djrole.name + "` has been recognised as a DJ role, and at least one person in the channel has it. You must have this role to interact with the music.")
                 .then(m => m.delete(3000).catch(err => console.log(err)))
                 .catch(err => console.log(err));
-        if(!channel && !channel.dispatcher) return msg.channel.send("There isn't anything playing??");
+        if(!channel && !channel.dispatcher) return msg.channel.send("There needs to be something playing for me to do that.");
         if(!channel.dispatcher) return;
         
         if(args.match(/\d{1,2}:\d{1,2}/g))

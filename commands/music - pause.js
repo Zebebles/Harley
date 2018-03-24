@@ -16,7 +16,7 @@ module.exports = class Pause extends DBF.Command{
     run(params = {msg, args}){
         let msg = params.msg; let args = params.args;
         let channel = msg.guild.voiceConnection;
-        if(!channel) return msg.channel.send("There isn't anything playing.").catch(err => console.log(err));
+        if(!channel) return msg.channel.send("There needs to be something playing for me to pause it.").catch(err => console.log(err));
         if(!channel.dispatcher && !msg.guild.playlist.paused) return;
         if(channel.channel != msg.member.voiceChannel)
             return msg.channel.send("You have to be in the same channel as me to do that.")

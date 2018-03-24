@@ -20,9 +20,9 @@ module.exports = class Pay extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         
         if(!user)
-            return msg.channel.send("I couldn't find who you're trying to pay.").catch(err => console.log(err));
+            return msg.channel.send("I couldn't the recipient of this transaction, sorry.").catch(err => console.log(err));
         if(user.bot)
-            return msg.channel.send("Bot's don't accept rice payments, sorry :c.").catch(err => console.log(err));
+            return msg.channel.send("Bot's don't accept rice payments, sorry.").catch(err => console.log(err));
         
         args = args ? args.replace(user.id, "") : null;
         
@@ -34,7 +34,7 @@ module.exports = class Pay extends DBF.Command{
         if(amount < 0)
             return msg.channel.send("Nice try, but you can't send negative rice");
         if(amount > msg.author.rep)
-            return msg.channel.send("You don't have enough rice for that payment.");
+            return msg.channel.send("You only have `" + msg.author.rep + "` rice avaliable.");
         
         msg.author.rep -= amount;
         user.rep ? user.rep += amount : user.rep = amount

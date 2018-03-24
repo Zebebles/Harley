@@ -19,7 +19,7 @@ module.exports = class prefix extends DBF.Command{
         if(!args && msg.guild.autoRole)
             msg.channel.send("The auto role for this server is `" + msg.guild.roles.get(msg.guild.autoRole).name + "`.\nUse `" + msg.guild.prefix + "autorole none` to remove it.");
         else if(!args && !msg.guild.autoRole)
-            msg.channel.send("There is not currently an auto role for this server.");
+            msg.channel.send("There is not currently an auto role for this server. Use `" + msg.guild.prefix + "command autorole` for details on how to set one.");
         else{
             if(args.trim().toLowerCase() == "none" || args.trim().toLowerCase() == "remove" || args.trim().toLowerCase() == "everyone"){
                 msg.client.dropAutoRole(msg.guild);
@@ -31,11 +31,11 @@ module.exports = class prefix extends DBF.Command{
                 if(!role)
                     role = msg.guild.roles.find(r => r.name.toLowerCase().includes(args.toLowerCase()));
                 if(!role)
-                    return msg.channel.send("Could not find that role.");
+                    return msg.channel.send("I couldn't find any roles under `" + args + "`");
                 if(msg.guild.me.highestRole.position < role.position)
                     return msg.channel.send("I need to have a role that is ordered above `" + role.name + "` to add people to it.").catch(err => console.log(err));
                 else if (role.managed)
-                    return msg.channel.send("I can't add people to a bot role.");
+                    return msg.channel.send("I can't add people the role `" + role.name + "`");
                 msg.client.setAutoRole(role);
                 msg.channel.send("Auto role successfully set to `" + role.name + "`!").catch(err => console.log(err));
             }

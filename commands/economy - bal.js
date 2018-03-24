@@ -26,8 +26,7 @@ module.exports = class Rep extends DBF.Command{
             user = msg.author;
         let embed = new Discord.RichEmbed();
         embed.setColor(msg.guild.me.displayColor);
-        embed.setThumbnail(user.displayAvatarURL);
-        embed.setTitle("Rice stats - " + user.username + "#" + user.discriminator);
+        embed.setAuthor("Rice stats - " + user.username + "#" + user.discriminator, user.displayAvatarURL);
         if(user.rep == null)
             user.rep = 0;
         let users = msg.client.users.filter( u => u.rep != null).array().sort((a,b) =>  b.rep - a.rep);
