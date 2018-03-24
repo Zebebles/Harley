@@ -83,6 +83,7 @@ module.exports = class BlackJack extends DBF.Command{
 
         }).catch(err => {
             msg.author.rep += amount;
+            console.log(err);
             msg.client.syncUser(msg.author);
         });
 
