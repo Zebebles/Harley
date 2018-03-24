@@ -27,7 +27,7 @@ module.exports = class Hello extends DBF.Command{
         let question = args.split("?")[0];
         args = args.replace(question, "");
 
-        let options = args.split(/,;:\//g).filter(s => s != "");
+        let options = args.split(/[,;:\/]/g).filter(s => s != "");
         
         if(options.length < 2) return msg.channel.send("There must be at least 2 poll options.").catch(err => console.log(err));
         if(options.length > 7) return msg.channel.send("There is a maxiumum of 7 options allowed, sorry.").catch(err => console.log(err));
