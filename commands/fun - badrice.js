@@ -53,28 +53,37 @@ module.exports = class BlackJack extends DBF.Command{
                     collector.stop();
                     embed.description = "😞 You waited too long, all the rice went bad!";
                     gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                    msg.client.syncUser(msg.author);
                 }
             },20000);
 
             collector.on("collect", collected => {
                 collector.stop();
                 gameMsg.clearReactions();
-                msg.channel.send(goodRice);
-                msg.channel.send(emojis.filter(e => e != goodRice).join(" "));
                 let chosen = emojis.find(e => e == collected.emoji.name);
-                embed.description = goodRice == chosen ? "😌 You chose the good rice! " : "🤢 You chose the bad rice. ";
-                embed.description += amount>0 ? (goodRice == chosen ? "You managed to salvage `" + amount*2 + "` rice from the bowl." : "It cost you `" + amount + "` rice." ): "";
-                msg.author.rep += goodRice == chosen ? amount*2 : 0;
+                if(goodRice == chosen)
+                {
+                    embed.description = "😌 You chose the good rice! ";
+                    embed.description += amount>0 ? "You managed to salvage `" + amount*2 + "` rice from the bowl." : "";
+                    msg.author.rep += amount*2;
+                }
+                else
+                {
+                    embed.description = "🤢 You chose the bad rice. ";
+                    embed.description += amount>0 ? "It cost you `" + amount*2 + "` rice." : "";
+                }
                 msg.client.syncUser(msg.author);
                 gameMsg.edit("", {embed}).catch(err => console.log(err));
             }).catch(err => {
                 gameMsg.clearReactions();
                 embed.description = "😞 You waited too long, all the rice went bad!";
+                msg.client.syncUser(msg.author);
                 gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
             });
 
         }).catch(err => {
             msg.author.rep += amount;
+            msg.client.syncUser(msg.author);
         });
 
         function shuffle(a) {
