@@ -56,7 +56,7 @@ module.exports = class BlackJack extends DBF.Command{
                     gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                     msg.client.syncUser(msg.author);
                 }
-            },20000);
+            },30000);
 
             collector.on("collect", collected => {
                 collector.stop();
