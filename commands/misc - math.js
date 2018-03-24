@@ -22,7 +22,7 @@ module.exports = class Solve extends DBF.Command{
         
         try{
             let ans = math.eval(args);
-            if(!isNaN(parseInt(ans)))
+            if(!isNaN(parseInt(ans)) && (parseInt(ans) != Math.floor(parseInt(ans))))
                 ans = parseInt(ans).toFixed(2);
 
             msg.channel.send(`**Here's what I got:**\n\`${args}\`\t=\t\`${ans}\``);
