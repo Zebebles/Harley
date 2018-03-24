@@ -71,7 +71,7 @@ module.exports = class BlackJack extends DBF.Command{
                 else
                 {
                     embed.description = "🤢 You chose the bad rice. ";
-                    embed.description += amount>0 ? "It cost you `" + amount*2 + "` rice." : "";
+                    embed.description += amount>0 ? "It cost you `" + amount + "` rice." : "";
                 }
                 msg.client.syncUser(msg.author);
                 gameMsg.edit("", {embed}).catch(err => console.log(err));
