@@ -39,6 +39,10 @@ class myClient extends DBF.Client {
                 +"**•**\tYou can view my commands with `" + this.prefix + "commands`, or visit my website for a searchable list.\n"
                 +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n**<https://discord.gg/Wy5AjGS>**\n"
                 + "**<http://www.harleybot.me/commands>**");
+
+            guild.members.forEach(member => {
+                this.loadUser(member);
+            });
         });
 
         this.on("channelCreate", channel => {
@@ -120,6 +124,7 @@ class myClient extends DBF.Client {
             }
             if(member.guild.channels.filter(ch => ch.type == "text" && ch.topic).find(ch => ch.topic.toLowerCase().includes(member.guild.prefix + "join")))
                 announceJoin(member);
+            this.loadUser(member.user);
         });
         this.on("guildMemberRemove", member => {
             if (member.guild.farewell && member.guild.greetChannel) {
