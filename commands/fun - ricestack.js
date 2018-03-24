@@ -54,7 +54,7 @@ module.exports = class BlackJack extends DBF.Command{
                     collector.stop();
                     embed.description = ":scream: You took so long that I dropped all the bowls!";
                     if(amount)
-                        embed.description += " You owe me `" + amount + "` rice!!!";
+                        embed.description += " You owe me `" + amount + "` rice...";
                     gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                     msg.client.syncUser(msg.author);
                 }
