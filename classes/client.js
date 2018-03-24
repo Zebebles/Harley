@@ -14,7 +14,7 @@ class myClient extends DBF.Client {
         super(options);
 
         this.on("guildCreate", guild => {
-            guild.defaultChannel = this.getDefaultChannel(guild);
+            guild.defaultTextChannel = this.getDefaultChannel(guild);
             this.setPrefix(guild, guild.client.prefix);
             guild.playlist = new Playlist(guild);
             guild.disabledCommands = new Array();
@@ -34,7 +34,7 @@ class myClient extends DBF.Client {
             }).catch(err => console.log(err));
             this.sendStatus(false);            
 
-            guild.defaultChannel.send("**Hey! Thanks for adding me! :robot:**\n"
+            guild.defaultTextChannel.send("**Hey! Thanks for adding me! :robot:**\n"
                 +"**•**\tMy default prefix is `" + msg.client.prefix + "`, but you can change it with `"+msg.client.prefix+"prefix new_prefix`.\n"
                 +"**•**\tYou can view my commands with `" + msg.client.prefix + "commands`, or visit my website for a searchable list.\n"
                 +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n**https://discord.gg/Wy5AjGS**\n"
@@ -181,7 +181,7 @@ class myClient extends DBF.Client {
         });
 
         client.guilds.forEach(guild => {
-            guild.defaultChannel = this.getDefaultChannel(guild);
+            guild.defaultTextChannel = this.getDefaultChannel(guild);
         });
     }
 
