@@ -196,6 +196,7 @@ class myClient extends DBF.Client {
             user: "root",
             password: this.auth.password
         });
+        let webserver = this.auth.webserver;
         if(!user.smacks)
             user.smacks = 0;
         if(!user.loves)
@@ -214,7 +215,7 @@ class myClient extends DBF.Client {
             }).finally(() => {
                 console.log("Synced user");
                 conn.end();
-                snekfetch.post("http://" + this.auth.webserver + "/servers/updateUser")
+                snekfetch.post("http://" + webserver + "/servers/updateUser")
                     .send({"id" : user.id})
                     .end()
                     .catch(err => {
