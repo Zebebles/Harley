@@ -13,7 +13,7 @@ module.exports = class BlackJack extends DBF.Command{
              example: ">>badrice\n>>badrice bet\n>>badrice 10\n>>badrice all",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs : true,
-             reqBotPerms : ["ADD_REACTIONS", "MANAGE_MESSAGES"]
+             reqBotPerms : ["ADD_REACTIONS", "MANAGE_MESSAGES", "EMBED_LINKS"]
         });
     }
 
@@ -59,6 +59,7 @@ module.exports = class BlackJack extends DBF.Command{
             },30000);
 
             collector.on("collect", collected => {
+                clearTimeout(timeout);
                 collector.stop();
                 gameMsg.clearReactions();
                 let chosen = emojis.find(e => e == collected.emoji.name);
