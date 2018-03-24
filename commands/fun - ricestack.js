@@ -10,7 +10,7 @@ module.exports = class BlackJack extends DBF.Command{
              group: "Fun", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "How many bowls of rice can Harley stack on top of each other?! Play for fun, or bet on the outcome.", //this will show in the help message
-             example: ">>stacker",             
+             example: ">>stacker\n>>stacker 10\n>>stacker all",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs : true,
              reqBotPerms : ["ADD_REACTIONS", "MANAGE_MESSAGES","EMBED_LINKS"]
