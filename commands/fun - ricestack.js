@@ -66,7 +66,7 @@ module.exports = class BlackJack extends DBF.Command{
                     clearTimeout(timeout);
                     collector.stop();
                     gameMsg.clearReactions();
-                    embed.description = bowls.join("\n") + ":japanese_goblin: Wow, I could stack that many plates!!";
+                    embed.description = "😄 Wow, I could stack `" + bowls.length+"` plates!!";
                     if(amount)
                         embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
                     msg.author.rep += amount*rewards[bowls.length-1];
@@ -81,9 +81,9 @@ module.exports = class BlackJack extends DBF.Command{
                         clearTimeout(timeout);
                         collector.stop();
                         gameMsg.clearReactions();
-                        embed.description = ":scream: You made me stack too many bowls! I dopped them all!!";
+                        embed.description = ":scream: You made me stack too many bowls, I dopped them all!!";
                         if(amount)
-                            embed.description += " You owe me `" + amount + "` rice!!!";
+                            embed.description += " You owe me `" + amount + "` rice...";
                         msg.client.syncUser(msg.author);
                         return gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                     }
