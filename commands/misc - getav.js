@@ -6,7 +6,7 @@ module.exports = class Getav extends DBF.Command{
         super({
              name: "avatar", //is pretty much just another trigger, but can be used filter commands.
              triggers: ["avatar", "av"], //any message (excluding msg.client.Prefix) that will trigger this command.
-             group: "Misc", //this command will come under this group in the automatic help message.
+             group: "Utils", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Sends an enlarged version of the users avatar", //this will show in the help message
              example: ">>avatar @user\n>>avatar username",             
