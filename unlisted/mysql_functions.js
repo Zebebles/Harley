@@ -459,12 +459,12 @@ module.exports = function () {
                 conn.query("SELECT * FROM Users NATURAL JOIN Economy WHERE id = '" + user.id + "';", (err, res) => {
                     if(err || res.length < 1)
                         return resolve();
-                    user.smacks = tuple.smacks;
-                    user.loves = tuple.loves;
-                    user.rep = tuple.rep;
-                    user.refreshLoves = tuple.lovereset;
-                    user.refreshSmacks = tuple.smacksreset;
-                    user.repRefresh = tuple.reprefresh;
+                    user.smacks = res[0].smacks;
+                    user.loves = res[0].loves;
+                    user.rep = res[0].rep;
+                    user.refreshLoves = res[0].lovereset;
+                    user.refreshSmacks = res[0].smacksreset;
+                    user.repRefresh = res[0].reprefresh;
                     resolve(conn);
                 });
             }); 
