@@ -22,7 +22,7 @@ module.exports = class Solve extends DBF.Command{
         
         try{
             let ans = math.eval(args);
-            msg.channel.send(`Here's what I got:  \`\`\`${args}\t=\t${ans}\`\`\``);
+            msg.channel.send(`**Here's what I got**\n\`${args}\`\t=\t\`${ans}\`\`\``);
         }catch(err){
             msg.channel.send("Sorry, I was unable to solve `" + args + "` for you.");
         }
