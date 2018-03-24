@@ -25,11 +25,12 @@ module.exports = class BlackJack extends DBF.Command{
             amount = 0;
         else
             amount = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)[0]) : (args.match(/all/gi) ? msg.author.rep : Math.floor(msg.author.rep/2));
+        if(!msg.author.rep)
+            msg.author.rep = 0;
         if(amount > msg.author.rep)
             return msg.channel.send("You only have `" + msg.author.rep + "` rice avaliable to bet.");
-       
-        msg.author.rep > 0 ? 0 :  msg.author.rep = 0;
         
+        msg.author.rep -= amount;
 
         let emojis = ["🍛", "🍚", "🍙"];
         shuffle(emojis);
