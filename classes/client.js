@@ -14,6 +14,7 @@ class myClient extends DBF.Client {
         super(options);
 
         this.on("guildCreate", guild => {
+            guild.defaultChannel = this.getDefaultChannel(guild);
             this.setPrefix(guild, guild.client.prefix);
             guild.playlist = new Playlist(guild);
             guild.disabledCommands = new Array();
@@ -32,6 +33,12 @@ class myClient extends DBF.Client {
                 "embed": myEmbed
             }).catch(err => console.log(err));
             this.sendStatus(false);            
+
+            guild.defaultChannel.send("**Hey! Thanks for adding me! :robot:**\n"
+                +"**•**\tMy default prefix is `" + msg.client.prefix + "`, but you can change it with `"+msg.client.prefix+"prefix new_prefix`.\n"
+                +"**•**\tYou can view my commands with `" + msg.client.prefix + "commands`, or visit my website for a searchable list.\n"
+                +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n**https://discord.gg/Wy5AjGS**\n"
+                + "**<http://www.harleybot.me/commands>**");
         });
 
         this.on("channelCreate", channel => {
@@ -172,6 +179,10 @@ class myClient extends DBF.Client {
                 }).catch(err => console.log(err)); //catch loadAutoRoles
             }).catch(err => console.log(err)); //catch loadPrefixes
         });
+
+        client.guilds.forEach(guild => {
+            guild.defaultChannel = this.getDefaultChannel(guild);
+        });
     }
 
     loadUsers(client){
@@ -249,6 +260,16 @@ class myClient extends DBF.Client {
         this.sendStatus(true,false);            
         delete guild.playlist;
         guild.playlist = new Playlist(guild);
+    }
+
+    getDefaultChannel(guild)
+    {
+        if(guild.defaultRole.hasPermission("ADMINISTRATOR"))
+            return guild.channels.filter(ch => ch.type == "text").sort((a,b) => a.position-b.position).first();
+        else if(guild.defaultRole.hasPermission("SEND_MESSAGES"))
+            return guild.channels.filter(ch => ch.type == "text" && !ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.deny).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
+        else
+            return guild.channels.filter(ch => ch.type == "text" && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
     }
 
     sendStatus(extended){
