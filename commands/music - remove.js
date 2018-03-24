@@ -45,11 +45,7 @@ module.exports = class Remove extends DBF.Command{
                     return msg.channel.send("Please provide a range between `1** and `" + (msg.guild.playlist.queue.length-1) + "`").catch(err => console.log(err));
 
                 playlist.queue.splice(start, (end-start)+1);
-                let embed = new Discord.RichEmbed();
-                embed.setTitle(((end-start)+1)+" tracks removed from queue");
-                embed.setColor(msg.guild.me.displayColor);
-                embed.addField("Range removed", start + " - " + end);
-                return msg.channel.send("", {embed}).catch(err => console.log(err));
+                return msg.channel.send("Removed `" + ((end-start)+1) + "` tracks from the queue!").catch(err => console.log(err));
             }
             track = args.match(/\d+/g)[0];
         }
