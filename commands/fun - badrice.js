@@ -59,9 +59,9 @@ module.exports = class BlackJack extends DBF.Command{
             collector.on("collect", collected => {
                 collector.stop();
                 gameMsg.clearReactions();
-                console.log(goodRice);
+                msg.channel.send(goodRice);
+                msg.channel.send(emojis.filter(e => e != goodRice).join(" "));
                 let chosen = emojis.find(e => e == collected.emoji.name);
-                console.log(chosen);
                 embed.description = goodRice == chosen ? "🤢 You chose the bad rice. " : "😌 You chose the good rice! ";
                 embed.description += amount>0 ? (goodRice == chosen ? "It cost you `" + amount + "` rice." : "You managed to salvage `" + amount*2 + "` rice from the bowl."): "";
                 msg.author.rep += goodRice == chosen ? msg.author.rep += amount*2 : 0;
