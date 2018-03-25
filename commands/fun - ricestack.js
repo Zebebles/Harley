@@ -62,21 +62,43 @@ module.exports = class BlackJack extends DBF.Command{
 
             collector.on("collect", collected => {
                 collected.remove(collected.users.find(u => !u.bot)).then(() => {
-                    if(collected.emoji.name == emojis[1])
+                    if(collected.emoji.name == emojis[1])//IF THEY GIVE UP, GIVE THEM THEIR REWARD.
                     {
-                        return win();
+                        clearTimeout(timeout);
+                        collector.stop();
+                        gameMsg.clearReactions();
+                        embed.description = "😄 Wow, I could stack `" + bowls.length+"` bowls!!";
+                        if(amount && rewards[bowls.length-1])
+                            embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
+                        msg.author.rep += amount*rewards[bowls.length-1];
+                        msg.client.syncUser(msg.author);
+                        gameMsg.edit("", {embed}).catch(err => console.log(err));
                     }
                     else
                     {
                         bowls.push("🍚");
-                        if(Math.random() > chances[bowls.length-1])
+                        if(Math.random() > chances[bowls.length-1]) //IF THEY ADD ANOTHER BUT IT TIPS OVER
                         {
-                            return lose();
+                            clearTimeout(timeout);
+                            collector.stop();
+                            gameMsg.clearReactions();
+                            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
+                            if(amount)
+                                embed.description += " You owe me `" + amount + "` rice...";
+                            msg.client.syncUser(msg.author);
+                            gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                         }
-                        else
+                        else //IF TI DOESNT TIP OVER
                         {
-                            if(bowls.length == chances.length)
-                                return win();
+                            if(bowls.length == chances.length) //IF THAT WAS THE LAST BOWL POSSIBLE
+                            {
+                                embed.description = "😲 Oh my god! I could stack `" + bowls.length+"` bowls!!";
+                                if(rewards[bowls.length] * amount)
+                                    embed.description += " Here's`" + rewards[bowls.length]*amount + "` rice for your help.";
+                                gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                                msg.author.rep += amount*rewards[bowls.length-1];
+                                return msg.client.syncUser(msg.author);
+                            }
                             embed.description = bowls.join("\n") + ":japanese_goblin: Can I stack another?!";
                             if(rewards[bowls.length] * amount)
                                 embed.description += " I'll give you `" + rewards[bowls.length]*amount + "` rice if you're right!";
@@ -92,29 +114,5 @@ module.exports = class BlackJack extends DBF.Command{
             console.log(err);
             msg.client.syncUser(msg.author);
         });
-
-        function win()
-        {
-            clearTimeout(timeout);
-            collector.stop();
-            gameMsg.clearReactions();
-            embed.description = "😄 Wow, I could stack `" + bowls.length+"` plates!!";
-            if(amount && rewards[bowls.length-1])
-                embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
-            msg.author.rep += amount*rewards[bowls.length-1];
-            msg.client.syncUser(msg.author);
-            return gameMsg.edit("", {embed}).catch(err => console.log(err));
-        }
-
-        function lose(){
-            clearTimeout(timeout);
-            collector.stop();
-            gameMsg.clearReactions();
-            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
-            if(amount)
-                embed.description += " You owe me `" + amount + "` rice...";
-            msg.client.syncUser(msg.author);
-            return gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
-        }
     }
 }
