@@ -6,6 +6,7 @@ const Video = require("./video.js");
 module.exports = class Playlist{
 
     constructor(guild){
+        this.guild = guild;
         this.init();
         auth = guild.client.auth;
     }
@@ -25,8 +26,8 @@ module.exports = class Playlist{
             this.message.collector.stop();
         this.message = null;
         this.qmessage = null;
+        this.guild.client.sendStatus(true, false);        
         this.textChannel = null;
-        this.sendStatus(true, false);
     }
 
     addSong(song, first){
