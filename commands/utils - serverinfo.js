@@ -38,7 +38,7 @@ module.exports = class ServerInfo extends DBF.Command{
         embed.addField("Channels", nChannels, true);
         embed.addField("Roles", nRoles, true);
         embed.addField("Custom Emojis", customEmojis,true);
-        embed.addField("Created at", created);
+        embed.addField("Created", created);
         embed.addField("Owner", owner);
         msg.channel.send("", {"embed":  embed}).catch(err => console.log(err));
 
