@@ -132,7 +132,10 @@ module.exports = class Playlist{
                     this.queue.splice(0,1); //get rid of the lastsong                
                     this.playNext();
                 }
-            }).on('error',error => console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error));
+            }).on('error',error => {
+                console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error);
+                return this.playNext();
+            });
         }).catch(err => console.log(err));
     }
 
