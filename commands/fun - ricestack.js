@@ -92,9 +92,11 @@ module.exports = class BlackJack extends DBF.Command{
                         {
                             if(bowls.length == chances.length) //IF THAT WAS THE LAST BOWL POSSIBLE
                             {
+                                clearTimeout(timeout);
+                                collector.stop();
                                 embed.description = "😲 Oh my god! I could stack `" + bowls.length+"` bowls!!";
-                                if(rewards[bowls.length] * amount)
-                                    embed.description += " Here's`" + rewards[bowls.length]*amount + "` rice for your help.";
+                                if(rewards[bowls.length-1] * amount)
+                                    embed.description += " Here's`" + rewards[bowls.length-1]*amount + "` rice for your help.";
                                 gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                                 msg.author.rep += amount*rewards[bowls.length-1];
                                 return msg.client.syncUser(msg.author);
