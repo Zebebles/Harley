@@ -82,7 +82,7 @@ module.exports = class BlackJack extends DBF.Command{
                             clearTimeout(timeout);
                             collector.stop();
                             gameMsg.clearReactions();
-                            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
+                            embed.description = ":scream: I couldn't stack `" + bowls.length + "` bowls, I dopped them all!!";
                             if(amount)
                                 embed.description += " You owe me `" + amount + "` rice...";
                             msg.client.syncUser(msg.author);
