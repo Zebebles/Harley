@@ -90,7 +90,9 @@ module.exports = class BlackJack extends DBF.Command{
                         }
                         else
                         {
-                            embed.description = bowls.join("\n") + ":japanese_goblin: Quick! I have a big order, how many bowls of rice can I stack?!";
+                            embed.description = bowls.join("\n") + ":japanese_goblin: Can I stack another?!";
+                            if(rewards[bowls.length-1] * amount)
+                                embed.description += " I'll give you `" + rewards[bowls.length-1]*amount + "` rice if you're right!";
                             gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                             return msg.client.syncUser(msg.author);
                         }
