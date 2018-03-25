@@ -18,12 +18,6 @@ module.exports = class Puppy extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        let embed = new Discord.RichEmbed();
-        if(msg.guild)
-            embed.setColor(msg.guild.me.displayColor);
-        else
-            embed.setColor([127, 161, 216]);
-        embed.setImage("https://thecatapi.com/api/images/get?format=src&type=jpg");
-        msg.channel.send("", {"embed": embed});
+        msg.channel.send("http://thecatapi.com/api/images/get?format=src&type=jpg");
     }
 }
