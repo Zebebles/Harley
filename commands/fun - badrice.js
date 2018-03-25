@@ -66,13 +66,13 @@ module.exports = class BlackJack extends DBF.Command{
                 if(goodRice == chosen)
                 {
                     embed.description = "😌 You chose the good rice! ";
-                    embed.description += amount>0 ? "You managed to salvage `" + amount*2 + "` rice from the bowl." : "";
+                    embed.description += amount>0 ? "Here, have `" + amount*2 + "` rice as a reward." : "";
                     msg.author.rep += amount*2;
                 }
                 else
                 {
-                    embed.description = "🤢 You chose the bad rice. ";
-                    embed.description += amount>0 ? "It cost you `" + amount + "` rice." : "";
+                    embed.description = "🤢 You chose the bad rice";
+                    embed.description += amount>0 ? ", now you owe me `" + amount + "` rice!" : ".";
                 }
                 msg.client.syncUser(msg.author);
                 gameMsg.edit("", {embed}).catch(err => console.log(err));
