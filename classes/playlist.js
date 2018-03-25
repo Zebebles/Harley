@@ -133,7 +133,9 @@ module.exports = class Playlist{
                     this.playNext();
                 }
             }).on('error',error => {
-                console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error);
+                if(this.timeout)
+                    clearTimeout(this.timeout);
+                //console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error);
                 return this.playNext();
             });
         }).catch(err => console.log(err));
