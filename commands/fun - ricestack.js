@@ -34,8 +34,8 @@ module.exports = class BlackJack extends DBF.Command{
 
         let emojis = ["👆", "🛑"];
         let bowls = ["🍚"];
-        let chances = [1, 0.75, 0.5, 0.25, 0.125, 0.0625, 0]
-        let rewards = [1, 1, 2, 3, 4];
+        let chances = [1, 0.75, 0.6, 0.5, 0.25, 0.125, 0.0625, 0]
+        let rewards = [0, 0, 1, 2, 3, 4];
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Rice Stacker | " + msg.author.username, msg.author.displayAvatarURL);
         embed.setColor(msg.guild.me.displayColor);
@@ -68,7 +68,7 @@ module.exports = class BlackJack extends DBF.Command{
                         collector.stop();
                         gameMsg.clearReactions();
                         embed.description = "😄 Wow, I could stack `" + bowls.length+"` plates!!";
-                        if(amount)
+                        if(amount && rewards[bowls.length-1])
                             embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
                         msg.author.rep += amount*rewards[bowls.length-1];
                         msg.client.syncUser(msg.author);
@@ -82,7 +82,7 @@ module.exports = class BlackJack extends DBF.Command{
                             clearTimeout(timeout);
                             collector.stop();
                             gameMsg.clearReactions();
-                            embed.description = ":scream: You made me stack too many bowls, I dopped them all!!";
+                            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
                             if(amount)
                                 embed.description += " You owe me `" + amount + "` rice...";
                             msg.client.syncUser(msg.author);
