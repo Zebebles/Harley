@@ -35,7 +35,7 @@ module.exports = class BlackJack extends DBF.Command{
         let emojis = ["👆", "🛑"];
         let bowls = ["🍚"];
         let chances = [1, 0.75, 0.6, 0.5, 0.25, 0.125, 0.0625, 0]
-        let rewards = [0, 0, 1, 2, 3, 4];
+        let rewards = [0, 0, 1, 2, 4, 8, 16, 16];
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Rice Stacker | " + msg.author.username, msg.author.displayAvatarURL);
         embed.setColor(msg.guild.me.displayColor);
