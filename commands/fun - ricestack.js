@@ -91,8 +91,8 @@ module.exports = class BlackJack extends DBF.Command{
                         else
                         {
                             embed.description = bowls.join("\n") + ":japanese_goblin: Can I stack another?!";
-                            if(rewards[bowls.length-1] * amount)
-                                embed.description += " I'll give you `" + rewards[bowls.length-1]*amount + "` rice if you're right!";
+                            if(rewards[bowls.length] * amount)
+                                embed.description += " I'll give you `" + rewards[bowls.length]*amount + "` rice if you're right!";
                             gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
                             return msg.client.syncUser(msg.author);
                         }
