@@ -94,7 +94,8 @@ module.exports = class BlackJack extends DBF.Command{
                             {
                                 clearTimeout(timeout);
                                 collector.stop();
-                                embed.description = "😲 Oh my god! I could stack `" + bowls.length+"` bowls!!";
+                                gameMsg.clearReactions();
+                                embed.description = "😲 Oh my god! I could stack all `" + bowls.length+"` bowls!!";
                                 if(rewards[bowls.length-1] * amount)
                                     embed.description += " Here's`" + rewards[bowls.length-1]*amount + "` rice for your help.";
                                 gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
