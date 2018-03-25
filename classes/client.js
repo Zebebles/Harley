@@ -160,17 +160,6 @@ class myClient extends DBF.Client {
         });
     }
 
-
-    initPlaylist(guild) {
-        if (guild.playlist && guild.playlist.message && guild.playlist.message.collector)
-            guild.playlist.message.collector.stop();
-        if(guild.playlist && guild.playlist.timeout)
-            clearTimeout(guild.playlist.timeout);
-        this.sendStatus(true,false);            
-        delete guild.playlist;
-        guild.playlist = new Playlist(guild);
-    }
-
     getDefaultChannel(guild)
     {
         if(guild.defaultRole.hasPermission("ADMINISTRATOR"))

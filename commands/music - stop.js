@@ -44,7 +44,7 @@ module.exports = class Hello extends DBF.Command{
                 }
             });
         });
-        msg.guild.client.initPlaylist(msg.guild);        
+        msg.guild.playlist.init();        
     }
 
 }

@@ -6,11 +6,27 @@ const Video = require("./video.js");
 module.exports = class Playlist{
 
     constructor(guild){
-        this.queue = new Array();
-        this.paused = false;
-        this.dontRelate = new Array();
-        this.bitrate = 64;
+        this.init();
         auth = guild.client.auth;
+    }
+
+    init()
+    {
+        if(this.timeout)
+        {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.queue = [];
+        this.paused = false;
+        this.dontRelate = [];
+        this.bitrate = 64;
+        if(this.message && this.message.collector)
+            this.message.collector.stop();
+        this.message = null;
+        this.qmessage = null;
+        this.textChannel = null;
+        this.sendStatus(true, false);
     }
 
     addSong(song, first){
@@ -43,7 +59,7 @@ module.exports = class Playlist{
                     }
                 });
             });
-            this.textChannel.guild.client.initPlaylist(this.textChannel.guild);
+            this.init();
             return;
         }else if(this.textChannel.guild.voiceConnection && this.textChannel.guild.voiceConnection.channel.members.size == 1){
             this.textChannel.send("Looks like the voice channel is empty :c.  Pausing playback for now, you can resume it with `" + this.textChannel.guild.prefix + "resume`");
@@ -69,7 +85,7 @@ module.exports = class Playlist{
                             }
                         });
                     });
-                    this.textChannel.guild.client.initPlaylist(this.textChannel.guild);                    
+                    this.init();                    
                 }
             },900000)
             return;
@@ -89,7 +105,9 @@ module.exports = class Playlist{
             let startSong = this.queue[0];
             
             if(!this.textChannel.guild.voiceConnection)
-                return this.textChannel.client.initPlaylist();
+            {
+                return this.init();
+            }
             var dispatcher = this.textChannel.guild.voiceConnection.playStream(
                 stream,
                 {volume: 0.5,
@@ -114,7 +132,6 @@ module.exports = class Playlist{
                     this.queue[0].seeks = 0;
                     this.queue[0].startTime = 0;
                 }
-                this.ytdlStream = null;
                 if(this.queue.length == 1 && this.auto) 
                     this.queue[0].getRelated(this.dontRelate).then(song => {
                         this.dontRelate.push(this.queue[0].title);
