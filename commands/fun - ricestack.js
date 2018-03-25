@@ -34,8 +34,8 @@ module.exports = class BlackJack extends DBF.Command{
 
         let emojis = ["👆", "🛑"];
         let bowls = ["🍚"];
-        let chances = [1, 0.75, 0.6, 0.5, 0.25, 0.125, 0.0625, 0]
-        let rewards = [0, 0, 1, 2, 4, 8, 16, 16];
+        let chances = [1, 1, 1, 1, 1, 1, 1];//0.75, 0.6, 0.5, 0.25, 0.125, 0.0625]
+        let rewards = [0, 0, 1, 2, 4, 8, 16];
         let embed = new Discord.RichEmbed();
         embed.setAuthor("Rice Stacker | " + msg.author.username, msg.author.displayAvatarURL);
         embed.setColor(msg.guild.me.displayColor);
@@ -64,32 +64,19 @@ module.exports = class BlackJack extends DBF.Command{
                 collected.remove(collected.users.find(u => !u.bot)).then(() => {
                     if(collected.emoji.name == emojis[1])
                     {
-                        clearTimeout(timeout);
-                        collector.stop();
-                        gameMsg.clearReactions();
-                        embed.description = "😄 Wow, I could stack `" + bowls.length+"` plates!!";
-                        if(amount && rewards[bowls.length-1])
-                            embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
-                        msg.author.rep += amount*rewards[bowls.length-1];
-                        msg.client.syncUser(msg.author);
-                        return gameMsg.edit("", {embed}).catch(err => console.log(err));
+                        return win();
                     }
                     else
                     {
                         bowls.push("🍚");
                         if(Math.random() > chances[bowls.length-1])
                         {
-                            clearTimeout(timeout);
-                            collector.stop();
-                            gameMsg.clearReactions();
-                            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
-                            if(amount)
-                                embed.description += " You owe me `" + amount + "` rice...";
-                            msg.client.syncUser(msg.author);
-                            return gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+                            return lose();
                         }
                         else
                         {
+                            if(bowls.length == chances.length)
+                                return win();
                             embed.description = bowls.join("\n") + ":japanese_goblin: Can I stack another?!";
                             if(rewards[bowls.length] * amount)
                                 embed.description += " I'll give you `" + rewards[bowls.length]*amount + "` rice if you're right!";
@@ -105,5 +92,29 @@ module.exports = class BlackJack extends DBF.Command{
             console.log(err);
             msg.client.syncUser(msg.author);
         });
+
+        function win()
+        {
+            clearTimeout(timeout);
+            collector.stop();
+            gameMsg.clearReactions();
+            embed.description = "😄 Wow, I could stack `" + bowls.length+"` plates!!";
+            if(amount && rewards[bowls.length-1])
+                embed.description += " Here's `" + amount*rewards[bowls.length-1] + "` rice for your trouble.";
+            msg.author.rep += amount*rewards[bowls.length-1];
+            msg.client.syncUser(msg.author);
+            return gameMsg.edit("", {embed}).catch(err => console.log(err));
+        }
+
+        function lose(){
+            clearTimeout(timeout);
+            collector.stop();
+            gameMsg.clearReactions();
+            embed.description = ":scream: I couldn't stack `" + bowls.length + "`, I dopped them all!!";
+            if(amount)
+                embed.description += " You owe me `" + amount + "` rice...";
+            msg.client.syncUser(msg.author);
+            return gameMsg.edit("", {embed}).catch(err => msg.channl.send("", {embed}).catch(err => console.log(err)));
+        }
     }
 }
