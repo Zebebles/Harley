@@ -25,7 +25,7 @@ module.exports = class Puppy extends DBF.Command{
             embed.setColor([127, 161, 216]);
         
         snek.get("http://thecatapi.com/api/images/get?format=xml").then( r => {
-            embed.setImage(r.body.getElementsByTagName("url"));
+            embed.setImage(r.text.split("<url>")[1].split("</url>")[0]);
             msg.channel.send("", {"embed": embed});
         });
     }
