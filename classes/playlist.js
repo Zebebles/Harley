@@ -133,7 +133,11 @@ module.exports = class Playlist{
                 stream,
                 {volume: 0.5,
                 bitrate: this.bitrate}
-            );
+            ).on("error", (error) => {
+                console.log("Dispatcher error in " + this.guild + "\n" + error);
+                this.queue.splice(0,1); //get rid of the lastsong
+                return this.playNext();
+            });
 
             if(this.queue[0].duration > 0)
             {
@@ -170,18 +174,14 @@ module.exports = class Playlist{
                     this.queue.splice(0,1); //get rid of the lastsong                
                     this.playNext();
                 }
-            }).on('error',error => {
-                if(this.timeout)
-                    clearTimeout(this.timeout);
-                return this.playNext();
             });
         }).catch(err => console.log(err));
     }
 
     updateMessage(reason){
         var embed = new Discord.RichEmbed();
-        if(!this.textChannel.guild.channels.find(ch => ch.id == this.textChannel.id))
-            this.textChannel = this.textChannel.guild.channels.filter(ch => ch.type == "text").first();
+        if(!this.textChannel || !this.textChannel.guild.channels.find(ch => ch.id == this.textChannel.id))
+            this.textChannel = this.guild.defaultTextChannel;
         embed.setColor(this.textChannel.guild.me.displayColor);            
         if(!reason){
             if(this.paused)
