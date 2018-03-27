@@ -133,11 +133,7 @@ module.exports = class Playlist{
                 stream,
                 {volume: 0.5,
                 bitrate: this.bitrate}
-            ).on("error", (error) => {
-                console.log("Dispatcher error in " + this.guild + "\n" + error);
-                this.queue.splice(0,1); //get rid of the lastsong
-                return this.playNext();
-            });
+            );
 
             if(this.queue[0].duration > 0)
             {
