@@ -28,7 +28,7 @@ module.exports = class Queue extends DBF.Command{
         if(!page || isNaN(page)) page = 1;
         page--;
         let pages = Math.ceil(((playlist.queue.length)/5));
-        if(page > pages)
+        if(page > pages-2)
             page = pages-2;
         
         let embed = generateMessage(page);
@@ -36,7 +36,7 @@ module.exports = class Queue extends DBF.Command{
         if(embed)    
             qm = msg.channel.send("", {embed}).catch(err => console.log(err));
         else
-            return msg.channel.send("Please enter a page number between `1` and `" + pages + "`").catch(err => console.log(err));
+            return msg.channel.send("Please enter a page number between `1` and `" + pages-1 + "`").catch(err => console.log(err));
 
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
             qm.then(m => m.react("⬅").catch(err => console.log(err))
@@ -83,7 +83,7 @@ module.exports = class Queue extends DBF.Command{
             if(message != ""){
                 let myEmbed = new Discord.RichEmbed();
                 myEmbed.setColor(msg.guild.me.displayColor);
-                myEmbed.setTitle("Showing page " + (page+1) + " of " + pages + ".");
+                myEmbed.setTitle("Showing page " + (page+1) + " of " + pages-1 + ".");
                 myEmbed.setDescription(message);
                 myEmbed.setFooter("Showing " + ind + " of " + (playlist.queue.length-2) + " songs.");
                 
