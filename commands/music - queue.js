@@ -36,7 +36,7 @@ module.exports = class Queue extends DBF.Command{
         if(embed)    
             qm = msg.channel.send("", {embed}).catch(err => console.log(err));
         else
-            return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
+            return msg.channel.send("Please enter a page number between `1` and `" + pages + "`").catch(err => console.log(err));
 
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
             qm.then(m => m.react("⬅").catch(err => console.log(err))
