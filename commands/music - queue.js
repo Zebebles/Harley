@@ -28,7 +28,7 @@ module.exports = class Queue extends DBF.Command{
         if(!page || isNaN(page)) page = 1;
         page--;
         let pages = Math.ceil(((playlist.queue.length)/5));
-        if(page+1 > pages)
+        if(page > pages)
             page = pages-1;
         
         let embed = generateMessage(page);
@@ -56,7 +56,7 @@ module.exports = class Queue extends DBF.Command{
                             page--;
                         else
                             page++;
-                        if(page+1 > pages)
+                        if(page > pages)
                             page = 0;
                         else if(page < 0)
                             page = pages-1;
