@@ -76,12 +76,9 @@ module.exports = class Queue extends DBF.Command{
             let message = "";
             let done = false;
             let ind = 0;
-            for(let i = 1+(5*page); i < 6+(5*page) && !done; i++){
+            for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length; i++){
                 ind++;
-                if(ind == 6+(5*page) || i >= playlist.queue.length+1)
-                    done = true;
-                else
-                    message += "\n**" + (ind+(page*5)) + "**\t-\t`" + playlist.queue[i].title + "`";
+                message += "\n**" + i + "**\t-\t`" + playlist.queue[i].title + "`";
             }
 
 
