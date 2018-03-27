@@ -180,7 +180,7 @@ module.exports = class Playlist{
 
     updateMessage(reason){
         var embed = new Discord.RichEmbed();
-        if(!this.textChannel || !this.textChannel.guild.channels.find(ch => ch.id == this.textChannel.id))
+        if(!this.textChannel || !this.guild.channels.find(ch => ch.id == this.textChannel.id))
             this.textChannel = this.guild.defaultTextChannel;
         embed.setColor(this.textChannel.guild.me.displayColor);            
         if(!reason){
