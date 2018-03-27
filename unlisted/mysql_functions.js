@@ -457,7 +457,7 @@ module.exports = function () {
                 if(err)
                     return reject(err);
                 conn.query("SELECT * FROM Users NATURAL JOIN Economy WHERE id = '" + user.id + "';", (err, res) => {
-                    if(err || !res || !res.length || res.length == 0)
+                    if(err || !res || !res.length || res.length == 0 || !res[0])
                         return resolve(conn);
                     user.smacks = res[0].smacks;
                     user.loves = res[0].loves;
