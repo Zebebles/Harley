@@ -18,6 +18,9 @@ module.exports = class Playlist{
             clearTimeout(this.timeout);
             this.timeout = null;
         }
+        if(this.guild.voiceConnection)
+            this.guild.voiceConnection.disconnect();
+
         this.queue = [];
         this.paused = false;
         this.dontRelate = [];
@@ -170,7 +173,7 @@ module.exports = class Playlist{
             }).on('error',error => {
                 if(this.timeout)
                     clearTimeout(this.timeout);
-                //console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error);
+                console.log("Dispatcher error in " + this.textChannel.guild.name + "\n" + error);
                 return this.playNext();
             });
         }).catch(err => console.log(err));
