@@ -4,7 +4,7 @@ module.exports = class Question extends DBF.Command{
     constructor(){
         super({
              name: "question", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["8ball", "q"], //any message (excluding msg.client.msg.client.Prefix) that will trigger this command.
+             triggers: ["8ball", "ask"], //any message (excluding msg.client.msg.client.Prefix) that will trigger this command.
              group: "Fun", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
 			 description: "Ask Harley anything!", //this will show in the help message

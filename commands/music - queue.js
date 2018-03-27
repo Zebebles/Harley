@@ -7,7 +7,7 @@ module.exports = class Queue extends DBF.Command{
     constructor(){
         super({
              name: "queue",
-             triggers: ["queue", "que", "qeu", "qeueue"],
+             triggers: ["que", "q"],
              group: "Music",
              ownerOnly : false,
              description: "Browse which songs are in the queue.",

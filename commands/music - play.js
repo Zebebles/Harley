@@ -14,7 +14,7 @@ module.exports = class Hello extends DBF.Command{
     constructor(){
         super({
              name: "play",
-             triggers: ["play"],
+             triggers: ["p"],
              group: "Music",
              ownerOnly : false,
              description: "Plays a YouTube, Spotify, or Soundcloud song/playlist in the voice channel. -next will add the song to the top of the queue. -choose will let you choose 1 of the first 5 search results.",
