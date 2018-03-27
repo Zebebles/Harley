@@ -18,7 +18,7 @@ module.exports = class Hello extends DBF.Command{
              group: "Music",
              ownerOnly : false,
              description: "Plays a YouTube, Spotify, or Soundcloud song/playlist in the voice channel. -next will add the song to the top of the queue. -choose will let you choose 1 of the first 5 search results.",
-             example: ">>play song or url (-choose) (-next)\n>>play never gonna give you up (-next)(-choose)\n>>play https://www.youtube.com/watch?v=dQw4w9WgXcQ (-next)\n>>play https://open.spotify.com/track/4uLU6hMCjMI75M1A2tKUQC?si=MT7GU3ooTxGKAIQTt7UPeA (-next)\n>>play https://soundcloud.com/andreasedstr-m/rick-astley-never-gonna-give (-next)",             
+             example: ">>play song_name or url (-choose) (-next)\n>>play never gonna give you up (-next)(-choose)\n>>play youtube_url (-next)\n>>play spotify_url (-next)\n>>play soundcloud_url (-next)",             
              guildOnly : true,
              reqArgs: true,
              reqBotPerms : ["CONNECT", "SPEAK", "EMBED_LINKS"]
