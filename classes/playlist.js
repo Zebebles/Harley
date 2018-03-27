@@ -101,7 +101,9 @@ module.exports = class Playlist{
                     this.voiceChannel.join().then(conn =>
                     {
                         this.Play();
-                    })
+                    }).catch(err => {
+                        this.init();
+                    });
                 }else
                 {
                     this.init();
