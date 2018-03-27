@@ -29,7 +29,7 @@ module.exports = class Queue extends DBF.Command{
         page--;
         let pages = Math.ceil(((playlist.queue.length)/5));
         if(page > pages)
-            page = pages-1;
+            page = pages-2;
         
         let embed = generateMessage(page);
         let qm;
@@ -59,7 +59,7 @@ module.exports = class Queue extends DBF.Command{
                         if(page > pages)
                             page = 0;
                         else if(page < 0)
-                            page = pages-1;
+                            page = pages-2;
                         embed = generateMessage(page);
                         m.edit("", {embed}).catch(err => console.log(err));
                         timeout = setTimeout(() => {
