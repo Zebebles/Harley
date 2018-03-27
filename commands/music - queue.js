@@ -62,7 +62,6 @@ module.exports = class Queue extends DBF.Command{
                             page = pages-1;
                         embed = generateMessage(page);
                         m.edit("", {embed}).catch(err => console.log(err));
-
                         timeout = setTimeout(() => {
                             m.clearReactions();
                             collector.stop();
@@ -76,11 +75,10 @@ module.exports = class Queue extends DBF.Command{
             let message = "";
             let done = false;
             let ind = 0;
-            for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length; i++){
+            for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length-1; i++){
                 ind++;
                 message += "\n**" + i + "**\t-\t`" + playlist.queue[i].title + "`";
             }
-
 
             if(message != ""){
                 let myEmbed = new Discord.RichEmbed();
