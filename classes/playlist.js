@@ -26,8 +26,9 @@ module.exports = class Playlist{
             this.message.collector.stop();
         this.message = null;
         this.qmessage = null;
-        this.guild.client.sendStatus(true, false);        
         this.textChannel = null;
+        this.voiceChannel = null;
+        this.guild.client.sendStatus(true, false);        
     }
 
     addSong(song, first){
@@ -40,12 +41,12 @@ module.exports = class Playlist{
     }
 
     playNext(){
-        this.textChannel.guild.client.sendStatus(true);
+        this.guild.client.sendStatus(true);
         this.paused = false;        
         if(this.queue.length == 0){
             this.updateMessage("Ran of out songs to play.");
-            this.textChannel.guild.voiceConnection.disconnect();            
-            this.textChannel.client.voiceConnections.forEach(conn => {
+            this.guild.voiceConnection.disconnect();            
+            this.guild.client.voiceConnections.forEach(conn => {
                 let done = false;
                 conn.channel.members.forEach(mem => {
                     if(!done && this.textChannel.guild.members.filter(m => !m.user.bot).get(mem.id)){
@@ -93,7 +94,21 @@ module.exports = class Playlist{
         }
         this.queue[0].validate().then( () => {
             this.updateMessage();
-            this.Play();
+            if(!this.guild.voiceConnection)
+            {
+                if(this.voiceChannel)
+                {
+                    this.voiceChannel.join().then(conn =>
+                    {
+                        this.Play();
+                    })
+                }else
+                {
+                    this.init();
+                }
+            }
+            else
+                this.Play();
         }).catch(err => {
             this.queue.splice(0,1);
             this.playNext();

@@ -143,6 +143,7 @@ module.exports = class Hello extends DBF.Command{
                         qm.edit("",{embed: {title: "⌛ Queueing song ...", color: msg.guild.me.displayColor}}).then(qm => {
                             msg.guild.playlist.qmessage = qm; //notify user that harley's found the song, and is now adding it.
                             msg.guild.playlist.textChannel = msg.channel; //set the text channel
+                            msg.guild.playlist.voiceChannel = channel;
                             var song;
                             song = {link: vid.id,type: "youtube", title: vid.title, duration: vid.durationSeconds, startTime: 0, seeks: 0, image: `https://img.youtube.com/vi/${vid.id}/mqdefault.jpg`};//create the song object 
                             resolve(song); //resolve will add the song to queue.
@@ -185,7 +186,8 @@ module.exports = class Hello extends DBF.Command{
 
                             msg.guild.playlist.qmessage.edit("",{embed: {title: "⌛ Queueing songs from playlist ...", color: msg.guild.me.displayColor}}).then(qm => { //notify the user that the playlist has been found and the songs arebeing added.
                                 msg.guild.playlist.qmessage = qm;
-                                msg.guild.playlist.textChannel = msg.channel;                    
+                                msg.guild.playlist.textChannel = msg.channel;            
+                                msg.guild.playlist.voiceChannel = channel;        
                                 for(let i = 0; i < playlistItems.length; i++){
                                     if(videoID && playlistItems[i].id == videoID) //if this video's id was in the url sent by the user.
                                         msg.guild.playlist.queue.splice(msg.guild.playlist.queue.length-(playlistItems.indexOf(playlistItems[i])+1),0,{link: playlistItems[i].resourceId.videoId,type: "youtube", title: playlistItems[i].title, startTime: 0, seeks: 0, image: `https://img.youtube.com/vi/${playlistItems[i].resourceId.videoId}/mqdefault.jpg`});
@@ -262,6 +264,7 @@ module.exports = class Hello extends DBF.Command{
                     else
                         song = {url: track.permalink_url,link: track.stream_url , type: "soundcloud", title: track.title, duration: track.duration/1000, startTime: 0, seeks: 0, image : "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c537.png"};
                     msg.guild.playlist.textChannel = msg.channel; //set the text channel
+                    msg.guild.playlist.voiceChannel = channel;
                     resolve(song);
                 }).catch(err => reject(err));
             }).then(song => {
@@ -307,6 +310,7 @@ module.exports = class Hello extends DBF.Command{
                             msg.guild.playlist.addSong({url: track.permalink_url,link: track.stream_url , type: "soundcloud", title: track.title, duration: track.duration/1000, startTime: 0, seeks: 0, image : "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c537.png"}, false);//if theres only one song left.                        
                     });
                     msg.guild.playlist.textChannel = msg.channel; //set the text channel
+                    msg.guild.playlist.voiceChannel = channel;
                     resolve({tracks: msg.guild.playlist.queue.length-originalN, title: playlist.title})
                 }).catch(err => reject(err));
             }).then( (playlistInfo) => {
@@ -362,6 +366,7 @@ module.exports = class Hello extends DBF.Command{
                             qm.edit("",{embed: {title: "⌛ Queueing track ...", color: msg.guild.me.displayColor}}).then(qm => {
                                 msg.guild.playlist.qmessage = qm;
                                 msg.guild.playlist.textChannel = msg.channel;
+                                msg.guild.playlist.voiceChannel = channel;
                                 var title = data.body.album.artists[0].name + " - " + data.body.name;
                                 var song = {type: "spotify", title, duration: data.body.duration_ms/1000};
                                 msg.guild.playlist.addSong(song, playNext);
@@ -379,6 +384,7 @@ module.exports = class Hello extends DBF.Command{
                             qm.edit("",{embed: {title: "⌛ Queueing songs from album ...", color: msg.guild.me.displayColor}}).then(qm => {
                                 msg.guild.playlist.qmessage = qm;
                                 msg.guild.playlist.textChannel = msg.channel; 
+                                msg.guild.playlist.voiceChannel = channel;
                                 data.body.tracks.items.forEach(track => {
                                     var title = track.artists[0].name + " - " + track.name
                                     msg.guild.playlist.addSong({type: "spotify", title, duration: track.duration_ms/1000}, false);
@@ -397,6 +403,7 @@ module.exports = class Hello extends DBF.Command{
                             qm.edit("",{embed: {title: "⌛ Queueing songs from playlist ...", color: msg.guild.me.displayColor}}).then(qm => {
                                 msg.guild.playlist.qmessage = qm;
                                 msg.guild.playlist.textChannel = msg.channel;
+                                msg.guild.playlist.voiceChannel = channel;
                                 data.body.tracks.items.forEach(track => {
                                     var title = track.track.artists[0].name + " - " + track.track.name
                                     msg.guild.playlist.addSong({type: "spotify", title, duration: track.track.duration_ms/1000}, false);
