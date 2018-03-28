@@ -27,12 +27,12 @@ module.exports = class Video{
 
     }
 
-    getStream(bitrate){
+    getStream(){
         return new Promise((resolve, reject) => {
             this.validate().then(() => {
                 switch(this.type){
                     case "youtube":
-                        resolve(ytdl(this.link,{filter: "audio", begin: this.startTime, quality: 250}));
+                        resolve(ytdl(this.link,{filter: "audio", begin: this.startTime, quality: 250})); //250 is 64kbps 
                     break;
                     case "soundcloud":
                         resolve(req(this.link + "?client_id=" + auth.scID));

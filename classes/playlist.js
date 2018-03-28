@@ -7,8 +7,8 @@ module.exports = class Playlist{
 
     constructor(guild){
         this.guild = guild;
-        this.init();
         auth = guild.client.auth;
+        this.init();
     }
 
     init()
@@ -24,7 +24,6 @@ module.exports = class Playlist{
         this.queue = [];
         this.paused = false;
         this.dontRelate = [];
-        this.bitrate = 64;
         if(this.message && this.message.collector)
             this.message.collector.stop();
         this.message = null;
@@ -121,7 +120,7 @@ module.exports = class Playlist{
     }
 
     Play(){
-        this.queue[0].getStream(this.bitrate).then( stream => {
+        this.queue[0].getStream().then( stream => {
             let thisSeeks = this.queue[0].seeks;
             let startSong = this.queue[0];
             
@@ -132,7 +131,7 @@ module.exports = class Playlist{
             var dispatcher = this.textChannel.guild.voiceConnection.playStream(
                 stream,
                 {volume: 0.5,
-                bitrate: this.bitrate}
+                bitrate: 64}
             );
 
             if(this.queue[0].duration > 0)
