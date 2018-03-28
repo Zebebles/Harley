@@ -134,6 +134,7 @@ module.exports = class Playlist{
                 bitrate: 64,
                 seek: Math.floor(this.queue[0].startTime * 0.001)}
             ).on("error", (err) => {
+                console.log(err);
                 this.playNext();
             }).on("start", () => {
                 if(this.queue[0].duration > 0)
