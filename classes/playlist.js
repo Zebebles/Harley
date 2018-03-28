@@ -132,7 +132,7 @@ module.exports = class Playlist{
                 stream,
                 {volume: 0.5,
                 bitrate: 64,
-                seek: Math.floor(this.queue[0].startTime/1000)}
+                seek: Math.floor(this.queue[0].startTime * 0.001)}
             ).on("error", (err) => {
                 this.queue.splice(0,1);
                 this.playNext();
