@@ -26,6 +26,7 @@ module.exports = class Playlist{
         this.dontRelate = [];
         if(this.message && this.message.collector)
             this.message.collector.stop();
+        this.message.clearReactions();
         this.message = null;
         this.qmessage = null;
         this.textChannel = null;
@@ -220,7 +221,7 @@ module.exports = class Playlist{
             .then(playpause => message.react("⏭").catch(err => (err))
             .then(next => message.react("🔀").catch(err => (err))
             .then(shuffle => {
-                if(message.collector && !message.collector.ended)
+                if(this.textChannel || (message.collector && !message.collector.ended))
                     return;
                 const filter = (r,user) => user.id != message.client.user.id && (r.emoji.name == stop.emoji.name || r.emoji.name == playpause.emoji.name || r.emoji.name == next.emoji.name || r.emoji.name == shuffle.emoji.name);
                 message.collector = new Discord.ReactionCollector(message, filter);
@@ -239,7 +240,7 @@ module.exports = class Playlist{
                     });
                 });
             }))));
-        })
+        });
     }
 
     sendQueueMessage(msg, song){
