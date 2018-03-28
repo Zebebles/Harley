@@ -32,7 +32,7 @@ module.exports = class Video{
             this.validate().then(() => {
                 switch(this.type){
                     case "youtube":
-                        resolve(ytdl(this.link,{filter: "audio", begin: this.startTime, audioBitrate: bitrate, audioEncoding: "opus"}));
+                        resolve(ytdl(this.link,{filter: "audio", begin: this.startTime, quality: 250}));
                     break;
                     case "soundcloud":
                         resolve(req(this.link + "?client_id=" + auth.scID));
