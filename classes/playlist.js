@@ -131,7 +131,8 @@ module.exports = class Playlist{
             var dispatcher = this.textChannel.guild.voiceConnection.playStream(
                 stream,
                 {volume: 0.5,
-                bitrate: 64}
+                bitrate: 64,
+                seek: this.queue[0].startTime}
             ).on("error", (err) => {
                 this.queue.splice(0,1);
                 this.playNext();
