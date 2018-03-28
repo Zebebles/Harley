@@ -132,20 +132,19 @@ module.exports = class Playlist{
                 stream,
                 {volume: 0.5,
                 bitrate: 64}
-            );
-
-            if(this.queue[0].duration > 0)
-            {
-                if(this.timeout)
-                    clearTimeout(this.timeout);
-                dispatcher.on("start", () => {
+            ).on("error", (err) => {
+                this.queue.splice(0,1);
+                this.playNext();
+            }).on("start", () => {
+                if(this.queue[0].duration > 0)
+                {
+                    if(this.timeout)
+                        clearTimeout(this.timeout);
                     this.timeout = setTimeout(() => {
                         dispatcher.end();
                     },(this.queue[0].duration*1000) - (25+this.queue[0].startTime));
-                });
-            }
-            
-            dispatcher.on("end", reason => {
+                }
+            }).on("end", reason => {
                 if(reason == "dont" || this.queue.length == 0)
                     return;
                 if(reason != "seek" && this.queue.length > 0){
