@@ -195,6 +195,13 @@ module.exports = class Playlist{
         }else{
             embed.setTitle(":octagonal_sign: Music playback stopped");
             embed.addField("Reason", reason);
+            if(this.message)
+            {
+                if(this.message.collector)
+                    this.message.collector.stop();
+                this.message.delete();
+            }
+            return this.textChannel.send("", {embed}).catch(err => console.log(err));
         }
         let playingmessage;
         if(!this.message)
