@@ -26,7 +26,8 @@ module.exports = class Playlist{
         this.dontRelate = [];
         if(this.message && this.message.collector)
             this.message.collector.stop();
-        this.message.clearReactions();
+        if(this.message)
+            this.message.clearReactions();
         this.message = null;
         this.qmessage = null;
         this.textChannel = null;
