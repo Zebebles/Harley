@@ -219,8 +219,6 @@ module.exports = class Playlist{
         }
         if(!this.textChannel.guild.me.hasPermission("MANAGE_MESSAGES") || !this.textChannel.guild.me.hasPermission("ADD_REACTIONS"))
             return; //dont do the message reactions if you dont have perms.
-        if(reason)
-            return playingmessage.then(m => m.clearReactions());
         
         playingmessage.then(message => {
             message.react("🛑").catch(err => (err))
