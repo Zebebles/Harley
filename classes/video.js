@@ -33,7 +33,7 @@ module.exports = class Video{
                 switch(this.type){
                     case "youtube":
                         if(this.duration > 0)
-                            resolve(ytdl(this.link,{filter: "audioonly", quality: 250})); //250 is 64kbps 
+                            resolve(ytdl(this.link,{filter: "audio", quality: 250})); //250 is 64kbps 
                         else
                             resolve(ytdl(this.link,{filter: "audio", quality: 91})); //can't just get audio for streams so get shittiest quality (48kbps and 144p) 
                     break;
