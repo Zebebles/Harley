@@ -86,13 +86,13 @@ harley.on('exit', () => {
 harley.on('stdout', data => {
     harley.log += data.toString();
     snekfetch.post('http://' + auth.webserver + '/servers/output')
-        .send({output : data.replace(/[\n\r]/g, "<br/>")})
+        .send({output : data.toString().replace(/[\n\r]/g, "<br/>")})
         .end();});
 
 harley.on("stderr", data => {
     harley.log += data.toString();
     snekfetch.post('http://' + auth.webserver + '/servers/output')
-        .send({output : data.replace(/[\n\r]/g, "<br/>")})
+        .send({output : data.toString().replace(/\n\r]/g, "<br/>")})
         .end();
 });
 
