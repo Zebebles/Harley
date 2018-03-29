@@ -40,7 +40,7 @@ class myClient extends DBF.Client {
                 +"**•**\tCommands can be disabled either for the whole server or a specific channel with `" + this.prefix + "toggle cmd_name`. May I suggest disabling music in " + guild.defaultTextChannel + " :wink:\n"
                 +"**•**\tIf you wish to give new members a default role when they join the server, you can do so with `" + this.prefix + "autorole role_name`.\n"
                 +"**•**\tYou can also greet new members, and farewell leaving ones with `" + this.prefix + "greeting message` and `" + this.prefix + "farewell message` respectively.\n"                  
-                +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n**<https://discord.gg/Wy5AjGS>**\n"
+                +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n"
                 + "**<http://www.harleybot.me/commands>**");
 
             guild.members.forEach(member => {
@@ -192,7 +192,7 @@ class myClient extends DBF.Client {
                 .send({status})
                 .end()
                 .catch(err => {
-                    console.log(err);
+                    console.log("ERROR SENDING STATUS\n<br/>"+err);
                 });
     }
 
