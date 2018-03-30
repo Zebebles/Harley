@@ -21,7 +21,14 @@ module.exports = class Daily extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         
         if(!msg.author.repRefresh || msg.author.repRefresh <= new Date().getTime()){
-            let rep = Math.floor(Math.random() * 100) + 1;
+            let max = 100;
+            if(msg.author.donationTier && msg.author.donationTier == 3)
+                max = 300;
+            else if(msg.author.donationTier && msg.author.donationTier == 2)
+                max = 200;
+            else if(msg.author.donationTier)
+                max = 150;
+            let rep = Math.floor(Math.random() * max) + 1;
             if(!msg.author.rep)
                 msg.author.rep = 0;
             msg.author.rep += rep;

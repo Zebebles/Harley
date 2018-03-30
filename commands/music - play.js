@@ -142,6 +142,10 @@ module.exports = class Hello extends DBF.Command{
                             return reject({err:"Private / Deleted or region locked",reason:"I can't play Private, Deleted or Region locked videos."});
                         qm.edit("",{embed: {title: "⌛ Queueing song ...", color: msg.guild.me.displayColor}}).then(qm => {
                             msg.guild.playlist.qmessage = qm; //notify user that harley's found the song, and is now adding it.
+                            if(vid.durationSeconds == 0 && msg.author.donationTier < 2)
+                            {
+                                return reject({err: "Not donator", reason: "You have to donate to play 24/7 streams.\nVisit <http://www.harleybot.me/beta/donate/> for more information."})
+                            }
                             msg.guild.playlist.textChannel = msg.channel; //set the text channel
                             msg.guild.playlist.voiceChannel = channel;
                             var song;
@@ -164,8 +168,8 @@ module.exports = class Hello extends DBF.Command{
                     msg.channel.send("", {embed: {title: "⚠ Error queuing YouTube track.", color: 16106519, description: "**Reason:** " + err.reason}})
                         .then(m => msg.guild.playlist.qmessage = null)
                         .catch(err => console.log(err)); //delete the "searching for" messaging
-
-                console.log("Error queing YouTube song in " + msg.guild.name + "\n" + err.err + "\n" + err);
+                if(err != "Not donator")
+                    console.log("Error queing YouTube song in " + msg.guild.name + "\n" + err.err + "\n" + err);
             }).finally(() => msg.guild.playlist.qing = false) //let people play music again.
         }
 

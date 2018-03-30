@@ -18,6 +18,8 @@ module.exports = class Hello extends DBF.Command{
         let msg = params.msg;
         const ytas = new yta(msg.client.auth.googleKey);
         let channel = msg.member.voiceChannel;
+        if(!msg.author.donationTier)
+            return msg.channel.send("Sorry, this command is for donators only.  Visit **<http://www.harleybot.me/donate/>** for more information.");
         if(!channel) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
         if(!channel && !channel.dispatcher) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
         if(msg.guild.playlist.queue.length == 0) return msg.channel.send("You need to play a song first.").catch(err => console.log(err));
