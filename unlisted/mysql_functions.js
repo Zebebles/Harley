@@ -450,7 +450,7 @@ module.exports = function () {
             conn.query("Use Users", (err, res) => {
                 if(err)
                     reject(err);
-                conn.query("SELECT * FROM Users NATURAL JOIN Economy", (err, res) => {
+                conn.query("SELECT * FROM Users NATURAL JOIN Economy NATURAL JOIN Donators", (err, res) => {
                     if(err)
                         reject(err);
                     res.forEach(tuple => {
@@ -463,6 +463,10 @@ module.exports = function () {
                         user.refreshLoves = tuple.lovereset;
                         user.refreshSmacks = tuple.smacksreset;
                         user.repRefresh = tuple.reprefresh;
+                        if(res[0].tier)
+                            user.donationTier = res[0].tier;
+                        if(res[0].expires)
+                            user.donationExpires = res[0].expires;
                     });
                     resolve(conn);
                 });
