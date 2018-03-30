@@ -269,6 +269,14 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                     user.rep = 0;
                 user.rep += amount;
                 bot.syncUser(user);
+                
+                bot.guilds.get("317548490928422912").fetchMember(user).then(mem => {
+                    if(tier == 2)
+                        mem.addRole("429277014718021644");
+                    else if(tier == 3)
+                        mem.addRole("429277146519830529");
+                }).catch(err => err);
+                
                 user.send("Thanks for your donation!", {embed});
             }).catch(err => {
                 res.sendStatus(404);
