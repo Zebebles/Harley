@@ -233,17 +233,29 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 if(!user)
                     return res.sendStatus(404);
                 res.sendStatus(200);
+                let embed = new Discord.RichEmbed();
                 let amount = 100 * req.query.amount;
                 let tier = 1;
+                embed.setAuthor(user.username, user.displayAvatarURL);
+                embed.addField("Amount", req.query.amount,true);
                 if(req.query.amount >= 16)
                 {
                     tier = 3;
                     amount += 500;
+                    embed.setColor([219, 158, 28]);
+                    embed.addField("Package", "Legend", true);
                 } 
                 else if(req.query.amount >=6)
                 {
                     tier = 2;
-                    amount += 250;                    
+                    amount += 250;                 
+                    embed.setColor([172,0,230]);   
+                    embed.addField("Package", "Friend", true);
+                }
+                else
+                {
+                    embed.setColor(0,142,193);
+                    embed.addField("Package", "Supporter", true);
                 }
                 if(!user.donationTier || user.donationTier < tier)
                     user.donationTier = tier;
@@ -251,11 +263,13 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                     user.donationExpires = (user.donationExpires - new Date().getTime()) + (new Date().getTime() + 2592000000);
                 else
                     user.donationExpires = new Date().getTime() + 2592000000;
+                
+                embed.addField("Expires in", "**30** days");
                 if(!user.rep)
                     user.rep = 0;
                 user.rep += amount;
                 bot.syncUser(user);
-                user.send("Thanks for donating!");
+                user.send("Thanks for your donation!", {embed});
             }).catch(err => {
                 res.sendStatus(404);
             });
