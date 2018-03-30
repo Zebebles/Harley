@@ -454,10 +454,10 @@ module.exports = function () {
                     if(err)
                         reject(err);
                     res.forEach(tuple => {
-                        console.log(user.username);
                         var user = client.users.get(tuple.id);
                         if(!user)
                             return resolve(conn);
+                        console.log(user.username);                            
                         user.smacks = tuple.smacks;
                         user.loves = tuple.loves;
                         user.rep = tuple.rep;
