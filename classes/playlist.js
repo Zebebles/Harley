@@ -227,7 +227,7 @@ module.exports = class Playlist{
             .then(playpause => message.react("⏭").catch(err => (err))
             .then(next => message.react("🔀").catch(err => (err))
             .then(shuffle => {
-                if(this.textChannel || (message.collector && !message.collector.ended))
+                if(!this.textChannel || (message.collector && !message.collector.ended))
                     return;
                 const filter = (r,user) => user.id != message.client.user.id && (r.emoji.name == stop.emoji.name || r.emoji.name == playpause.emoji.name || r.emoji.name == next.emoji.name || r.emoji.name == shuffle.emoji.name);
                 message.collector = new Discord.ReactionCollector(message, filter);
