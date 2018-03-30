@@ -25,9 +25,9 @@ module.exports = class Playlist{
         this.paused = false;
         this.dontRelate = [];
         if(this.message && this.message.collector)
-            this.message.collector.stop();
+            this.message.collector.stop().catch(err => err);
         if(this.message)
-            this.message.clearReactions();
+            this.message.clearReactions().catch(err => err);
         this.message = null;
         this.qmessage = null;
         this.textChannel = null;
@@ -200,7 +200,7 @@ module.exports = class Playlist{
             {
                 if(this.message.collector)
                     this.message.collector.stop();
-                this.message.delete();
+                this.message.delete().catch(err => err);
             }
             return this.textChannel.send("", {embed}).catch(err => console.log(err));
         }
