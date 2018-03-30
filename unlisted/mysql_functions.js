@@ -485,7 +485,6 @@ module.exports = function () {
                     if(err || !res || !res.length || res.length == 0 || !res[0]){
                         return resolve(conn);                        
                     }
-                    console.log("loaded user ");
                     user.smacks = res[0].smacks;
                     user.loves = res[0].loves;
                     user.rep = res[0].rep;

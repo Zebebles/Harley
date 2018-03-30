@@ -217,12 +217,13 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             if(!req.query.id)
                 return res.sendStatus(400);
             
-            let user = bot.users.get(req.query.id);
-            if(!user)
-                return res.sendStatus(404);
+            bot.fetchUser(req.query.id).then(user => {
+                if(!user)
+                    return res.sendStatus(404);
 
-            bot.loadUser(user);
-            res.sendStatus(200);
+                bot.loadUser(user);
+                res.sendStatus(200);
+            }).catch(err => res.sendStatus(404));
         });
 
         bot.express.get("/donation", function(req, res) {
@@ -232,17 +233,27 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 if(!user)
                     return res.sendStatus(404);
                 res.sendStatus(200);
+                let amount = 100 * req.query.amount;
                 let tier = 1;
                 if(req.query.amount >= 16)
+                {
                     tier = 3;
+                    amount += 500;
+                } 
                 else if(req.query.amount >=6)
+                {
                     tier = 2;
+                    amount += 250;                    
+                }
                 if(!user.donationTier || user.donationTier < tier)
                     user.donationTier = tier;
                 if(user.donationExpires)
                     user.donationExpires = (user.donationExpires - new Date().getTime()) + (new Date().getTime() + 2592000000);
                 else
                     user.donationExpires = new Date().getTime() + 2592000000;
+                if(!user.rep)
+                    user.rep = 0;
+                user.rep += amount;
                 bot.syncUser(user);
                 user.send("Thanks for donating!");
             }).catch(err => {
