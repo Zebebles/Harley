@@ -429,9 +429,7 @@ module.exports = function () {
     this.addUserToDonators = function(conn, user){
         return new Promise((resolve, reject) => {
             this.addUserToUsers(conn, user).then(conn => {
-                conn.query("SELECT * from Donators WHERE id = '" + user.id + ";", (err, res) => {
-                    if(err)
-                        console.log(err);
+                conn.query("SELECT * from Donators WHERE id = '" + user.id + "';", (err, res) => {
                     if(!res || res.length == 0)
                     {
                         conn.query("INSERT INTO Donators (id, tier, expires) VALUES ('" + user.id + "','" + user.donationTier + "','" + user.donationExpires + "');", (err, res) => {
