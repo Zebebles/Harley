@@ -450,14 +450,15 @@ module.exports = function () {
             conn.query("Use Users", (err, res) => {
                 if(err)
                     reject(err);
-                conn.query("SELECT * FROM Users NATURAL JOIN Economy;", (err, res) => {
+                conn.query("SELECT * FROM Users NATURAL JOIN Economy LEFT JOIN Donators on Users.id = Donators.id;", (err, res) => {
                     if(err)
                         return reject(err);
                     res.forEach(tuple => {
+                        console.log(tuple);                                                    
                         var user = client.users.get(tuple.id);
                         if(!user)
                             return resolve(conn);
-                        console.log(user.username);                            
+                        console.log(user.username);                                                                                
                         user.smacks = tuple.smacks;
                         user.loves = tuple.loves;
                         user.rep = tuple.rep;
