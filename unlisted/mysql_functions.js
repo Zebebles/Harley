@@ -450,7 +450,7 @@ module.exports = function () {
             conn.query("Use Users", (err, res) => {
                 if(err)
                     reject(err);
-                conn.query("select * from Donators right join Users on Donators.id = Users.id left join Economy on Users.id = Economy.id", (err, res) => {
+                conn.query("select * from Donators right join Users on Donators.id = Users.id right join Economy on Users.id = Economy.id", (err, res) => {
                     if(err)
                         return reject(err);
                     res.forEach(tuple => {
