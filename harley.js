@@ -281,7 +281,21 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             }).catch(err => {
                 res.sendStatus(404);
             });
-       }); 
+       });
+       
+        bot.express.get("/donationExpired", function(req,res){
+            if(!req.query.id)
+                return res.sendStatus(400);
+            
+            bot.fetchUser(req.query.id).then(user => {
+                if(!user)
+                    return res.sendStatus(404);
+                user.donationTier = -1;
+                user.donationExpires = -1;
+                bot.syncUser(user);
+                res.sendStatus(200);
+            }).catch(err => res.sendStatus(404));
+        });
     }).catch(err => console.log("Error getting authentication\n"+err))
 }).catch(err => console.log("Failed registering server.\n"+err));
 
