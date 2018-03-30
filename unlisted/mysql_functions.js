@@ -482,9 +482,11 @@ module.exports = function () {
                 if(err)
                     return reject(err);
                 conn.query("select * from Donators right join Users on Donators.id = Users.id right join Economy on Users.id = Economy.id WHERE id = '" + user.id + "';", (err, res) => {
-                    if(err || !res || !res.length || res.length == 0 || !res[0])
-                        return resolve(conn);
                     console.log(res);
+                    console.log(err);                    
+                    if(err || !res || !res.length || res.length == 0 || !res[0]){
+                        return resolve(conn);                        
+                    }
                     user.smacks = res[0].smacks;
                     user.loves = res[0].loves;
                     user.rep = res[0].rep;
