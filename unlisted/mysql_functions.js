@@ -413,7 +413,7 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             this.addUserToUsers(conn, user).then(conn => {
                 conn.query("SELECT * FROM Economy WHERE id = '" + user.id + "';", (err, res) => {
-                    if(res.length == 0)
+                    if(!res || res.length == 0)
                         conn.query("INSERT INTO Economy (id, loves, smacks, lovereset, smacksreset, rep, reprefresh) VALUES ('" + user.id +"','" + user.loves+"','" + user.smacks + "','" + user.refreshLoves + "','" + user.refreshSmacks + "','" + user.rep + "', '" + user.repRefresh + "');", (err, res) => {
                             if(err)
                                 return reject(err);
@@ -430,7 +430,9 @@ module.exports = function () {
         return new Promise((resolve, reject) => {
             this.addUserToUsers(conn, user).then(conn => {
                 conn.query("SELECT * from Donators WHERE id = '" + user.id + ";", (err, res) => {
-                    if(res.length == 0)
+                    if(err)
+                        console.log(err);
+                    if(!res || res.length == 0)
                     {
                         conn.query("INSERT INTO Donators (id, tier, expires) VALUES ('" + user.id + "','" + user.donationTier + "','" + user.donationExpires + "');", (err, res) => {
                             if(err)
