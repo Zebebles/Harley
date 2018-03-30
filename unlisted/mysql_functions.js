@@ -426,6 +426,25 @@ module.exports = function () {
         });
     }
 
+    this.addUserToDonators = function(conn, user){
+        return new Promise((resolve, reject) => {
+            this.addUserToUsers(conn, user).then(conn => {
+                conn.query("SELECT * from Donators WHERE id = '" + user.id + ";", (err, res) => {
+                    if(res.length == 0)
+                    {
+                        conn.query("INSERT INTO Donators (id, tier, expires) VALUES ('" + user.id + "','" + user.donationTier + "','" + user.donationExpires + "');", (err, res) => {
+                            if(err)
+                                reject(err);
+                            else
+                                resolve(conn);
+                        });
+                    }else
+                        resolve(conn);
+                })
+            });
+        }) 
+    }
+
     this.loadUsersDB = function(conn, client){
         return new Promise((resolve, reject) => {
             conn.query("Use Users", (err, res) => {
@@ -456,7 +475,7 @@ module.exports = function () {
             conn.query("Use Users", (err, res) => {
                 if(err)
                     return reject(err);
-                conn.query("SELECT * FROM Users NATURAL JOIN Economy WHERE id = '" + user.id + "';", (err, res) => {
+                conn.query("SELECT * FROM Users NATURAL JOIN Economy NATURAL JOIN Donators WHERE id = '" + user.id + "';", (err, res) => {
                     if(err || !res || !res.length || res.length == 0 || !res[0])
                         return resolve(conn);
                     user.smacks = res[0].smacks;
@@ -465,6 +484,10 @@ module.exports = function () {
                     user.refreshLoves = res[0].lovereset;
                     user.refreshSmacks = res[0].smacksreset;
                     user.repRefresh = res[0].reprefresh;
+                    if(res[0].tier)
+                        user.donationTier = res[0].tier;
+                    if(res[0].expires)
+                        user.donationExpires = res[0].expires;
                     resolve(conn);
                 });
             }); 
@@ -476,8 +499,19 @@ module.exports = function () {
             this.addUserToEconomy(conn,user).then(conn => {
                 conn.query("UPDATE Economy SET loves = '" + user.loves + "',smacks = '" + user.smacks + "', lovereset = '" + user.refreshLoves + "', smacksreset = '" + user.refreshSmacks + "', rep = '" + user.rep + "', reprefresh = '" + user.repRefresh + "' WHERE id = '" + user.id + "'", (err, res) => {
                     if(err)
-                        reject(err);
-                    resolve(conn);
+                        return reject(err);
+                    if(user.donationTier)
+                    {
+                        this.addUserToDonators(conn, user).then(conn => {
+                            conn.query("UPDATE Donators SET tier = " + user.donationTier + ", expires ='" + user.donationExpires + "' WHERE id = '" + user.id + "';", (err, res) => {
+                                if(err)
+                                    return reject(err);
+                                resolve(conn);
+                            });
+                        }).catch(err => reject(err));
+                    }
+                    else
+                        resolve(conn);
                 });
             }).catch(err => reject(err));
         });

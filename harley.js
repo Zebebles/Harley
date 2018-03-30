@@ -224,6 +224,30 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             bot.loadUser(user);
             res.sendStatus(200);
         });
+
+        bot.express.get("/donation", function(req, res) {
+            if(!req.query.id || !req.query.amount)
+                return res.sendStatus(400);
+            bot.fetchUser(req.query.id).then(user => {
+                if(!user)
+                    return res.sendStatus(404);
+                res.sendStatus(200);
+                let tier = 1;
+                if(req.query.amount >= 16)
+                    tier = 3;
+                else if(req.query.amount >=6)
+                    tier = 2;
+                if(!user.donationTier || user.donationTier < tier)
+                    user.donationTier = tier;
+                if(user.donationExpires)
+                    user.donationExpires = (user.donationExpires - new Date().getTime()) + (new Date().getTime() + 2592000000);
+                else
+                    user.donationExpires = new Date().getTime() + 2592000000;
+                bot.syncUser(user);
+            }).catch(err => {
+                res.sendStatus(404);
+            });
+       }); 
     }).catch(err => console.log("Error getting authentication\n"+err))
 }).catch(err => console.log("Failed registering server.\n"+err));
 
