@@ -25,7 +25,7 @@ module.exports = class Playlist{
         this.paused = false;
         this.dontRelate = [];
         if(this.message && this.message.collector)
-            this.message.collector.stop().catch(err => err);
+            this.message.collector.stop();
         if(this.message)
             this.message.clearReactions().catch(err => err);
         this.message = null;
