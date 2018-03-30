@@ -454,6 +454,7 @@ module.exports = function () {
                     if(err)
                         return reject(err);
                     res.forEach(tuple => {
+                        console.log(tuple);
                         client.fetchUser(tuple.id).then(user => {
                             if(user)
                             {
