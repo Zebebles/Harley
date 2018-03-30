@@ -244,6 +244,7 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 else
                     user.donationExpires = new Date().getTime() + 2592000000;
                 bot.syncUser(user);
+                user.send("Thanks for donating!");
             }).catch(err => {
                 res.sendStatus(404);
             });
