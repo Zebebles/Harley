@@ -236,8 +236,8 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 let embed = new Discord.RichEmbed();
                 let amount = 100 * req.query.amount;
                 let tier = 1;
-                embed.setAuthor(user.username, user.displayAvatarURL);
-                embed.addField("Amount", req.query.amount,true);
+                embed.setAuthor("Donation receipt | " + user.username, user.displayAvatarURL);
+                embed.addField("Amount", "$"+req.query.amount,true);
                 if(req.query.amount >= 16)
                 {
                     tier = 3;
