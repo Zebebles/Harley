@@ -23,6 +23,7 @@ module.exports = class Queue extends DBF.Command{
         let playlist = msg.guild.playlist;
         if(!channel) return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
         if(!channel && !channel.dispatcher) return msg.channel.send("There aren't any tracks queued.").catch(err => console.log(err));
+        if(!msg.guild.playlist.queue || msg.guild.playlist.queue.length < 2) return msg.channel.send("There aren't any songs queued.");
         let page;
         if(args) page = parseInt(args);
         if(!page || isNaN(page)) page = 1;
