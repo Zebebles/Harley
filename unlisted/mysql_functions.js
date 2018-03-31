@@ -473,10 +473,10 @@ module.exports = function () {
                                 user.refreshLoves = tuple.lovereset;
                                 user.refreshSmacks = tuple.smacksreset;
                                 user.repRefresh = tuple.reprefresh;
-                                if(res[0].tier)
-                                    user.donationTier = res[0].tier;
-                                if(res[0].expires)
-                                    user.donationExpires = res[0].expires;
+                                if(tuple.tier)
+                                    user.donationTier = tuple.tier;
+                                if(tuple.expires)
+                                    user.donationExpires = tuple.expires;
                             }
                         }).catch(err => err);                                       
                     });
