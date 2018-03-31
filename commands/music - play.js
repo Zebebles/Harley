@@ -142,10 +142,8 @@ module.exports = class Hello extends DBF.Command{
                             return reject({err:"Private / Deleted or region locked",reason:"I can't play Private, Deleted or Region locked videos."});
                         qm.edit("",{embed: {title: "⌛ Queueing song ...", color: msg.guild.me.displayColor}}).then(qm => {
                             msg.guild.playlist.qmessage = qm; //notify user that harley's found the song, and is now adding it.
-                            if(vid.durationSeconds == 0 && msg.author.donationTier < 2)
-                            {
+                            if(!vid.durationSeconds && msg.author.donationTier < 2)
                                 return reject({err: "Not donator", reason: "You have to donate to play 24/7 streams.\nVisit <http://www.harleybot.me/beta/donate/> for more information."})
-                            }
                             msg.guild.playlist.textChannel = msg.channel; //set the text channel
                             msg.guild.playlist.voiceChannel = channel;
                             var song;
