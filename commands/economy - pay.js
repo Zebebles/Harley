@@ -20,7 +20,7 @@ module.exports = class Pay extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         
         if(!user)
-            return msg.channel.send("I couldn't the recipient of this transaction, sorry.").catch(err => console.log(err));
+            return msg.channel.send("I couldn't find the recipient of this transaction, sorry.").catch(err => console.log(err));
         if(user.bot)
             return msg.channel.send("Bot's don't accept rice payments, sorry.").catch(err => console.log(err));
         
