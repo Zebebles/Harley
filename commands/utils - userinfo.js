@@ -50,8 +50,9 @@ module.exports = class userinfo extends DBF.Command{
 
 		let membertime = getTimeString(datejoined);
 		let discordTime = getTimeString(mem.user.createdAt);
+		let tier = msg.author.donationTier ? (msg.author.donationTier == 3 ? "Legend" : (msg.author.donationTier == 2 ? "Friend" : "Supporter")) : "None";
 		let myembed = new Discord.RichEmbed();
-		
+
 		myembed.setThumbnail(avatar);
 		myembed.setColor(mem.displayColor);
 		myembed.setURL(msg.author.displayAvatarURL);
@@ -61,6 +62,7 @@ module.exports = class userinfo extends DBF.Command{
 		myembed.addField("ID", id);
 		myembed.addField("Bot", bot, true);
 		msg.author.rep != null ? myembed.addField("Rice", msg.author.rep,true) : null;
+		myembed.addField("Donator Tier", tier);
 		myembed.addField("Joined Discord", discordTime);
 		myembed.addField("Joined server", membertime);
 		myembed.addField("Highest role", highestrole);

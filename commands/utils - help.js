@@ -36,6 +36,7 @@ module.exports = class Help extends DBF.Command{
             "**Prefix:** `" + prefix + "` all commands should begin with the prefix.  e.g. `" + prefix + "help` or <@" + msg.client.user.id + "> help\n"
             + "**Developer:** <@" + msg.client.author + ">\n"
             + "**Website:** [Click here!](http://www.harleybot.me)\n"
+            + "**Donate:** [Click me!!](http://www.harleybot.me/donate)\n"
             + "**Invite Harley:** " + "[Click here!](https://discordapp.com/oauth2/authorize?client_id=300828323443900416&scope=bot&permissions=305654848)" + "\n"
             + "**Support Server:** " + "[Click here!](https://discord.gg/Wy5AjGS)"
             + "\n**Commands:** You can find a list of commands on the [website](http://www.harleybot.me/commands), or with `" + prefix + "commands`");
