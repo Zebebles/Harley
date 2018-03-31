@@ -10,7 +10,7 @@ module.exports = class Queue extends DBF.Command{
              triggers: ["que", "q"],
              group: "Music",
              ownerOnly : false,
-             description: "Browse which songs are in the queue.",
+             description: "Take a look at which songs are queued.",
              example: ">>queue page_number",             
              guildOnly : true,
              reqArgs : true,

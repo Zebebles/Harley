@@ -4,8 +4,8 @@ const Discord = require("discord.js");
 module.exports = class ToggleCommand extends DBF.Command{
     constructor(){
         super({
-             name: "toggleCommand", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["toggle", "disable", "enable", "togglecommand", "disablecommand", "enablecommand"], //any message (excluding msg.client.Prefix) that will trigger this command.
+             name: "toggle", //is pretty much just another trigger, but can be used filter commands.
+             triggers: ["togglecommand", "disable", "enable", "disablecommand", "enablecommand"], //any message (excluding msg.client.Prefix) that will trigger this command.
              group: "Utils", //this command will come under this group in the automatic help message.
              description: "Enable / Disable a command or group in a channel or for the whole server.  List of all disabled commands will be shown when no command/group is specified.", //this will show in the help message
              example: ">>toggle cmd_name\n>>toggle group_name\n>>toggle",             

@@ -4,7 +4,7 @@ module.exports = class Choose extends DBF.Command{
     constructor(){
         super({
              name: "roll", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["roll"], //any message (excluding msg.client.msg.client.Prefix) that will trigger this command.
+             triggers: ["dice"], //any message (excluding msg.client.msg.client.Prefix) that will trigger this command.
              group: "Misc", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Roll a really big dice (between 2 and 100000)", //this will show in the help message

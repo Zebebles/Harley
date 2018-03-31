@@ -4,7 +4,7 @@ module.exports = class Hello extends DBF.Command{
     constructor(){
         super({
              name: "hello", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["hi", "hello", "hey", "howdy", "gday", "g'day"], //any message (excluding prefix) that will trigger this command.
+             triggers: ["hi", "hey", "howdy", "gday"], //any message (excluding prefix) that will trigger this command.
              group: "Fun", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Sends hello in the channel along with Harley's ping", //this will show in the help message

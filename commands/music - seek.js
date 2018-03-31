@@ -5,7 +5,7 @@ module.exports = class Hello extends DBF.Command{
     constructor(){
         super({
              name: "seek",
-             triggers: ["seek", "forward", "fastforward", "ff"],
+             triggers: ["skipto"],
              group: "Music",
              ownerOnly : false,
              description: "Skips to specified time in the current song.",

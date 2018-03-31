@@ -3,8 +3,8 @@ const DBF = require('discordjs-bot-framework');
 module.exports = class prefix extends DBF.Command{
     constructor(){
         super({
-             name: "autoRole", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["autorole", "setrole"], //any message (excluding msg.client.Prefix) that will trigger this command.
+             name: "autorole", //is pretty much just another trigger, but can be used filter commands.
+             triggers: ["setrole","defaultrole"], //any message (excluding msg.client.Prefix) that will trigger this command.
              group: "Utils", //this command will come under this group in the automatic help message.
              description: "Set or check the role that will be auto-assigned to new members", //this will show in the help message
              example: ">>autorole guests\n>>autorole none\n>>autorole",             

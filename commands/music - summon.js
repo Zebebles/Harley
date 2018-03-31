@@ -4,7 +4,7 @@ module.exports = class Hello extends DBF.Command{
     constructor(){
         super({
              name: "summon",
-             triggers: ["summon", "summon", "join"],
+             triggers: ["join", "come"],
              group: "Music",
              ownerOnly : false,
              description: "Summons Harley to the voice channel",

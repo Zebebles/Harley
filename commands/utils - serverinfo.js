@@ -4,8 +4,8 @@ const Discord = require("discord.js");
 module.exports = class ServerInfo extends DBF.Command{
     constructor(){
         super({
-             name: "serverinfo", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["server", "serverinfo", "sinf", "serverinf", "guild", "ginfo", "guildinfo", "guildinf"], //any message (excluding msg.client.Prefix) that will trigger this command.
+             name: "server", //is pretty much just another trigger, but can be used filter commands.
+             triggers: ["serverinfo","guild", "guildinfo"], //any message (excluding msg.client.Prefix) that will trigger this command.
              group: "Utils", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Showns some information about the server.", //this will show in the help message

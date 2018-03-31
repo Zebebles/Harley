@@ -10,7 +10,7 @@ module.exports = class Color extends DBF.Command{
              triggers: ["color", "clr", "colour"], //any message (excluding prefix) that will trigger this command.
              group: "Misc", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
-             description: "See what a color looks like!", //this will show in the help message
+             description: "See what a color looks like in Discord!", //this will show in the help message
              example: ">>color hex or rgb\n>>color #059adf\n>>color 255,255,255",             
              guildOnly : false, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs : true,
@@ -26,7 +26,7 @@ module.exports = class Color extends DBF.Command{
         let rgbRegex = new RegExp("(2[0-5]{2}|[0-1]?[0-9]{1,2})[, :.]+(2[0-5]{2}|[0-1]?[0-9]{1,2})[, :.]+(2[0-5]{2}|[0-1]?[0-9]{1,2})", "gi")
         let rgb = args.match(rgbRegex);
         let hex = args.match(hexRegex);
-        if( (!hex || args.replace(hex,"").length != 0)  &&  !rgb   )
+        if( (!hex || args.replace(hex,"").length > 1)  &&  !rgb   )
             return msg.channel.send("Color input must be in hex or rgb format. e.g `color #000000` or `color 255,255,255`").catch(err => console.log(err));
                 
         if(rgb)

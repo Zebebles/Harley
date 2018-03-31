@@ -5,7 +5,7 @@ module.exports = class Hello extends DBF.Command{
     constructor(){
         super({
              name: "shuffle",
-             triggers: ["shuffle", "mix", "mash", "mashup"],
+             triggers: ["mix", "mash"],
              group: "Music",
              ownerOnly : false,
              description: "Shuffles the queue.",
