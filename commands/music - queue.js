@@ -39,7 +39,6 @@ module.exports = class Queue extends DBF.Command{
         else
             return msg.channel.send("Please enter a page number between `1` and `" + (pages-1) + "`").catch(err => console.log(err));
 
-        console.log(pages);
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
             qm.then(m => m.react("⬅").catch(err => console.log(err))
             .then(prev => m.react("➡").catch(err => console.log(err)).then(next => {
