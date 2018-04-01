@@ -54,13 +54,17 @@ module.exports = class Queue extends DBF.Command{
                     clearTimeout(timeout);
                     reaction.remove(reaction.users.find(u => !u.bot)).then(() => {
                         if(reaction.emoji.name == prev.emoji.name)
+                        {
                             page--;
+                            if(page < 0)
+                                page = 0;
+                        }
                         else
+                        {
                             page++;
-                        if(page >= pages)
-                            page = 0;
-                        else if(page < 0)
-                            page = pages-1;
+                            if(page >= pages)
+                                page = 0;
+                        }
                         embed = generateMessage(page);
                         m.edit("", {embed}).catch(err => console.log(err));
                         timeout = setTimeout(() => {
@@ -76,7 +80,7 @@ module.exports = class Queue extends DBF.Command{
             let message = "";
             let done = false;
             let ind = 0;
-            for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length; i++){
+            for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length-1; i++){
                 ind++;
                 message += "\n**" + i + "**\t-\t`" + playlist.queue[i].title + "`";
             }
