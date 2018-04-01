@@ -57,7 +57,7 @@ module.exports = class Queue extends DBF.Command{
                         {
                             page--;
                             if(page < 0)
-                                page = 0;
+                                page = pages-1;
                         }
                         else
                         {
