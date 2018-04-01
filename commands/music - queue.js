@@ -57,10 +57,10 @@ module.exports = class Queue extends DBF.Command{
                             page--;
                         else
                             page++;
-                        if(page > pages-2)
+                        if(page > pages-1)
                             page = 0;
                         else if(page < 0)
-                            page = pages-2;
+                            page = pages-1;
                         embed = generateMessage(page);
                         m.edit("", {embed}).catch(err => console.log(err));
                         timeout = setTimeout(() => {
