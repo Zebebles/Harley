@@ -86,7 +86,7 @@ module.exports = class Queue extends DBF.Command{
                 myEmbed.setColor(msg.guild.me.displayColor);
                 myEmbed.setTitle("Showing page " + (page+1) + " of " + (pages-1) + ".");
                 myEmbed.setDescription(message);
-                myEmbed.setFooter("Showing " + ind + " of " + (playlist.queue.length-2) + " songs.");
+                myEmbed.setFooter("Showing " + ind + " of " + (playlist.queue.length-1) + " songs.");
                 
                 return myEmbed;
             }else
