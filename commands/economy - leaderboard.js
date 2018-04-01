@@ -42,7 +42,7 @@ module.exports = class Rep extends DBF.Command{
         }
         users = users.sort((a,b) => b.rep - a.rep);
         user = users.indexOf(msg.author);
-        let pages = Math.ceil(users.length-1/5);
+        let pages = Math.ceil((users.length-1)/5);
         page--;
 
         if(pages <= page)
