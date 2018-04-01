@@ -34,10 +34,10 @@ module.exports = class Video{
                     case "youtube":
                         if(this.duration > 0)
                         {
-                            resolve(ytdl(this.link,{quality: [250,171,140]})); //250 is 64kbps and 140 is 128kbps in the other codec
+                            resolve(ytdl(this.link,{quality: [250,171,139]})); //250 is 64kbps opus.  If that isn't avaliable, download 171 webm which is 128kbps but smaller size bcz compression. if that doesnt work, we download 139 which is 48kbps last resort because it's less compressed.
                         }
                         else
-                            resolve(ytdl(this.link,{quality: 91})); //can't just get audio for streams so get shittiest quality (48kbps and 144p) 
+                            resolve(ytdl(this.link,{quality: 91})); //can't filter out video for streams, so well get 48kpbs 140p because the sound is still decent and it uses way less dl.
                     break;
                     case "soundcloud":
                         resolve(req(this.link + "?client_id=" + auth.scID));
