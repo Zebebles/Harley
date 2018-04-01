@@ -34,10 +34,10 @@ module.exports = class Video{
                     case "youtube":
                         if(this.duration > 0)
                         {
-                            resolve(ytdl(this.link,{filter: "audioonly", quality: [250,140]})); //250 is 64kbps and 140 is 128kbps in the other codec
+                            resolve(ytdl(this.link,{quality: [250,171,140]})); //250 is 64kbps and 140 is 128kbps in the other codec
                         }
                         else
-                            resolve(ytdl(this.link,{filter: "audio", quality: 91})); //can't just get audio for streams so get shittiest quality (48kbps and 144p) 
+                            resolve(ytdl(this.link,{quality: 91})); //can't just get audio for streams so get shittiest quality (48kbps and 144p) 
                     break;
                     case "soundcloud":
                         resolve(req(this.link + "?client_id=" + auth.scID));
