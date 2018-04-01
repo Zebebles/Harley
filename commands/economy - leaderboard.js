@@ -42,12 +42,11 @@ module.exports = class Rep extends DBF.Command{
         }
         users = users.sort((a,b) => b.rep - a.rep);
         user = users.indexOf(msg.author);
-        let pages = Math.floor(users.length/5)+1;
+        let pages = Math.ceil(users.length-1/5);
+        page--;
 
-        if(pages < page)
-            page = Math.floor(users.length/5)+1;
-        if(page!=0)
-            page--;
+        if(pages <= page)
+            page = pages-1
         
         let embed = generateMessage(page);
 
