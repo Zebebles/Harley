@@ -75,7 +75,9 @@ module.exports = class Queue extends DBF.Command{
         function generateMessage(page){
             let message = "";
             let done = false;
+            let ind = 0;
             for(let i = 1+(5*page); i < 6+(5*page) && i < playlist.queue.length-2; i++){
+                ind++;
                 message += "\n**" + i + "**\t-\t`" + playlist.queue[i-1].title + "`";
             }
 
