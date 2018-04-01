@@ -88,7 +88,7 @@ module.exports = class Queue extends DBF.Command{
             if(message != ""){
                 let myEmbed = new Discord.RichEmbed();
                 myEmbed.setColor(msg.guild.me.displayColor);
-                myEmbed.setTitle("Showing page " + (page+1) + " of " + (pages-1) + ".");
+                myEmbed.setTitle("Showing page " + (page+1) + " of " + (pages) + ".");
                 myEmbed.setDescription(message);
                 myEmbed.setFooter("Showing " + ind + " of " + (playlist.queue.length-1) + " songs.");
                 
