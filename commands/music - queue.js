@@ -28,7 +28,7 @@ module.exports = class Queue extends DBF.Command{
         if(args) page = parseInt(args);
         if(!page || isNaN(page)) page = 1;
         page--;
-        let pages = Math.ceil(((playlist.queue.length)/5));
+        let pages = Math.ceil(((playlist.queue.length-1)/5));
         if(page > pages-2)
             page = pages-2;
         
@@ -39,6 +39,7 @@ module.exports = class Queue extends DBF.Command{
         else
             return msg.channel.send("Please enter a page number between `1` and `" + (pages-1) + "`").catch(err => console.log(err));
 
+        console.log(pages);
         if(qm && msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS") && pages > 1)
             qm.then(m => m.react("⬅").catch(err => console.log(err))
             .then(prev => m.react("➡").catch(err => console.log(err)).then(next => {
