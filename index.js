@@ -3,11 +3,9 @@ const snekfetch = require("snekfetch");
 const express = require("express");
 let app = express();
 const auth = require("./resources/auth.json");
-let ips = new Array();
 const Git = require("simple-git")(__dirname);
 
 console.log("Listening on port 3002");
-setInterval(() => ips = new Array(),10800000); //reset the array every 3 hours
 
 app.listen(3002);
 app.use(function(req, res, next)
