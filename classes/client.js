@@ -44,9 +44,7 @@ class myClient extends DBF.Client {
                     +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n"
                     + "**<http://www.harleybot.me/commands>**");
 
-            guild.members.forEach(member => {
-                this.loadUser(member.user);
-            });
+            this.loadUsers(this);
         });
 
         this.on("channelCreate", channel => {
