@@ -7,7 +7,7 @@ module.exports = class RouletteCmd extends DBF.Command{
     constructor(){
         super({
              name: "roulette", //is pretty much just another trigger, but can be used filter commands.
-             triggers: ["roulete", "roullette", "roullete", "spin"], //any message (excluding prefix) that will trigger this command.
+             triggers: ["spin"], //any message (excluding prefix) that will trigger this command.
              group: "Economy", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Gamble your rice on the roulette wheel along with anyone else in the server that wants to join.", //this will show in the help message
