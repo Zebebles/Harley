@@ -30,17 +30,20 @@ module.exports = class Video{
     getStream(){
         return new Promise((resolve, reject) => {
             this.validate().then(() => {
+                let stream;
                 switch(this.type){
                     case "youtube":
                         if(this.duration > 0)
                         {
-                            resolve(ytdl(this.link,{quality: [250,171,139]})); //250 is 64kbps opus.  If that isn't avaliable, download 171 webm which is 128kbps but smaller size bcz compression. if that doesnt work, we download 139 which is 48kbps last resort because it's less compressed.
+                            stream = ytdl(this.link,{filter: "audioonly", quality: [250,171,139]}); //250 is 64kbps 
                         }
                         else
-                            resolve(ytdl(this.link,{quality: 91})); //can't filter out video for streams, so well get 48kpbs 140p because the sound is still decent and it uses way less dl.
+                            stream = ytdl(this.link,{filter: "audio", quality: 91}); //can't just get audio for streams so get shittiest quality (48kbps and 144p) 
+                        
+                        stream.on("response", () => resolve(stream));
                     break;
                     case "soundcloud":
-                        resolve(req(this.link + "?client_id=" + auth.scID));
+                        stream = req(this.link + "?client_id=" + auth.scID).on("response", (response) => resolve(response));
                     break;
                     default:
                         reject("Not youtube or soundcloud");
