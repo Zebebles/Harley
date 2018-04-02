@@ -34,7 +34,7 @@ class myClient extends DBF.Client {
             }).catch(err => console.log(err));
             this.sendStatus(false);            
 
-            if(guild.defaultChannel)
+            if(guild.defaultTextChannel)
                 guild.defaultTextChannel.send("**Hey! Thanks for adding me! :robot:**\n"
                     +"**•**\tMy default prefix is `" + this.prefix + "`, but you can change it with `"+this.prefix+"prefix new_prefix`.\n"
                     +"**•**\tYou can view my commands with `" + this.prefix + "commands`, or visit my website for a searchable list.\n"
