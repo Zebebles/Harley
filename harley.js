@@ -208,8 +208,11 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
 
         bot.express.get("/status", function(req,res)
         {
-            bot.sendStatus(true);
-            res.sendStatus(200);
+            let status = bot.sendStatus(true);
+            if(status)
+                res.send(status);
+            else
+                res.sendStatus(500);
         });
 
         bot.express.get("/loadUser", function(req,res)
@@ -225,6 +228,27 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 res.sendStatus(200);
             }).catch(err => res.sendStatus(404));
         });
+
+        bot.express.get("/loadUsers", function(req,res)
+        {
+            bot.loadUsers(bot);
+            res.sendStatus(200);
+        }); 
+
+        bot.express.get("/loadGuild", function(req,res)
+        {
+            if(!req.query.id)
+                return res.sendStatus(400);
+            
+            bot.loadGuilds();
+            res.sendStatus(200);
+        });
+
+        bot.express.get("/loadGuilds", function(req,res)
+        {
+            bot.loadGuilds();
+            res.sendStatus(200);
+        })
 
         bot.express.get("/donation", function(req, res) {
             if(!req.query.id || !req.query.amount)

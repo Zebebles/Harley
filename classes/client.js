@@ -190,6 +190,7 @@ class myClient extends DBF.Client {
         if(extended)
             this.voiceConnections.forEach(conn => 
                 status.connlist.push({
+                    id: conn.channel.guild.id,
                     guild: conn.channel.guild.name,
                     length: conn.channel.guild.playlist.queue.length,
                     members: conn.channel.members.size
@@ -200,6 +201,7 @@ class myClient extends DBF.Client {
                 .catch(err => {
                     console.log("ERROR SENDING STATUS\n<br/>"+err);
                 });
+        return status;
     }
 
     reRegister(){
