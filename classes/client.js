@@ -1,7 +1,6 @@
 const DBF = require("discordjs-bot-framework");
 const Discord = require("discord.js");
 const mysql = require("mysql");
-const Playlist = require("./playlist.js");
 const fetch = require("node-fetch");
 const snekfetch = require("snekfetch");
 var Promise = require("bluebird");
@@ -16,7 +15,6 @@ class myClient extends DBF.Client {
         this.on("guildCreate", guild => {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
             this.setPrefix(guild, guild.client.prefix);
-            guild.playlist = new Playlist(guild);
             guild.disabledCommands = new Array();
             guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = new Array());
 
@@ -187,14 +185,6 @@ class myClient extends DBF.Client {
             connections: this.voiceConnections.size,
             connlist: []
         };
-        if(extended)
-            this.voiceConnections.forEach(conn => 
-                status.connlist.push({
-                    id: conn.channel.guild.id,
-                    guild: conn.channel.guild.name,
-                    length: conn.channel.guild.playlist.queue.length,
-                    members: conn.channel.members.size
-                }));
         snekfetch.post("http://"+this.auth.webserver + "/servers/status")
                 .send({status})
                 .end()
