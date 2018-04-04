@@ -94,11 +94,6 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                     aliases = aliases.substr(0, aliases.length-1);
                 bot.commandsList.push({"name": cmd.name, "group": cmd.group, "aliases" : aliases , "description": cmd.description, "example": cmd.example})
             });
-            fs.writeFile("/var/www/html/harleybot.me/public_html/resources/commands_list.json", JSON.stringify(bot.commandsList), err => {
-                if(err)
-                    return console.log(err)
-                console.log("Website commands list updated!");
-            });
             snekfetch.post("http://" + bot.auth.webserver + "/servers/commands")
             .send({commands: bot.commandsList})
             .end();
