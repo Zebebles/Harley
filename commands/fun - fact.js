@@ -1,5 +1,5 @@
 const DBF = require('discordjs-bot-framework');
-const fact = require("random-fact");
+let fact = require("random-fact");
 
 module.exports = class Thinking extends DBF.Command{
     constructor(){
@@ -15,7 +15,9 @@ module.exports = class Thinking extends DBF.Command{
     }
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
-        let msg = params.msg; let args = params.args; let user = params.user;        
-		msg.channel.send(fact().replace(/[^\d\w]/g, "")).catch(err => console.log(err));
+        let msg = params.msg; let args = params.args; let user = params.user;       
+        let fact = fact().replace(/[^\d\w]/g, ""); 
+        console.log(fact);
+		msg.channel.send("hi").catch(err => console.log(err));
     }
 }
