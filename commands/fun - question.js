@@ -21,6 +21,6 @@ module.exports = class Question extends DBF.Command{
 		let responses = ["Yes.", "No.", "Maybe.", "It seems so.", "Most likely.", "Probably.", "Unlikely.", "Probably not.", "No way!", "Definitely!"];
 		var max = Math.floor(1);
 		var ans = Math.floor(Math.random() * responses.length);
-        msg.channel.send(responses[ans]).catch(err => console.log(err));
+        msg.channel.send(":8ball: " + responses[ans]).catch(err => console.log(err));
      }
 }
