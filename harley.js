@@ -71,7 +71,8 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             /*
                 load guild prefixes, default roles, disabled commands, and greetings/farewells.
             */
-            bot.loadGuilds(bot.guilds.array()).then(() => console.log("Loaded guilds from DB"));
+            bot.loadGuilds(bot.guilds.array())
+            console.log("Loaded guilds from DB");
             bot.loadUsers(bot);
             bot.sendStatus(false,true);
             /*
