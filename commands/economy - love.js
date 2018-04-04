@@ -26,17 +26,17 @@ module.exports = class Love extends DBF.Command{
             lover.loves = 2;
         if(!user)
             if(lover.loves == 0)
-                return msg.channel.send("**" + msg.member + "**, you're all outta love. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
+                return msg.channel.send("**" +  msg.author.username  + "**, you're all outta love. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
             else if(lover.loves == 1)
-                return msg.channel.send("**" + msg.member + "**, you have *1* love point left. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you have *1* love point left. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
             else
-                return msg.channel.send("**" + msg.member + "**, you've still got both of your love points!").catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you've still got both of your love points!").catch(err => console.log(err));
         else if(lover.loves == 0) //if the author is out of smacks.
-            return msg.channel.send(":no_entry: **" + msg.member + "**, you've used up all of your love. :clock1: " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
+            return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, you've used up all of your love. :clock1: " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
         else if(lover == user)
-            return msg.channel.send(":no_entry: **" + msg.member + "**, you can't love yourself!").catch(err => console.log(err));
+            return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, you can't love yourself!").catch(err => console.log(err));
         else if(user.id == msg.client.user.id)
-            return msg.channel.send(":no_entry: Noooo thank you, " + msg.member).catch(err => console.log(err));
+            return msg.channel.send(":no_entry: Noooo thank you, " +  msg.author.username ).catch(err => console.log(err));
         else if(user.bot)
             return msg.reply("There's not a lot that a bot can do with that.").catch(err => console.log(err));
         

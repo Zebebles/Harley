@@ -26,17 +26,17 @@ module.exports = class Smack extends DBF.Command{
             smacker.smacks = 2;
         if(!user)
             if(smacker.smacks == 0)
-                return msg.channel.send("**" + msg.member + "**, you don't have any slaps. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));         
+                return msg.channel.send("**" + msg.author.username + "**, you don't have any slaps. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));         
             else if(smacker.smacks == 1)
-                return msg.channel.send("**" + msg.member + "**, you have *1* slap left. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you have *1* slap left. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
             else
-                return msg.channel.send("**" + msg.member + "**, you still have both of your slaps available and ready!").catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you still have both of your slaps available and ready!").catch(err => console.log(err));
         else if(smacker.smacks == 0) //if the author is out of smacks.
-            return msg.channel.send(":no_entry: **" + msg.member + "**, you're out of smacks for another :clock1:" + getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
+            return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, you're out of smacks for another :clock1:" + getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
         else if(smacker == user)
-            return msg.channel.send(":no_entry: **" + msg.member + "**, have you every tried slapping yourself?").catch(err => console.log(err));
+            return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, have you every tried slapping yourself?").catch(err => console.log(err));
         else if(user.bot)
-            return msg.channel.send(":no_entry: **" + msg.member + "**, bot's don't have a face to slap, silly!").catch(err => console.log(err));
+            return msg.channel.send(":no_entry: **" +  msg.author.username + "**, bot's don't have a face to slap, silly!").catch(err => console.log(err));
         
 
         if(smacker.smacks == 2)
