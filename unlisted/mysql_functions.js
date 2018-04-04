@@ -84,13 +84,13 @@ module.exports = function () {
         });
     }
 
-    this.loadPrefixes = function (conn, client) {
+    this.loadPrefixes = function (conn, guilds) {
         let updateGuildPrefix = this.updateGuildPrefix;
 
         return new Promise(function (resolve, reject) {
             conn.query("use Guilds", (err, res) => {
                 if (err) return reject(err);
-                client.guilds.forEach(guild => {
+                guilds.forEach(guild => {
                     conn.query("SELECT * FROM Guilds WHERE id = " + guild.id + " LIMIT 1;", (err, res) => {
                         if (err) return reject(err);
                         let waitfor;
@@ -112,7 +112,7 @@ module.exports = function () {
                                 }
                             });
                         }
-                        if (guild.id == client.guilds.array()[client.guilds.size - 1].id) {
+                        if (guild.id == guilds.array()[guilds.size - 1].id) {
                             if (waitfor)
                                 waitfor.then(conn => resolve(conn)).catch(err => reject(err));
                             else
@@ -124,16 +124,16 @@ module.exports = function () {
         });
     }
 
-    this.loadAutoRoles = function (conn, client) {
+    this.loadAutoRoles = function (conn, guilds) {
         return new Promise((resolve, reject) => {
             conn.query("use Guilds", (err, res) => {
                 if (err) return reject(err);
-                client.guilds.forEach(guild => {
+                guilds.forEach(guild => {
                     conn.query("SELECT * FROM Default_Roles WHERE GuildId = " + guild.id + " LIMIT 1;", (err, res) => {
                         if (err) return reject(err);
                         if (res.length > 0)
                             guild.autoRole = res[0].RoleId;
-                        if (guild.id == client.guilds.array()[client.guilds.size - 1].id) {
+                        if (guild.id == guilds.array()[guilds.size - 1].id) {
                             //conn.end();
                             resolve(conn);
                         }
@@ -285,7 +285,7 @@ module.exports = function () {
         });
     }
 
-    this.loadGreetings = function (conn, client) {
+    this.loadGreetings = function (conn, guilds) {
         return new Promise((resolve, reject) => {
             conn.query("use Guilds", (err, res) => {
                 if (err) return reject(err);
@@ -295,7 +295,7 @@ module.exports = function () {
                     if (res.length == 0)
                         return resolve(conn);
                     res.forEach(tuple => {
-                        var guild = client.guilds.find(g => g.id == tuple.guildId);
+                        var guild = guilds.find(g => g.id == tuple.guildId);
                         if (!guild)
                             this.removeGuildFromGreetings(conn, guild).catch(err => reject(err));
                         else {
@@ -350,14 +350,12 @@ module.exports = function () {
         });
     }
 
-    this.loadDisabledCommands = function (conn,client) {
-
+    this.loadDisabledCommands = function (conn,guilds) {
         return new Promise((resolve, reject) => {
-
             conn.query("Use Guilds", (err, res) => {
                 if (err)
                     return reject(err);
-                client.guilds.forEach(guild => {
+                guilds.forEach(guild => {
                     conn.query("SELECT * FROM DisabledCommands WHERE guildId = " + guild.id, (err, res) => {
                         if (err)
                             return reject(err);
@@ -372,7 +370,7 @@ module.exports = function () {
                                 this.removeDisabledCommand(conn, guild, result.channelId, result.command).catch(err => reject(err));
                         });
                     });
-                    if (guild.id == client.guilds.array()[client.guilds.size - 1].id) {
+                    if (guild.id == guilds.array()[guilds.size - 1].id) {
                         setTimeout(() => {
                             //conn.end();                                
                             resolve(conn);
