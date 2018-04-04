@@ -34,9 +34,9 @@ module.exports = class Daily extends DBF.Command{
             msg.author.rep += rep;
             msg.author.repRefresh = new Date().getTime() + 86400000;
             msg.client.syncUser(msg.author);
-            return msg.channel.send(":rice: **" + msg.member.displayName + "**, you received `" + rep + "` rice in your daily ration.").catch(err => console.log(err));
+            return msg.channel.send(":rice: **" + msg.member + "**, you received `" + rep + "` rice in your daily ration.").catch(err => console.log(err));
         }else
-            return msg.channel.send("**" + msg.member.displayName + "**, you've already recieved your ration.  Come back in " + getTimeString(msg.author.repRefresh)).catch(err => console.log(err));
+            return msg.channel.send(":no_entry: You've already recieved your ration, " + msg.author + " :clock1: " + getTimeString(msg.author.repRefresh)).catch(err => console.log(err));
         
         function getTimeString(time){
             var delta = (time - new Date().getTime())/1000;
@@ -46,7 +46,7 @@ module.exports = class Daily extends DBF.Command{
             delta -= minutes * 60;
             var seconds = Math.round(delta % 60);			
     
-            return "**"+ hours + "** hours **" + minutes + "** minutes and **" + seconds + "** seconds";
+            return "**"+ hours + "**h **:" + minutes + "**m **:" + seconds + "** s";
         }
     }
 }
