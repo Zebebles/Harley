@@ -61,7 +61,7 @@ module.exports = class Love extends DBF.Command{
             delta -= minutes * 60;
             var seconds = Math.round(delta % 60);			
     
-            return "**"+ hours + "**h **: " + minutes + "**m **: " + seconds + "**s";
+            return "**"+ hours + "**h : **" + minutes + "**m : **" + seconds + "**s";
         }
     }
 }
