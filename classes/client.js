@@ -282,13 +282,9 @@ class myClient extends DBF.Client {
         });
         conn.connect(function (err) {
             loadPrefixes(conn, guilds).then(conn => {
-                console.log("Successfully loaded prefixes for " + guilds.length + " servers!");
                 loadAutoRoles(conn, guilds).then(conn => {
-                    console.log("Successfully loaded default roles for " + guilds.length + " servers!");
                     loadGreetings(conn, guilds).then(conn => {
-                        console.log("Successfully loaded greetings and farewells for " + guilds.length + " servers!");
                         loadDisabledCommands(conn, guilds).then(conn => {
-                            console.log("Successfully loaded disabled commands for " + guilds.length + " servers!");
                             conn.end();
                         }).catch(err => {
                             console.log("Error: " + err);
@@ -303,29 +299,6 @@ class myClient extends DBF.Client {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
         });
     } 
-
-    loadGuild(guild)
-    {
-        var conn = mysql.createConnection({
-            host: this.auth.webserver.split(":")[0],
-            user: "root",
-            password: this.auth.password
-        });
-
-        conn.connect(function (err) {
-            loadPrefixes(conn, [guild]).then(conn => {
-                loadAutoRoles(conn, [guild]).then(conn => {
-                    loadGreetings(conn, [guild]).then(conn => {
-                        loadDisabledCommands(conn, [guild]).then(conn => {
-                            conn.end();
-                        }).catch(err => {
-                            conn.end();
-                        });
-                    }).catch(err => console.log(err)); //catch loadGreetings
-                }).catch(err => console.log(err)); //catch loadAutoRoles
-            }).catch(err => console.log(err)); //catch loadPrefixes
-        });
-    }
 
     setPrefix(guild, prefix) {
         var conn = mysql.createConnection({

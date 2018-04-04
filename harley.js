@@ -71,7 +71,7 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             /*
                 load guild prefixes, default roles, disabled commands, and greetings/farewells.
             */
-            bot.loadGuilds(bot.guilds.array());
+            bot.loadGuilds(bot.guilds.array()).then(() => console.log("Loaded guilds from DB"));
             bot.loadUsers(bot);
             bot.sendStatus(false,true);
             /*
@@ -218,13 +218,13 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             let guild = bot.guilds.get(req.query.id);
             if(!guild)
                 return res.sendStatus(404);
-            bot.loadGuild(guild);
+            bot.loadGuilds([guild]);
             res.sendStatus(200);
         });
 
         bot.express.get("/loadGuilds", function(req,res)
         {
-            bot.loadGuilds();
+            bot.loadGuilds(bot.guilds.array());
             res.sendStatus(200);
         })
 
