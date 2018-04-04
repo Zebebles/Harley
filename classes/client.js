@@ -194,6 +194,15 @@ class myClient extends DBF.Client {
         return status;
     }
 
+    sendLoadGuilds(id)
+    {
+        let url = `http://${this.auth.webserver}/servers/loadGuilds`;
+        snekfetch.post(url)
+        .send({id})
+        .end()
+        .catch(err => console.log("Error sending reload guilds post" + err));
+    }
+
     reRegister(){
         snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
             if(response.status != 200)
@@ -312,7 +321,10 @@ class myClient extends DBF.Client {
             updateGuildPrefix(conn, guild, prefix).catch(err => {
                 console.log(err);
                 conn.end();
-            }).then((conn) => conn.end());
+            }).then((conn) => {
+                conn.end();
+                this.sendLoadGuilds(guild.id);
+            });
         });
     }
 
@@ -327,7 +339,10 @@ class myClient extends DBF.Client {
             updateAutoRole(conn, role).catch(err => {
                 console.log(err);
                 conn.end();
-            }).then((conn) => conn.end());
+            }).then((conn) => {
+                conn.end();
+                this.sendLoadGuilds(guild.id);
+            });
         })
     }
 
@@ -342,7 +357,10 @@ class myClient extends DBF.Client {
             removeAutoRole(conn, guild).catch(err => {
                 console.log(err);
                 conn.end();
-            }).then((conn) => conn.end());
+            }).then((conn) => {
+                conn.end();
+                this.sendLoadGuilds(guild.id);
+            });
         })
     }
 
@@ -356,10 +374,11 @@ class myClient extends DBF.Client {
             setGreeting(conn, msg.guild, greeting).then(conn => {
                 setGreetingChannel(conn, msg.guild, msg.channel.id).then(conn => {
                     conn.end();
+                    this.sendLoadGuilds(guild.id);
                 }).catch(err => {
                     console.log(err);
                     conn.end();
-                })
+                });
             }).catch(err => {
                 console.log(err);
                 conn.end();
@@ -378,6 +397,7 @@ class myClient extends DBF.Client {
             setFarewell(conn, msg.guild, farewell).then(conn => {
                 setGreetingChannel(conn, msg.guild, msg.channel.id).then(conn => {
                     conn.end();
+                    this.sendLoadGuilds(guild.id);
                 }).catch(err => {
                     console.log(err);
                     conn.end();
@@ -401,12 +421,18 @@ class myClient extends DBF.Client {
                 removeGreeting(conn, guild).catch(err => {
                     console.log(err);
                     conn.end();
-                }).then((conn) => conn.end());
+                }).then((conn) => {
+                    conn.end()
+                    this.sendLoadGuilds(guild.id);
+                });
             else
                 removeGuildFromGreetings(conn, guild).catch(err => {
                     console.log(err);
                     conn.end();
-                }).then((conn) => conn.end());
+                }).then((conn) => {
+                    conn.end()
+                    this.sendLoadGuilds(guild.id);
+                });
         });
     }
 
@@ -422,12 +448,18 @@ class myClient extends DBF.Client {
                 removeFarewell(conn, guild).catch(err => {
                     console.log(err);
                     conn.end();
-                }).then((conn) => conn.end());
+                }).then((conn) => {
+                    conn.end()
+                    this.sendLoadGuilds(guild.id);
+                });
             else
                 removeGuildFromGreetings(conn, guild).catch(err => {
                     console.log(err);
                     conn.end();
-                }).then((conn) => conn.end());
+                }).then((conn) => {
+                    conn.end()
+                    this.sendLoadGuilds(guild.id);
+                });
         });
     }
 
@@ -446,7 +478,10 @@ class myClient extends DBF.Client {
             addDisabledCommand(conn, guild, channelId, commandName).catch(err => {
                 console.log(err);
                 conn.end();
-            }).then(conn => conn.end());
+            }).then(conn => {
+                conn.end()
+                this.sendLoadGuilds(guild.id);
+            });
         });
     }
 
@@ -465,7 +500,10 @@ class myClient extends DBF.Client {
             removeDisabledCommand(conn, guild, channelId, commandName).catch(err => {
                 console.log(err);
                 conn.end();
-            }).then(conn => conn.end());
+            }).then(conn => {
+                conn.end()
+                this.sendLoadGuilds(guild.id);
+            });
         });
     }
 }
