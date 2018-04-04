@@ -54,10 +54,10 @@ module.exports = class Smack extends DBF.Command{
         msg.client.syncUser(user);
         
         if(lost != 0)
-            msg.channel.send(":hand_splayed: :persevere: **"+smacker + "** slapped " + user + " and stole `" + lost + "` of their rice!")
+            msg.channel.send(":hand_splayed: :persevere: **"+smacker.username + "** slapped " + user + " and stole `" + lost + "` of their rice!")
                 .catch(err => console.log(err));
         else
-            msg.channel.send(":hand_splayed: :persevere: **" + smacker + "** slapped " + user + " but they didn't have any rice to take.")
+            msg.channel.send(":hand_splayed: :persevere: **" + smacker.username + "** slapped " + user + " but they didn't have any rice to take.")
             .catch(err => console.log(err));
         
         function getTimeString(time){
