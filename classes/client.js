@@ -302,7 +302,7 @@ class myClient extends DBF.Client {
         client.guilds.forEach(guild => {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
         });
-    }
+    } 
 
     setPrefix(guild, prefix) {
         var conn = mysql.createConnection({
