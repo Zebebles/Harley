@@ -16,7 +16,7 @@ module.exports = class Thinking extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;       
-        let fact = fact().replace(/[^\d\w]/g, ""); 
+        let fact = fact();
         console.log(fact);
 		msg.channel.send("hi").catch(err => console.log(err));
     }
