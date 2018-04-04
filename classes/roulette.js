@@ -60,7 +60,12 @@ module.exports = class Roulette{
         if(winner){ //build winner message
             embed.setTitle(winner.emoji + " Rice Roulette - Finished");
             let winnersString = "";
-            winner.users.forEach(u => winnersString += "\n`" + u.name + "`");
+            let totalsString = "";
+            winner.users.forEach(u => {
+                winnersString += "\n`" + u.name + "`";
+                totalsString += "\n`" + (u.bet*2) + "`";
+            });
+            
             winnersString = winnersString.substr(1,winnersString.length);
             
             if(winner.emoji == this.red.emoji)
@@ -71,10 +76,15 @@ module.exports = class Roulette{
                 embed.setColor([0,0,0]);
             
             if(winnersString != "")
+            {
                 embed.addField("Winners", winnersString,true);
+                embed.addField("Winnings", totalsString,true);
+            }
             else
-                embed.addField("Winners", "None",true);            
-            embed.addField("Total winnings", winner.pool * winner.multiplier,true);
+            {
+                embed.addField("Winners", "`None`",true);            
+                embed.addField("Winnings", "`0`",true);
+            }
         }else{ //build in progress message  
             embed.setTitle("🎲 Rice Roulette - Spinning in 30 seconds!");
             embed.setDescription("Roulette started!! Type `" + this.channel.guild.prefix + "roulette color bet` to join!\n");
