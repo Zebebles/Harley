@@ -41,6 +41,6 @@ module.exports = class Pay extends DBF.Command{
         msg.client.syncUser(msg.author);
         msg.client.syncUser(user);
 
-        msg.channel.send("**" + msg.author.username + "You sent a payment of `" + amount + "` :rice: rice to " + user).catch(err => console.log(err));
+        msg.channel.send("**" + msg.author.username + "**, You sent a payment of `" + amount + "` :rice: rice to " + user).catch(err => console.log(err));
     }
 }
