@@ -282,13 +282,13 @@ class myClient extends DBF.Client {
         });
         conn.connect(function (err) {
             loadPrefixes(conn, guilds).then(conn => {
-                console.log("Successfully loaded prefixes for " + guilds.size + " servers!");
+                console.log("Successfully loaded prefixes for " + guilds.length + " servers!");
                 loadAutoRoles(conn, guilds).then(conn => {
-                    console.log("Successfully loaded default roles for " + guilds.size + " servers!");
+                    console.log("Successfully loaded default roles for " + guilds.length + " servers!");
                     loadGreetings(conn, guilds).then(conn => {
-                        console.log("Successfully loaded greetings and farewells for " + guilds.size + " servers!");
+                        console.log("Successfully loaded greetings and farewells for " + guilds.length + " servers!");
                         loadDisabledCommands(conn, guilds).then(conn => {
-                            console.log("Successfully loaded disabled commands for " + guilds.size + " servers!");
+                            console.log("Successfully loaded disabled commands for " + guilds.length + " servers!");
                             conn.end();
                         }).catch(err => {
                             console.log("Error: " + err);
@@ -311,7 +311,7 @@ class myClient extends DBF.Client {
             user: "root",
             password: this.auth.password
         });
-        
+
         conn.connect(function (err) {
             loadPrefixes(conn, [guild]).then(conn => {
                 loadAutoRoles(conn, [guild]).then(conn => {

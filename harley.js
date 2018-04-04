@@ -215,8 +215,10 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
         {
             if(!req.query.id)
                 return res.sendStatus(400);
-            
-            bot.loadGuilds();
+            let guild = bot.guilds.get(req.query.id);
+            if(!guild)
+                return res.sendStatus(404);
+            bot.loadGuild(guild);
             res.sendStatus(200);
         });
 
