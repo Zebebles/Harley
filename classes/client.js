@@ -316,14 +316,14 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
-
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(function (err) {
             updateGuildPrefix(conn, guild, prefix).catch(err => {
                 console.log(err);
                 conn.end();
             }).then((conn) => {
                 conn.end();
-                this.sendLoadGuilds(guild.id);
+                sendLoadGuilds(guild.id);
             });
         });
     }
@@ -335,13 +335,14 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(function (err) {
             updateAutoRole(conn, role).catch(err => {
                 console.log(err);
                 conn.end();
             }).then((conn) => {
                 conn.end();
-                this.sendLoadGuilds(guild.id);
+                sendLoadGuilds(guild.id);
             });
         })
     }
@@ -352,14 +353,14 @@ class myClient extends DBF.Client {
             user: "root",
             password: this.auth.password
         });
-
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(function (err) {
             removeAutoRole(conn, guild).catch(err => {
                 console.log(err);
                 conn.end();
             }).then((conn) => {
                 conn.end();
-                this.sendLoadGuilds(guild.id);
+                sendLoadGuilds(guild.id);
             });
         })
     }
@@ -370,11 +371,13 @@ class myClient extends DBF.Client {
             user: "root",
             password: this.auth.password
         });
+
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             setGreeting(conn, msg.guild, greeting).then(conn => {
                 setGreetingChannel(conn, msg.guild, msg.channel.id).then(conn => {
                     conn.end();
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 }).catch(err => {
                     console.log(err);
                     conn.end();
@@ -393,11 +396,12 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             setFarewell(conn, msg.guild, farewell).then(conn => {
                 setGreetingChannel(conn, msg.guild, msg.channel.id).then(conn => {
                     conn.end();
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 }).catch(err => {
                     console.log(err);
                     conn.end();
@@ -416,6 +420,7 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             if (guild.farewell)
                 removeGreeting(conn, guild).catch(err => {
@@ -423,7 +428,7 @@ class myClient extends DBF.Client {
                     conn.end();
                 }).then((conn) => {
                     conn.end()
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 });
             else
                 removeGuildFromGreetings(conn, guild).catch(err => {
@@ -431,7 +436,7 @@ class myClient extends DBF.Client {
                     conn.end();
                 }).then((conn) => {
                     conn.end()
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 });
         });
     }
@@ -443,6 +448,7 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             if (guild.greeting)
                 removeFarewell(conn, guild).catch(err => {
@@ -450,7 +456,7 @@ class myClient extends DBF.Client {
                     conn.end();
                 }).then((conn) => {
                     conn.end()
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 });
             else
                 removeGuildFromGreetings(conn, guild).catch(err => {
@@ -458,7 +464,7 @@ class myClient extends DBF.Client {
                     conn.end();
                 }).then((conn) => {
                     conn.end()
-                    this.sendLoadGuilds(guild.id);
+                    sendLoadGuilds(guild.id);
                 });
         });
     }
@@ -470,6 +476,7 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             if (err) {
                 return console.log(err);
@@ -480,7 +487,7 @@ class myClient extends DBF.Client {
                 conn.end();
             }).then(conn => {
                 conn.end()
-                this.sendLoadGuilds(guild.id);
+                sendLoadGuilds(guild.id);
             });
         });
     }
@@ -492,6 +499,7 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
 
+        let sendLoadGuilds = this.sendLoadGuilds;
         conn.connect(err => {
             if (err) {
                 return console.log(err);
@@ -502,7 +510,7 @@ class myClient extends DBF.Client {
                 conn.end();
             }).then(conn => {
                 conn.end()
-                this.sendLoadGuilds(guild.id);
+                sendLoadGuilds(guild.id);
             });
         });
     }
