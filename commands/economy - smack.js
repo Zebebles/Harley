@@ -47,18 +47,17 @@ module.exports = class Smack extends DBF.Command{
         
         let rep = (Math.floor(Math.random(new Date().getTime()) * 25) + 1);                    
         let lost = rep > user.rep ? user.rep : rep;
-        let gained = Math.ceil(lost * Math.random(new Date().getTime()+1000));
         user.rep -= lost;
-        smacker.rep += gained;
+        smacker.rep += lost;
 
         msg.client.syncUser(smacker);
         msg.client.syncUser(user);
         
         if(lost != 0)
-            msg.channel.send(smacker + ", you slapped " + user + " so hard that they dropped `" + lost + "` grains of rice! :open_mouth:. You managed to salvage `" + gained + "` grains, but lost the rest in the dirt.")
+            msg.channel.send(":hand_splayed: :persevere: **"+smacker + "** slapped " + user + " and stole `" + lost + "` of their rice!")
                 .catch(err => console.log(err));
         else
-            msg.channel.send(smacker + ", you slapped " + user + " but they didn't have any rice to drop.")
+            msg.channel.send(":hand_splayed: :persevere: **" + smacker + "** slapped " + user + " but they didn't have any rice to take.")
             .catch(err => console.log(err));
         
         function getTimeString(time){

@@ -41,7 +41,7 @@ module.exports = class Love extends DBF.Command{
             return msg.reply("There's not a lot that a bot can do with that.").catch(err => console.log(err));
         
         let rep = Math.floor(Math.random() * 50) + 1;
-        msg.channel.send(lover + " gave " + user + " one of their love points! They redeemed it for `" + rep + "` grains of rice.").catch(err => console.log(err));
+        msg.channel.send(":hearts: **" + lover.username + "** gave " + user + " a love point! They redeemed it for `" + rep + "` rice.").catch(err => console.log(err));
         
         if(lover.loves == 2)
             lover.refreshLoves = new Date().getTime() + 21600000;

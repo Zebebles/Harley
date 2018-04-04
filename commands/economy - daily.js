@@ -34,7 +34,7 @@ module.exports = class Daily extends DBF.Command{
             msg.author.rep += rep;
             msg.author.repRefresh = new Date().getTime() + 86400000;
             msg.client.syncUser(msg.author);
-            return msg.channel.send("**" + msg.member.displayName + "**, you received `" + rep + "` grains of rice in your daily ration.").catch(err => console.log(err));
+            return msg.channel.send(":rice: **" + msg.member.displayName + "**, you received `" + rep + "` grains of rice in your daily ration.").catch(err => console.log(err));
         }else
             return msg.channel.send("**" + msg.member.displayName + "**, you've already recieved your ration.  Come back in " + getTimeString(msg.author.repRefresh)).catch(err => console.log(err));
         
