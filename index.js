@@ -36,7 +36,6 @@ app.get("/restart", function(req, res) {
 });
 
 app.get("/stop", function(req, res) {
-    harley.dontsend = true;
     harley.kill(true);
     console.log("Process killed via api endpoint.");
     res.sendStatus(200);
@@ -56,14 +55,6 @@ app.get("/pull", function(req, res) {
 app.get("/output", function(req,res){
     res.send(harley.log);
 });
-
-
-/*status messages
-400 -> bad request
-401 -> unauthorised // using for when too many requests are sent from 1 ip
-500 -> internal server error // using when the bot cant send me the message for whateve reason
-200 -> ok
-*/
 
 //start Harley
 var harley = new (forever.Monitor)('harley.js', {
@@ -94,3 +85,10 @@ harley.on("stderr", data => {
         .end();
 });
 
+
+/*status messages
+400 -> bad request
+401 -> unauthorised // using for when too many requests are sent from 1 ip
+500 -> internal server error // using when the bot cant send me the message for whateve reason
+200 -> ok
+*/
