@@ -112,7 +112,7 @@ module.exports = function () {
                                 }
                             });
                         }
-                        if (guild.id == guilds.array()[guilds.size - 1].id) {
+                        if (guild.id == guilds[guilds.length - 1].id) {
                             if (waitfor)
                                 waitfor.then(conn => resolve(conn)).catch(err => reject(err));
                             else
@@ -133,7 +133,7 @@ module.exports = function () {
                         if (err) return reject(err);
                         if (res.length > 0)
                             guild.autoRole = res[0].RoleId;
-                        if (guild.id == guilds.array()[guilds.size - 1].id) {
+                        if (guild.id == guilds[guilds.length - 1].id) {
                             //conn.end();
                             resolve(conn);
                         }
@@ -370,7 +370,7 @@ module.exports = function () {
                                 this.removeDisabledCommand(conn, guild, result.channelId, result.command).catch(err => reject(err));
                         });
                     });
-                    if (guild.id == guilds.array()[guilds.size - 1].id) {
+                    if (guild.id == guilds[guilds.length - 1].id) {
                         setTimeout(() => {
                             //conn.end();                                
                             resolve(conn);
