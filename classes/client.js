@@ -196,7 +196,7 @@ class myClient extends DBF.Client {
 
     sendLoadGuilds(id)
     {
-        let url = `http://${this.auth.webserver}/servers/loadGuilds`;
+        let url = "http://"+this.auth.webserver+"/servers/loadGuilds";
         snekfetch.post(url)
         .send({id})
         .end()
