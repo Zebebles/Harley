@@ -30,7 +30,7 @@ module.exports = class Rep extends DBF.Command{
         if(user.rep == null)
             user.rep = 0;
         let users = msg.client.users.filter( u => u.rep != null).array().sort((a,b) =>  b.rep - a.rep);
-        embed.addField("Rice", user.rep + " grains");
+        embed.addField("Rice :rice: ", user.rep + " grains");
         embed.addField("Server ranking", "# " + (users.filter(u => msg.guild.members.get(u.id)).indexOf(user)+1), true);
         embed.addField("Global ranking", "# " + (users.indexOf(user)+1), true);
         msg.channel.send("", {embed}).catch(err => console.log(err));
