@@ -16,6 +16,6 @@ module.exports = class Thinking extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;       
-		msg.channel.send(facts.facts[Math.floor(Math.random() * facts.facts.length)]).catch(err => console.log(err));
+		msg.channel.send("**Here's your random fact!**\n" + facts.facts[Math.floor(Math.random() * facts.facts.length)]).catch(err => console.log(err));
     }
 }
