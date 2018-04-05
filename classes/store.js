@@ -29,6 +29,10 @@ module.exports = class Store{
 
     fetchItem(identifier)
     {
+        if(identifier == null)
+            return;
+        else
+            identifier += "";
         return this.items.find(item => item.areYou(identifier.toLowerCase().trim()));
     }
 }
