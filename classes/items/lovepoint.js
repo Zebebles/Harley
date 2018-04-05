@@ -5,8 +5,8 @@ module.exports = class LovePoint extends Item{
     {
         super({
             id: 0,
-            name: "Love point",
-            description: "An extra love point to give.",
+            name: "Love",
+            description: "An extra love point to give to someone.",
             price: 100,
             emoji: ":hearts:",
             useImmediately: true
