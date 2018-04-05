@@ -35,8 +35,8 @@ module.exports = class InventoryCmd extends DBF.Command{
         .setColor(msg.guild.me.displayColor)
         .setDescription("Use `inventory use item_name` to use an item.\n");
         msg.author.items.forEach(item => {
-            item = msg.client.store.fetchItem(item.id);
-            embed.description += "\n"+ item.emoji + " **" + item.name + "**\t-\t" + item.description;
+            let fullItem = msg.client.store.fetchItem(item.id);
+            embed.description += "\n"+ fullItem.emoji + " **" + fullItem.name + "**\t-\t" + fullItem.description;
         });
 
         return msg.channel.send("", {embed: msg.client.store.storeEmbed.setColor(msg.guild.me.displayColor)});
