@@ -7,7 +7,7 @@ const fs = require('fs');
 const fetch = require("node-fetch");
 const express = require("express");
 const Discord = require("discord.js");
-const Store = require("./store.js");
+const Store = require("./classes/store.js");
 require("./unlisted/streaming.js")();
 require("./unlisted/joinleave.js")();//
 
