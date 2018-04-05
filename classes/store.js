@@ -29,7 +29,7 @@ module.exports = class Store{
 
     fetchItem(identifier)
     {
-        return this.items.find(item => item.name.toLowerCase().includes(identifier.toLowerCase()) || item.id == identifier || item.emoji == identifier);
+        return this.items.find(item => item.areYou(identifier));
     }
 
     fetchItemInfo(identifier)

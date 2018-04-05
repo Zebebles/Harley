@@ -20,6 +20,11 @@ module.exports = class Item{
         this.args = params.args ? params.args : "";
     }
 
+    areYou(ident)
+    {
+        return this.id == ident || this.name.toLowerCase().includes(ident.toLowerCase()) || this.emoji == ident.toLowerCase();
+    }
+
     buy(msg)
     {
         /*
