@@ -4,7 +4,7 @@ module.exports = class SlapItem extends Item{
     constructor () // {id - int, name - string, description - string, price - int, emoji - string, args - string, useImmediately - bool}
     {
         super({
-            id: 0,
+            id: 1,
             name: "Slap",
             description: "An extra slap to use on who you please.",
             price: 100,

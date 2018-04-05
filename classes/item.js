@@ -1,7 +1,7 @@
 module.exports = class Item{
     constructor (params) // {id - int, name - string, description - string, price - int, emoji - string, args - string, useImmediately - bool}
     {
-        if(!params.id)
+        if(params.id == null)
             throw Error("Must provide an ID.");
         else if(!params.name)
             throw Error("Must provide a name.");
