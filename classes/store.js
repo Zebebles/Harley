@@ -21,7 +21,7 @@ module.exports = class Store{
                     const item = new Item();
                     item.filename = path.join(itemsPath, file);
                     this.items.push(item);
-                    this.storeEmbed.description += "\n"+ item.emoji + " `(" + item.price + ")` **" + item.name + "**\t-\t" + item.description;
+                    this.storeEmbed.description += "\n"+ item.emoji + " `($" + item.price + ")` **" + item.name + "**\t-\t" + item.description;
                 }
             });
         });
@@ -38,6 +38,6 @@ module.exports = class Store{
     fetchItemInfo(identifier)
     {
         let item = this.fetchItem(identifier);
-        return item ? `**${item.name}** ${item.emoji} \`($${item.price})\`\t-\t${item.description}` : `Sorry, I'm not selling any \`${identifier}\`'s`;
+        return item ? `**${item.name}** ${item.emoji} \`($${item.price})\`\t-\t${item.description}` : `:convenience_store: Sorry, I'm not selling any \`${identifier}\`'s`;
     }
 }

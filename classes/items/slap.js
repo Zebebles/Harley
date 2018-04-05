@@ -17,6 +17,6 @@ module.exports = class SlapItem extends Item{
     {
         msg.author.loves += 1;
         super.use(msg);
-        msg.channel.send(this.emoji + "You succesfully purchased an extra slap!\nYou can use it with `" + msg.guild.prefix + "slap user`.");
+        msg.channel.send(":convenience_store: You succesfully purchased an extra slap " + this.emoji + "\nYou can use it with `" + msg.guild.prefix + "slap user`.");
     }
 }

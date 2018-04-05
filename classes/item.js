@@ -46,7 +46,7 @@ module.exports = class Item{
 
         msg.client.syncUser(msg.author);
         
-        msg.channel.send(`**${msg.author.username}**, you succesfully purchased a **${this.name}** ${this.emoji} for \`${this.price}\` rice!\nDon't forget to use it with \`${msg.guild.prefix}inventory use ${this.name} ${this.args}\``);
+        msg.channel.send(`:convenience_store: **${msg.author.username}**, you succesfully purchased a **${this.name}** ${this.emoji} for \`${this.price}\` rice!\nDon't forget to use it with \`${msg.guild.prefix}inventory use ${this.name} ${this.args}\``);
     }
 
     use(msg)

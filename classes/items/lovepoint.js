@@ -17,6 +17,6 @@ module.exports = class LovePoint extends Item{
     {
         msg.author.loves += 1;
         super.use(msg);
-        msg.channel.send(this.emoji + "You succesfully purchased an extra love point!\nYou can use it with `" + msg.guild.prefix + "love user`.");
+        msg.channel.send(":convenience_store: You succesfully purchased an extra love point " + this.emoji + "\nYou can use it with `" + msg.guild.prefix + "love user`.");
     }
 }
