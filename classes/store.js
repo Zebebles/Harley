@@ -29,10 +29,7 @@ module.exports = class Store{
 
     fetchItem(identifier)
     {
-        return this.items.find(item => 
-                    item.id == identifier ||
-                    item.name.toLowerCase().includes(identifier.toLowerCase()) ||
-                    item.emoji == identifier);
+        return this.items.find(item => item.id == identifier || item.name.toLowerCase().includes(identifier.toLowerCase()) || item.emoji == identifier);
     }
 
     fetchItemInfo(identifier)
