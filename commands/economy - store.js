@@ -40,6 +40,6 @@ module.exports = class StoreCmd extends DBF.Command{
         if(args && args.match(/(info)|(description)|(detail)/gi))
             return msg.channel.send(msg.client.store.fetchItemInfo(args.replace(/(info)|(description)|(detail)/gi, "")));
 
-        return msg.channel.send("", {embed: msg.client.store.storeEmbed});
+        return msg.channel.send("", {embed: msg.client.store.storeEmbed.setColor(msg.guild.me.displayColor)});
     }
 }
