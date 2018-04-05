@@ -9,7 +9,7 @@ module.exports = class StoreCmd extends DBF.Command{
              group: "Economy", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
              description: "Spend all of your hard earned rice.", //this will show in the help message
-             example: ">>store\n>>store buy item_name\n>>store info item_name\n>>store buy love point\n>>store info slap",             
+             example: ">>store\n>>store buy item_name\n>>store buy love",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs: true
         });
@@ -33,12 +33,6 @@ module.exports = class StoreCmd extends DBF.Command{
                 return item.buy(msg);
             }
         }
-
-        /*
-            View info on an item.
-        */
-        if(args && args.match(/(info)|(description)|(detail)/gi))
-            return msg.channel.send(msg.client.store.fetchItemInfo(args.replace(/(info)|(description)|(detail)/gi, "")));
 
         return msg.channel.send("", {embed: msg.client.store.storeEmbed.setColor(msg.guild.me.displayColor)});
     }

@@ -6,7 +6,7 @@ module.exports = class Store{
     constructor ()
     {
         this.items = [];
-        this.storeEmbed = new Discord.RichEmbed({title: ":convenience_store: Rice store", description: "Use `store buy item_name` to purchase an item.\nUse `store info item_name` for more info about any item.\n"});
+        this.storeEmbed = new Discord.RichEmbed({title: ":convenience_store: Rice store", description: "Use `store buy item_name` to purchase an item.\n"});
         this.loadItems();
     }
 
@@ -21,7 +21,7 @@ module.exports = class Store{
                     const item = new Item();
                     item.filename = path.join(itemsPath, file);
                     this.items.push(item);
-                    this.storeEmbed.description += "\n"+ item.emoji + " `($" + item.price + ")` **" + item.name + "**\t-\t" + item.description;
+                    this.storeEmbed.description += "\n"+ item.emoji + " **" + item.name + "** `($" + item.price + ")`\t-\t" + item.description;
                 }
             });
         });
@@ -30,11 +30,5 @@ module.exports = class Store{
     fetchItem(identifier)
     {
         return this.items.find(item => item.areYou(identifier.toLowerCase().trim()));
-    }
-
-    fetchItemInfo(identifier)
-    {
-        let item = this.fetchItem(identifier);
-        return item ? `:convenience_store: **${item.name}** ${item.emoji} \`($${item.price})\`\t-\t${item.description}` : `:convenience_store: Sorry, I'm not selling any \`${identifier}\`'s`;
     }
 }
