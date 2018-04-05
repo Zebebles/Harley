@@ -22,7 +22,7 @@ module.exports = class Item{
 
     areYou(ident)
     {
-        return this.id == ident || this.name.toLowerCase().includes(ident.toLowerCase()) || this.emoji == ident.toLowerCase();
+        return this.id == ident || this.name.includes(ident) || this.emoji == ident;
     }
 
     buy(msg)

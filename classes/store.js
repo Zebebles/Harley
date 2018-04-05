@@ -29,8 +29,7 @@ module.exports = class Store{
 
     fetchItem(identifier)
     {
-        console.log(identifier);
-        return this.items.find(item => item.areYou(identifier));
+        return this.items.find(item => item.areYou(identifier.toLowerCase().trim()));
     }
 
     fetchItemInfo(identifier)
