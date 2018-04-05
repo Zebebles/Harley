@@ -29,12 +29,12 @@ module.exports = class Store{
 
     fetchItem(identifier)
     {
-        return this.items.find(item => item.id == identifier || item.name.toLowerCase().includes(identifier.toLowerCase()) || item.emoji == identifier);
+        return this.items.find(item => item.name.toLowerCase().includes(identifier.toLowerCase()) || item.id == identifier || item.emoji == identifier);
     }
 
     fetchItemInfo(identifier)
     {
         let item = this.fetchItem(identifier);
-        return item ? `**${item.name}** ${item.emoji} \`($${item.price})\`\t-\t${item.description}` : `:convenience_store: Sorry, I'm not selling any \`${identifier}\`'s`;
+        return item ? `:convenience_store: **${item.name}** ${item.emoji} \`($${item.price})\`\t-\t${item.description}` : `:convenience_store: Sorry, I'm not selling any \`${identifier}\`'s`;
     }
 }
