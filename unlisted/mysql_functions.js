@@ -455,27 +455,29 @@ module.exports = function () {
 
     this.updateUserItem = function(conn, user)
     {
-        conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => {
-            if(err)
-                return reject(err);
-            if(res && res.length == 1)
-            {
-                conn.query("UPDATE Items set count = " + (user.itemChanged.count) + " WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => 
+        return new Promise((resolve, reject) => {
+            conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => {
+                if(err)
+                    return reject(err);
+                if(res && res.length == 1)
                 {
-                    if(err)
-                        return reject(err);
-                    resolve(conn);
-                });
-            }
-            else
-            {
-                conn.query("INSERT INTO Items (userId,itemId,count) VALUES('" + user.id + "','" + user.itemChanged.id + "','" + user.itemChanged.count + "');", (err, res) => 
+                    conn.query("UPDATE Items set count = " + (user.itemChanged.count) + " WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => 
+                    {
+                        if(err)
+                            return reject(err);
+                        resolve(conn);
+                    });
+                }
+                else
                 {
-                    if(err)
-                        return reject(err);
-                    resolve(conn);
-                })
-            }
+                    conn.query("INSERT INTO Items (userId,itemId,count) VALUES('" + user.id + "','" + user.itemChanged.id + "','" + user.itemChanged.count + "');", (err, res) => 
+                    {
+                        if(err)
+                            return reject(err);
+                        resolve(conn);
+                    })
+                }
+            });
         });
     }
 
@@ -505,7 +507,7 @@ module.exports = function () {
                                         user.donationTier = tuple.tier;
                                     if(tuple.expires)
                                         user.donationExpires = tuple.expires;
-                                });
+                                });       
                             }
                         }).catch(err => err);                                       
                     });
