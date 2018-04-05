@@ -6,7 +6,7 @@ module.exports = class Store{
     constructor ()
     {
         this.items = [];
-        this.storeEmbed = new Discord.RichEmbed({title: ":convenience_store: Rice store", description: "", footer: "Use `store buy item_name` to purchase an item, or `store info item_name` for more info about any item."});
+        this.storeEmbed = new Discord.RichEmbed({title: ":convenience_store: Rice store", description: "Use `store buy item_name` to purchase an item.\nUse `store info item_name` for more info about any item.\n"});
         this.loadItems();
     }
 
