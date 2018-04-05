@@ -23,7 +23,7 @@ module.exports = class StoreCmd extends DBF.Command{
         */
         if(args && args.match(/(buy)|(purchase)/gi))
         {
-            let item = msg.client.store.fetchItem(args);
+            let item = msg.client.store.fetchItem(args.replace(/(buy)|(purchase)/gi),"");
             if(!item)
                 return msg.channel.send(`:convenience_store: Sorry, I'm not selling any \`${args}\`'s`);
             else
@@ -38,7 +38,7 @@ module.exports = class StoreCmd extends DBF.Command{
             View info on an item.
         */
         if(args && args.match(/(info)|(description)|(detail)/gi))
-            return msg.channel.send(msg.client.store.fetchItemInfo(args));
+            return msg.channel.send(msg.client.store.fetchItemInfo(args.replace(/(info)|(description)|(detail)/gi, "")));
 
         return msg.channel.send("", {embed: msg.client.store.storeEmbed});
     }
