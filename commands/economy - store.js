@@ -21,7 +21,7 @@ module.exports = class StoreCmd extends DBF.Command{
         /*
             Purchase an Item.
         */
-        if(args.match(/(buy)|(purchase)/gi))
+        if(args && args.match(/(buy)|(purchase)/gi))
         {
             let item = msg.client.store.fetchItem(args);
             if(!item)
@@ -37,7 +37,7 @@ module.exports = class StoreCmd extends DBF.Command{
         /*
             View info on an item.
         */
-        if(args.match(/(info)|(description)|(detail)/gi))
+        if(args && args.match(/(info)|(description)|(detail)/gi))
             return msg.channel.send(msg.client.store.fetchItemInfo(args));
 
         return msg.channel.send("", {embed: msg.client.store.storeEmbed});
