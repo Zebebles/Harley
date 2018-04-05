@@ -25,7 +25,7 @@ module.exports = class StoreCmd extends DBF.Command{
         {
             let item = msg.client.store.fetchItem(args.replace(/(buy)|(purchase)/gi,""));
             if(!item)
-                return msg.channel.send(`:convenience_store: Sorry, I'm not selling any \`${args}\`'s`);
+                return msg.channel.send(`:convenience_store: Sorry, I'm not selling any \`${args.replace(/(buy)|(purchase)/gi,"")}\`'s`);
             else
             {
                 if(!msg.author.rep || msg.author.rep < item.price)

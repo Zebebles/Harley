@@ -27,7 +27,7 @@ module.exports = class Item{
             Call use if this.useImmediately is true.
             Be sure to check that the user has enough rice for the purchase before purchasing.
         */
-        msg.author.rice -= this.price;
+        msg.author.rep -= this.price;
         
         if(this.useImmediately) //no need to give the user the item if they're going to use it straight away.
             return this.use(msg);
