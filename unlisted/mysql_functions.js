@@ -496,7 +496,7 @@ module.exports = function () {
                                 conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "';", (err, items) => {
                                     user.items = [];
                                     if(items && items[0])
-                                        items.forEach(i => user.items.push({id: i.id, count: i.count}));
+                                        items.forEach(i => user.items.push({id: i.itemId, count: i.count}));
                                     user.smacks = tuple.smacks;
                                     user.loves = tuple.loves;
                                     user.rep = tuple.rep;
@@ -529,7 +529,7 @@ module.exports = function () {
                     conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "';", (err, items) => {
                         user.items = [];
                         if(items && items[0])
-                            items.forEach(i => user.items.push({id: i.id, count: i.count}));
+                            items.forEach(i => user.items.push({id: i.itemId, count: i.count}));
                         user.smacks = res[0].smacks;
                         user.loves = res[0].loves;
                         user.rep = res[0].rep;
