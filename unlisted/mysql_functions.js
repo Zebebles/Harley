@@ -449,8 +449,34 @@ module.exports = function () {
                     }else
                         resolve(conn);
                 })
-            });
+            }).catch(err => reject(err));
         }) 
+    }
+
+    this.updateUserItem = function(conn, user)
+    {
+        conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => {
+            if(err)
+                return reject(err);
+            if(res && res.length == 1)
+            {
+                conn.query("UPDATE Items set count = " + (user.itemChanged.count) + " WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => 
+                {
+                    if(err)
+                        return reject(err);
+                    resolve(conn);
+                });
+            }
+            else
+            {
+                conn.query("INSERT INTO Items (userId,itemId,count) VALUES('" + user.id + "','" + user.itemChanged.id + "','" + user.itemChanged.count + "');", (err, res) => 
+                {
+                    if(err)
+                        return reject(err);
+                    resolve(conn);
+                })
+            }
+        });
     }
 
     this.loadUsersDB = function(conn, client){
@@ -465,16 +491,21 @@ module.exports = function () {
                         client.fetchUser(tuple.id).then(user => {
                             if(user)
                             {
-                                user.smacks = tuple.smacks;
-                                user.loves = tuple.loves;
-                                user.rep = tuple.rep;
-                                user.refreshLoves = tuple.lovereset;
-                                user.refreshSmacks = tuple.smacksreset;
-                                user.repRefresh = tuple.reprefresh;
-                                if(tuple.tier)
-                                    user.donationTier = tuple.tier;
-                                if(tuple.expires)
-                                    user.donationExpires = tuple.expires;
+                                conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "';", (err, items) => {
+                                    user.items = [];
+                                    if(items && items[0])
+                                        items.forEach(i => user.items.push({id: i.id, count: i.count}));
+                                    user.smacks = tuple.smacks;
+                                    user.loves = tuple.loves;
+                                    user.rep = tuple.rep;
+                                    user.refreshLoves = tuple.lovereset;
+                                    user.refreshSmacks = tuple.smacksreset;
+                                    user.repRefresh = tuple.reprefresh;
+                                    if(tuple.tier)
+                                        user.donationTier = tuple.tier;
+                                    if(tuple.expires)
+                                        user.donationExpires = tuple.expires;
+                                });
                             }
                         }).catch(err => err);                                       
                     });
@@ -493,17 +524,22 @@ module.exports = function () {
                     if(err || !res || !res.length || res.length == 0 || !res[0]){
                         return resolve(conn);                        
                     }
-                    user.smacks = res[0].smacks;
-                    user.loves = res[0].loves;
-                    user.rep = res[0].rep;
-                    user.refreshLoves = res[0].lovereset;
-                    user.refreshSmacks = res[0].smacksreset;
-                    user.repRefresh = res[0].reprefresh;
-                    if(res[0].tier)
-                        user.donationTier = res[0].tier;
-                    if(res[0].expires)
-                        user.donationExpires = res[0].expires;
-                    resolve(conn);
+                    conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "';", (err, items) => {
+                        user.items = [];
+                        if(items && items[0])
+                            items.forEach(i => user.items.push({id: i.id, count: i.count}));
+                        user.smacks = res[0].smacks;
+                        user.loves = res[0].loves;
+                        user.rep = res[0].rep;
+                        user.refreshLoves = res[0].lovereset;
+                        user.refreshSmacks = res[0].smacksreset;
+                        user.repRefresh = res[0].reprefresh;
+                        if(res[0].tier)
+                            user.donationTier = res[0].tier;
+                        if(res[0].expires)
+                            user.donationExpires = res[0].expires;
+                        resolve(conn);
+                    })
                 });
             }); 
         });
@@ -515,6 +551,8 @@ module.exports = function () {
                 conn.query("UPDATE Economy SET loves = '" + user.loves + "',smacks = '" + user.smacks + "', lovereset = '" + user.refreshLoves + "', smacksreset = '" + user.refreshSmacks + "', rep = '" + user.rep + "', reprefresh = '" + user.repRefresh + "' WHERE id = '" + user.id + "'", (err, res) => {
                     if(err)
                         return reject(err);
+                    if(user.itemChanged != null) //if user.items is set then update the useritems in the db.
+                        this.updateUserItem(conn, user);
                     if(user.donationTier == -1)
                     {
                         this.dropUserFromDonators(conn, user).then(conn => {

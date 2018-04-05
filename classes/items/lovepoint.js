@@ -1,0 +1,22 @@
+const Item = require("../item.js");
+
+module.exports = class LovePoint extends Item{
+    constructor () // {id - int, name - string, description - string, price - int, emoji - string, args - string, useImmediately - bool}
+    {
+        super({
+            id: 0,
+            name: "Love point",
+            description: "An extra love point to give.",
+            price: 100,
+            emoji: ":hearts:",
+            useImmediately: true
+        });
+    }
+
+    use(msg)
+    {
+        msg.author.loves += 1;
+        super.use(msg);
+        msg.channel.send("You succesfully purchased an extra love point" + this.emoji + "! You can use it with `" + msg.guild.prefix + "love user`.");
+    }
+}
