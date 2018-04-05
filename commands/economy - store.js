@@ -21,13 +21,17 @@ module.exports = class StoreCmd extends DBF.Command{
         /*
             Purchase an Item.
         */
-        if(args.match(/(buy)|(purchase)|/gi))
+        if(args.match(/(buy)|(purchase)/gi))
         {
             let item = msg.client.store.fetchItem(args);
             if(!item)
                 return msg.channel.send(`:convenience_store: Sorry, I'm not selling any \`${args}\`'s`);
             else
+            {
+                if(!msg.author.rep || msg.author.rep < item.price)
+                    return msg.channel.send(`:convenience_store: It doesn't look like you can afford \`${item.price}\` rice ... `)
                 return item.buy(msg);
+            }
         }
 
         /*
