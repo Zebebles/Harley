@@ -7,6 +7,7 @@ const fs = require('fs');
 const fetch = require("node-fetch");
 const express = require("express");
 const Discord = require("discord.js");
+const Store = require("./store.js");
 require("./unlisted/streaming.js")();
 require("./unlisted/joinleave.js")();//
 
@@ -75,9 +76,8 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             console.log("Loaded guilds from DB");
             bot.loadUsers(bot);
             bot.sendStatus(false,true);
-            /*
-                Instantiate playlists in all the guilds.
-            */
+            bot.store = new Store();
+
 
             bot.user.setPresence({game : {name: bot.prefix + "help"}});
             /*

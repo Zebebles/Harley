@@ -12,13 +12,13 @@ module.exports = class Store{
 
     loadItems()
     {
-        fs.readdir("./items", (err, files) => {
+        fs.readdir("/items", (err, files) => {
             if(err) return console.log(err);
             files.forEach(file => {
                 if (path.extname(file) == ".js"){
-                    const Item = require(path.join('./items', file));
+                    const Item = require(path.join('/items', file));
                     const item = new Item();
-                    item.filename = path.join('./items', file);
+                    item.filename = path.join('/items', file);
                     this.items.push(item);
                     this.storeEmbed.description += "\n"+ item.emoji + " **" + item.name + "**\t-\t" + item.description;
                 }
