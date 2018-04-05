@@ -39,6 +39,6 @@ module.exports = class InventoryCmd extends DBF.Command{
             embed.description += "\n"+ fullItem.emoji + " **" + fullItem.name + "**\t-\t" + fullItem.description;
         });
 
-        return msg.channel.send("", {embed: msg.client.store.storeEmbed.setColor(msg.guild.me.displayColor)});
+        return msg.channel.send("", {embed});
     }
 }
