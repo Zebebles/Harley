@@ -28,9 +28,9 @@ module.exports = class Love extends DBF.Command{
             if(lover.loves == 0)
                 return msg.channel.send("**" +  msg.author.username  + "**, you're all outta love. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));        
             else if(lover.loves == 1)
-                return msg.channel.send("**" +  msg.author.username  + "**, you have *1* love point left. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you have **1** love point left. :clock1: "+ getTimeString(lover.refreshLoves)).catch(err => console.log(err));
             else
-                return msg.channel.send("**" +  msg.author.username  + "**, you've still got both of your love points!").catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you have **" + lover.loves + "** love points!").catch(err => console.log(err));
         else if(lover.loves == 0) //if the author is out of smacks.
             return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, you've used up all of your love. :clock1: " + getTimeString(lover.refreshLoves)).catch(err => console.log(err));
         else if(lover == user)

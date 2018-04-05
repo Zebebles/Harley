@@ -28,10 +28,10 @@ module.exports = class Smack extends DBF.Command{
             if(smacker.smacks == 0)
                 return msg.channel.send("**" + msg.author.username + "**, you don't have any slaps. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));         
             else if(smacker.smacks == 1)
-                return msg.channel.send("**" +  msg.author.username  + "**, you have *1* slap left. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
+                return msg.channel.send("**" +  msg.author.username  + "**, you have **1** slap left. :clock1: "+ getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
             else
-                return msg.channel.send("**" +  msg.author.username  + "**, you still have both of your slaps available and ready!").catch(err => console.log(err));
-        else if(smacker.smacks == 0) //if the author is out of smacks.
+                return msg.channel.send("**" +  msg.author.username  + "**, you have **" + smacker.smacks + "** smacks left.").catch(err => console.log(err));
+            else if(smacker.smacks == 0) //if the author is out of smacks.
             return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, you're out of smacks for another :clock1:" + getTimeString(smacker.refreshSmacks)).catch(err => console.log(err));
         else if(smacker == user)
             return msg.channel.send(":no_entry: **" +  msg.author.username  + "**, have you every tried slapping yourself?").catch(err => console.log(err));
