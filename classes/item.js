@@ -15,7 +15,7 @@ module.exports = class Item{
         this.name = params.name;
         this.description = params.description;
         this.price = params.price;
-        this.emoji - params.emoji;
+        this.emoji = params.emoji;
         this.useImmediately = params.useImmediately;
         this.args = params.args ? params.args : "";
     }

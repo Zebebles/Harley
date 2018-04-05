@@ -21,7 +21,7 @@ module.exports = class Store{
                     const item = new Item();
                     item.filename = path.join(itemsPath, file);
                     this.items.push(item);
-                    this.storeEmbed.description += "\n"+ item.emoji + " **" + item.name + "**\t-\t" + item.description;
+                    this.storeEmbed.description += "\n"+ item.emoji + " `(" + item.price + ")` **" + item.name + "**\t-\t" + item.description;
                 }
             });
         });
