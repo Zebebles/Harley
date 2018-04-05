@@ -9,7 +9,7 @@ module.exports = class LovePoint extends Item{
             description: "An extra love point to give to someone.",
             price: 100,
             emoji: ":hearts:",
-            useImmediately: false
+            useImmediately: true
         });
     }
 

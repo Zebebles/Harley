@@ -30,7 +30,7 @@ module.exports = class InventoryCmd extends DBF.Command{
                 return item.use(msg);
         }
         if(!msg.author.items || msg.author.items.length == 0)
-            return msg.channel.send("You don't have any items in your Inventory.\nUse `" + msg.guild.prefix + "store` to buy some items.");
+            return msg.channel.send("🎒 You don't have any items in your Inventory.\nUse `" + msg.guild.prefix + "store` to buy some items.");
         let embed = new Discord.RichEmbed() 
         .setTitle("🎒 Inventory | " + msg.author.username)
         .setColor(msg.guild.me.displayColor)
