@@ -46,13 +46,11 @@ module.exports = class HarassManager
                             resolve(clientHarassing);
                     }).catch(err => 
                     {
-                        console.log(err);
                         if(harassing.indexOf(harassee) == harassing.length-1)
                             resolve(clientHarassing);
                     });
                 }).catch(err => 
                 {
-                    console.log(err);
                     if(harassing.indexOf(harassee) == harassing.length-1)
                         resolve(clientHarassing);
                 });
@@ -105,7 +103,7 @@ module.exports = class HarassManager
         }
         else
         {
-            roastCommand.run(
+            this.roastCommand.run(
                 {msg: 
                     {channel: channel}, //this was set above, the roast command will do channel.send(). 
                 user: harassObj.harassee
