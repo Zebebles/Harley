@@ -23,9 +23,10 @@ module.exports = class InventoryCmd extends DBF.Command{
         */
         if(args && args.match(/(use)|(apply)/gi))
         {
-            let item = msg.client.store.fetchItem(args.replace(/(use)|(apply)/gi,""));
+            let itemID = (args.replace(/(use)|(apply)/gi,"").trim() + " ").split(" ")[0];
+            let item = msg.client.store.fetchItem(itemID);
             if(!item)
-                return msg.channel.send(`:school_satchel: Sorry, you don't own any \`${args.replace(/(use)|(apply)/gi,"")}\`'s`);
+                return msg.channel.send(`:school_satchel: Sorry, you don't own any \`${itemID}\`'s`);
             else
                 return item.use(msg);
         }
