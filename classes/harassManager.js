@@ -13,7 +13,7 @@ module.exports = class HarassManager
                 this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
             },1000);
-        }).catch(err => err);
+        }).catch(err => console.log(err));
     }
 
     loadHarassing()
@@ -23,13 +23,16 @@ module.exports = class HarassManager
             console.log(harassing);
             if(harassing.length == 0)
                 return reject();
-            harassing.forEach(harassee => {
-                this.client.fetchUser(harassee.userID).then(user => { //fetch the user from client
-                    this.client.fetchUser(harassee.harasserID).then(harasser => {
+            harassing.forEach(harassee => 
+            {
+                this.client.fetchUser(harassee.userID).then(user => 
+                { //fetch the user from client
+                    this.client.fetchUser(harassee.harasserID).then(harasser => 
+                    {
                         if(user && harasser)
                         {
                             this.harassing.push({
-                                guild: client.guilds.get(harassee.guildID), //get the guild
+                                guild: this.client.guilds.get(harassee.guildID), //get the guild
                                 harassee:  user,
                                 harrasser,
                                 left: harassee.left //how many harasses the user has left.
@@ -37,11 +40,13 @@ module.exports = class HarassManager
                         }
                         if(harassing.indexOf(harassee) == harassing.length-1)
                             resolve();
-                    }).catch(err => {
+                    }).catch(err => 
+                    {
                         if(harassing.indexOf(harassee) == harassing.length-1)
                             resolve();
                     });
-                }).catch(err => {
+                }).catch(err => 
+                {
                     if(harassing.indexOf(harassee) == harassing.length-1)
                         resolve();
                 });
