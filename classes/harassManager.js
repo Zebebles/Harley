@@ -13,7 +13,7 @@ module.exports = class HarassManager
                 this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
             },1000);
-        });
+        }).catch(err => err);
     }
 
     loadHarassing()
