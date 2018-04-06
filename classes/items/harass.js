@@ -19,12 +19,6 @@ module.exports = class HarassItem extends Item{
         let user = msg.client.findUser(msg);
         if(!user)
             return msg.channel.send(`${this.emoji} You need to tell me who you want harassed!\nUse \`${msg.guild.prefix}inv use harass @user\``);
-        if(user.id == msg.client.id)
-        {
-            msg.client.harassManager.startHarass(msg, msg.author);
-            super.use(msg);
-            return msg.channel.send(`${this.emoji} YEAH?! LETS SEE HOW YOU LIKE IT!`);
-        }
         msg.client.harassManager.startHarass(msg, user);
         super.use(msg);
         msg.channel.send(`${this.emoji} Consider it done :thumbsup:`);
