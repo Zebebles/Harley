@@ -14,7 +14,7 @@ module.exports = class HarassManager
                 this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
             },1800000);
-        }).catch(err => console.log(err));
+        }).catch(err => err);
     }
 
     loadHarassing()
@@ -76,7 +76,7 @@ module.exports = class HarassManager
                     this.harass(harassee);
                 });
                 this.updateFile(); //update the file so that itll load the harass if the bot is downed.
-            },1000)
+            },1800000)
         else
             this.updateFile(); //update the file so that it'll load the harass if the bot is downd
     }
