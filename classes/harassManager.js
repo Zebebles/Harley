@@ -46,11 +46,13 @@ module.exports = class HarassManager
                             resolve(clientHarassing);
                     }).catch(err => 
                     {
+                        console.log(err);
                         if(harassing.indexOf(harassee) == harassing.length-1)
                             resolve(clientHarassing);
                     });
                 }).catch(err => 
                 {
+                    console.log(err);
                     if(harassing.indexOf(harassee) == harassing.length-1)
                         resolve(clientHarassing);
                 });
