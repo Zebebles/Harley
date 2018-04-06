@@ -23,7 +23,8 @@ module.exports = class StoreCmd extends DBF.Command{
         */
         if(args && args.match(/(buy)|(purchase)/gi))
         {
-            let item = msg.client.store.fetchItem(args.replace(/(buy)|(purchase)/gi,"").replace(/[^\w]/gi));
+            let itemID = (args.replace(/(buy)|(purchase)/gi,"") + " ").split(" ")[0];
+            let item = msg.client.store.fetchItem(itemID);
             if(!item)
                 return msg.channel.send(`:convenience_store: Sorry, I'm not selling any \`${args.replace(/(buy)|(purchase)/gi,"")}\`'s`);
             else
