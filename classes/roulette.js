@@ -63,7 +63,7 @@ module.exports = class Roulette{
             let totalsString = "";
             winner.users.forEach(u => {
                 winnersString += "\n`" + u.name + "`";
-                totalsString += "\n`" + (u.bet*2) + "`";
+                totalsString += "\n`" + (u.bet*winner.multiplier) + "`";
             });
             
             winnersString = winnersString.substr(1,winnersString.length);
