@@ -459,7 +459,15 @@ module.exports = function () {
             conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => {
                 if(err)
                     return reject(err);
-                if(res && res.length == 1)
+                if(user.itemChanged.count < 1)
+                {
+                    conn.query("DELETE FROM Items WHERE userId = '" + user.id + "' AND ItemId = '" + user.itemChanged.id + "';", (err, res) => {
+                        if(err)
+                            return reject(err);
+                        resolve(conn);
+                    })
+                }
+                else if(res && res.length == 1)
                 {
                     conn.query("UPDATE Items set count = " + (user.itemChanged.count) + " WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => 
                     {
