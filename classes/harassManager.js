@@ -15,7 +15,7 @@ module.exports = class HarassManager
                 });
                 this.updateFile();
             },1000);
-        }).catch(err => console.log(err));
+        });
     }
 
     loadHarassing()
