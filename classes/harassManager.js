@@ -23,16 +23,19 @@ module.exports = class HarassManager
             console.log(harassing);
             if(harassing.length == 0)
                 return reject();
+            let client = this.client;
+            let clientHarassing = this.harassing;
+
             harassing.forEach(harassee => 
             {
-                this.client.fetchUser(harassee.userID).then(user => 
+                client.fetchUser(harassee.userID).then(user => 
                 { //fetch the user from client
-                    this.client.fetchUser(harassee.harasserID).then(harasser => 
+                    client.fetchUser(harassee.harasserID).then(harasser => 
                     {
                         if(user && harasser)
                         {
-                            this.harassing.push({
-                                guild: this.client.guilds.get(harassee.guildID), //get the guild
+                            clientHarassing.push({
+                                guild: client.guilds.get(harassee.guildID), //get the guild
                                 harassee:  user,
                                 harrasser,
                                 left: harassee.left //how many harasses the user has left.
