@@ -21,7 +21,7 @@ module.exports = class HarassManager
     loadHarassing()
     {
         return new Promise((resolve, reject) => {
-            let harassing = require("../resources/harrassing.json");
+            let harassing = require("../resources/harassing.json");
             if(harrassing.length == 0)
                 return reject();
             harassing.forEach(harassee => {
