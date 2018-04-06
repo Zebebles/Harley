@@ -20,7 +20,7 @@ module.exports = class HarassManager
     {
         return new Promise((resolve, reject) => {
             let harassing = require("../resources/harassing.json");
-            console.log(harrassing);
+            console.log(harassing);
             if(harassing.length == 0)
                 return reject();
             harassing.forEach(harassee => {
