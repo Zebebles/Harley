@@ -67,6 +67,7 @@ module.exports = class HarassManager
             left: 10
         });
         
+        harass(this.harassing[this.harassing.length]); //first harass straight away o3o
         /*
             start the harassment if this is the first harass.
         */
