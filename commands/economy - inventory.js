@@ -28,7 +28,9 @@ module.exports = class InventoryCmd extends DBF.Command{
             if(!item)
                 return msg.channel.send(`:school_satchel: Sorry, you don't own any \`${itemID}\`'s`);
             else
+            {
                 return item.use(msg);
+            }
         }
         if(!msg.author.items || msg.author.items.length == 0)
             return msg.channel.send("🎒 You don't have any items in your Inventory.\nUse `" + msg.guild.prefix + "store` to buy some items.");
