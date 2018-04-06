@@ -14,7 +14,7 @@ module.exports = class HarassManager
                     this.harass(harassee);
                 });
                 this.updateFile();
-            },1800000);
+            },1000);
         });
     }
 
