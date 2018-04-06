@@ -8,7 +8,8 @@ module.exports = class HarassManager
         this.client = client;
         this.roastCommand = client.commands.find(cmd => cmd.areYou("roast"));
         this.harassing = [];
-        this.loadHarassing().then(() => {
+        this.loadHarassing().then((harassing) => {
+            this.harassing = harassing;
             this.interval = setInterval(() => {
                 this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
@@ -24,7 +25,7 @@ module.exports = class HarassManager
             if(harassing.length == 0)
                 return reject();
             let client = this.client;
-            let clientHarassing = this.harassing;
+            let clientHarassing = [];
 
             harassing.forEach(harassee => 
             {
@@ -37,21 +38,21 @@ module.exports = class HarassManager
                             clientHarassing.push({
                                 guild: client.guilds.get(harassee.guildID), //get the guild
                                 harassee:  user,
-                                harrasser,
+                                harasser,
                                 left: harassee.left //how many harasses the user has left.
                             });
                         }
                         if(harassing.indexOf(harassee) == harassing.length-1)
-                            resolve();
+                            resolve(clientHarassing);
                     }).catch(err => 
                     {
                         if(harassing.indexOf(harassee) == harassing.length-1)
-                            resolve();
+                            resolve(clientHarassing);
                     });
                 }).catch(err => 
                 {
                     if(harassing.indexOf(harassee) == harassing.length-1)
-                        resolve();
+                        resolve(clientHarassing);
                 });
             });
         })
@@ -68,31 +69,31 @@ module.exports = class HarassManager
         });
         
         /*
-            start the harassment if this is the first harrass.
+            start the harassment if this is the first harass.
         */
-        if(this.harrassing.length == 1)
+        if(this.harassing.length == 1)
             this.interval = setInterval(() => {
-                this.harrassing.forEach(harrassee => {
-                    this.harrass(harassee);
+                this.harassing.forEach(harassee => {
+                    this.harass(harassee);
                 });
                 this.updateFile(); //update the file so that itll load the harass if the bot is downed.
             },1800000)
         else
-            this.updateFile(); //update the file so that it'll load the harrass if the bot is downd
+            this.updateFile(); //update the file so that it'll load the harass if the bot is downd
     }
 
     stopHarass(harassObj)
     {
-        this.harassing.splice(this.harassing.indexOf(harassObj),1); //remove the harrass object from the array.
+        this.harassing.splice(this.harassing.indexOf(harassObj),1); //remove the harass object from the array.
 
-        if(this.harrassing.length == 0)
-            clearInterval(this.interval); //stop the interval if there aren't any harrassings left.
+        if(this.harassing.length == 0)
+            clearInterval(this.interval); //stop the interval if there aren't any harassings left.
     }
 
     harass(harassObj)
     {
         harassObj.left--;
-        let channel = harassObj.guild.defaultTextChannel ? harrassObj.guild.defaultTextChannel : harassObj.harassee;
+        let channel = harassObj.guild.defaultTextChannel ? harassObj.guild.defaultTextChannel : harassObj.harassee;
 
 
         if(harassObj.left == 0)
