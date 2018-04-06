@@ -10,9 +10,7 @@ module.exports = class HarassManager
         this.harassing = [];
         this.loadHarassing().then(() => {
             this.interval = setInterval(() => {
-                this.harassing.forEach((harassee) => {
-                    this.harass(harassee);
-                });
+                this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
             },1000);
         });
@@ -22,6 +20,7 @@ module.exports = class HarassManager
     {
         return new Promise((resolve, reject) => {
             let harassing = require("../resources/harassing.json");
+            console.log(harrassing);
             if(harassing.length == 0)
                 return reject();
             harassing.forEach(harassee => {
