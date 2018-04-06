@@ -22,7 +22,7 @@ module.exports = class HarassManager
     {
         return new Promise((resolve, reject) => {
             let harassing = require("../resources/harassing.json");
-            if(harrassing.length == 0)
+            if(harassing.length == 0)
                 return reject();
             harassing.forEach(harassee => {
                 client.fetchUser(harassee.userID).then(user => { //fetch the user from client
