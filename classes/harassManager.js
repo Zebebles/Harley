@@ -25,8 +25,8 @@ module.exports = class HarassManager
             if(harassing.length == 0)
                 return reject();
             harassing.forEach(harassee => {
-                client.fetchUser(harassee.userID).then(user => { //fetch the user from client
-                    client.fetchUser(harassee.harasserID).then(harasser => {
+                this.client.fetchUser(harassee.userID).then(user => { //fetch the user from client
+                    this.client.fetchUser(harassee.harasserID).then(harasser => {
                         if(user && harasser)
                         {
                             this.harassing.push({
