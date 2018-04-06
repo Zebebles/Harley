@@ -13,7 +13,7 @@ module.exports = class HarassManager
             this.interval = setInterval(() => {
                 this.harassing.forEach(harassee => this.harass(harassee));
                 this.updateFile();
-            },1000);
+            },1800000);
         }).catch(err => console.log(err));
     }
 
@@ -21,7 +21,6 @@ module.exports = class HarassManager
     {
         return new Promise((resolve, reject) => {
             let harassing = require("../resources/harassing.json");
-            console.log(harassing);
             if(harassing.length == 0)
                 return reject();
             let client = this.client;
@@ -77,7 +76,7 @@ module.exports = class HarassManager
                     this.harass(harassee);
                 });
                 this.updateFile(); //update the file so that itll load the harass if the bot is downed.
-            },1800000)
+            },1000)
         else
             this.updateFile(); //update the file so that it'll load the harass if the bot is downd
     }
