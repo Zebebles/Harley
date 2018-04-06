@@ -8,6 +8,7 @@ const fetch = require("node-fetch");
 const express = require("express");
 const Discord = require("discord.js");
 const Store = require("./classes/store.js");
+const HarassManager = require("./classes/harassManager.js");
 require("./unlisted/streaming.js")();
 require("./unlisted/joinleave.js")();//
 
@@ -77,7 +78,7 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             bot.loadUsers(bot);
             bot.sendStatus(false,true);
             bot.store = new Store();
-
+            bot.harassManager = new HarassManager(bot);
 
             bot.user.setPresence({game : {name: bot.prefix + "help"}});
             /*

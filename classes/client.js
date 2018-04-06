@@ -172,9 +172,9 @@ class myClient extends DBF.Client {
         if(guild.defaultRole.hasPermission("ADMINISTRATOR"))
             return guild.channels.filter(ch => ch.type == "text").sort((a,b) => a.position-b.position).first();
         else if(guild.defaultRole.hasPermission("SEND_MESSAGES"))
-            return guild.channels.filter(ch => ch.type == "text" && !ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.deny).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
+            return guild.channels.filter(ch => ch.type == "text" && ch.permissionsFor(guild.me).has("SEND_MESSAGES") && !ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.deny).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
         else
-            return guild.channels.filter(ch => ch.type == "text" && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
+            return guild.channels.filter(ch => ch.type == "text" && ch.permissionsFor(guild.me).has("SEND_MESSAGES") && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
     }
 
     sendStatus(extended){
