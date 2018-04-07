@@ -486,7 +486,7 @@ module.exports = function () {
                     })
                 }
             });
-        });
+        }).then(() => user.itemChanged = null);
     }
 
     this.loadUsersDB = function(conn, client){
