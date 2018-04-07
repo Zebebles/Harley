@@ -19,10 +19,7 @@ module.exports = class DonatorItem extends Item{
         msg.author.donationExpires = new Date().getTime() + 2592000000;
 
         msg.client.guilds.get("317548490928422912").fetchMember(msg.author).then(mem => {
-            if(tier == 2)
-                mem.addRole("429277014718021644");
-            else if(tier == 3)
-                mem.addRole("429277146519830529");
+            mem.addRole("429277146519830529");
         }).catch(err => err);
         
         super.use(msg);
