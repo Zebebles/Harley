@@ -19,7 +19,7 @@ module.exports = class changeGame extends DBF.Command{
         let msg = params.msg; var args = params.args;
         let embed = new Discord.RichEmbed();
         embed.setTitle("Eval results.");
-        embed.addField("Input","```javascript\n" + args + "```\n:arrow_down:\n");
+        embed.addField("Input","```javascript\n" + args + "```\n:arrow_down:");
         
         new Promise((resolve, reject) => 
         {
@@ -37,11 +37,11 @@ module.exports = class changeGame extends DBF.Command{
         {
             const res = resolutions[0];
             let out = typeof res !== 'string' ? require('util').inspect(res).toString() : res;
-            embed.addField(`Succeeded`,`\`\`\`js\n${out}\n\`\`\``);
+            embed.addField(`\nSucceeded`,`\`\`\`js\n${out}\n\`\`\``);
             msg.channel.send("",{embed});
         }).catch(err => 
         {
-            embed.addField(`Failed`,`\`\`\`js\n${err.message || err}\`\`\``);
+            embed.addField(`\nFailed`,`\`\`\`js\n${err.message || err}\`\`\``);
             msg.channel.send("",{embed});
         });
     }
