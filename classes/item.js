@@ -65,12 +65,10 @@ module.exports = class Item{
         {
             let usersItem = msg.author.items.find(item => item.id == this.id);
             usersItem.count--;  //reduce their item count by 1
+            msg.author.itemChanged = usersItem;
     
             if(usersItem.count == 0)    //remove the item from the users items.
                 msg.author.items = msg.author.items.filter(item => item.id != this.id);
-            
-            msg.author.itemChanged = this;
-            console.log(this);
         }
 
         msg.client.syncUser(msg.author);//update the user in the db.
