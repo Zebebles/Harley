@@ -9,7 +9,7 @@ module.exports = class Commands extends DBF.Command{
              triggers: ["cmds", "command", "cmd"], //any message (excluding msg.client.Prefix) that will trigger this command.
              group: "Utils", //this command will come under this group in the automatic help message.
              ownerOnly : false, //if this command is to be used by the bot creator only.
-             description: "See either a list of all commands, a more detailed list of commands from a specific group, or detailed information about a specific command.", //this will show in the help message
+             description: "See either a list of all commands, a detailed list of commands from a specific group, or detailed information and examples for a specific command.", //this will show in the help message
              example: ">>commands\n>>commands music\n>>commands play",                          
              reqArgs : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqBotPerms : ["EMBED_LINKS"]
