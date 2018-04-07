@@ -456,6 +456,8 @@ module.exports = function () {
     this.updateUserItem = function(conn, user)
     {
         return new Promise((resolve, reject) => {
+            if(!user.itemChanged)
+                return resolve(conn);
             conn.query("SELECT * FROM Items WHERE userId = '" + user.id + "' AND itemId = '" + user.itemChanged.id + "';", (err, res) => {
                 if(err)
                     return reject(err);
@@ -565,30 +567,28 @@ module.exports = function () {
                 conn.query("UPDATE Economy SET loves = '" + user.loves + "',smacks = '" + user.smacks + "', lovereset = '" + user.refreshLoves + "', smacksreset = '" + user.refreshSmacks + "', rep = '" + user.rep + "', reprefresh = '" + user.repRefresh + "' WHERE id = '" + user.id + "'", (err, res) => {
                     if(err)
                         return reject(err);
-                    if(user.itemChanged != null) //if user.items is set then update the useritems in the db.
-                        wait = this.updateUserItem(conn, user);
-                    if(user.donationTier == -1)
-                    {
-                        this.dropUserFromDonators(conn, user).then(conn => {
-                            wait.then(() => {
+                    this.updateUserItem(conn, user).then(conn => {
+                        if(user.donationTier == -1)
+                        {
+                            this.dropUserFromDonators(conn, user).then(conn => {
                                 resolve(conn);
                                 user.donationTier = null;
                                 user.expires = null
                             }).catch(err => reject(err));
-                        }).catch(err => reject(err));
-                    }
-                    else if(user.donationTier)
-                    {
-                        this.addUserToDonators(conn, user).then(conn => {
-                            conn.query("UPDATE Donators SET tier = " + user.donationTier + ", expires ='" + user.donationExpires + "' WHERE id = '" + user.id + "';", (err, res) => {
-                                if(err)
-                                    return reject(err);
-                                wait.then(() => resolve(conn)).catch(err => reject(err));
-                            });
-                        }).catch(err => reject(err));
-                    }
-                    else
-                        wait.then(() => resolve(conn)).catch(err => reject(err));
+                        }
+                        else if(user.donationTier)
+                        {
+                            this.addUserToDonators(conn, user).then(conn => {
+                                conn.query("UPDATE Donators SET tier = " + user.donationTier + ", expires ='" + user.donationExpires + "' WHERE id = '" + user.id + "';", (err, res) => {
+                                    if(err)
+                                        return reject(err);
+                                   resolve(conn);
+                                });
+                            }).catch(err => reject(err));
+                        }
+                        else
+                            resolve(conn);
+                    }).catch(err => reject(err));
                 });
             }).catch(err => reject(err));
         });
