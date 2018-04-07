@@ -124,7 +124,7 @@ class myClient extends DBF.Client {
             }
             if(member.guild.channels.filter(ch => ch.type == "text" && ch.topic).find(ch => ch.topic.toLowerCase().includes(member.guild.prefix + "join")))
                 announceJoin(member);
-            if(member.user.donationTier && msg.guild.id == "317548490928422912")
+            if(member.user.donationTier && member.guild.id == "317548490928422912")
             {
                 if(member.user.donationTier == 2)
                     member.addRole("429277014718021644"); //donator
