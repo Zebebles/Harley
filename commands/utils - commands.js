@@ -47,7 +47,7 @@ module.exports = class Commands extends DBF.Command{
 
                 embed.description += message.substr(0, message.length-2) + "\n\n";
             });
-            embed.description += "**Music**\n`Harley's music module is hosted seperately from everything else to achieve the best performance possible.`\n`If you wish to see a list of the music commands, you can view them on the website ` [here](http://www.harleybot.me/commands)";
+            embed.description += "**Music**\nHarley's music module is hosted seperately from everything else to achieve the best performance possible.\nIf you wish to see a list of the music commands, you can view them on the website [here](http://www.harleybot.me/commands)";
         
         }
         else if (groups.find(g => g.toLowerCase() == args.toLowerCase()))
