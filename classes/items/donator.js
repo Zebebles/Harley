@@ -21,7 +21,7 @@ module.exports = class DonatorItem extends Item{
         msg.client.guilds.get("317548490928422912").fetchMember(msg.author).then(mem => {
             mem.addRole("429277146519830529");
         }).catch(err => err);
-        
+
         super.use(msg);
         msg.channel.send(`${this.emoji} You successfully redeemed your donator status, you now have access to all donator privileges for 30 days!`
                         + `\nFor a full list of these privileges, see the **Legend** package here **<http://www.harleybot.me/donate/>**`

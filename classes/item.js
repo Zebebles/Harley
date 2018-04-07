@@ -68,6 +68,7 @@ module.exports = class Item{
     
             if(usersItem.count == 0)    //remove the item from the users items.
                 msg.author.items = msg.author.items.filter(item => item.id != this.id);
+            
             msg.author.itemChanged = this;
         }
 
