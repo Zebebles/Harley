@@ -19,37 +19,28 @@ module.exports = class changeGame extends DBF.Command{
         let msg = params.msg; var args = params.args;
         let embed = new Discord.RichEmbed();
         embed.setTitle("Eval results.");
-        embed.addField("Input","```javascript\n" + args + "```:arrow_down:");
-        Promise.all([
-            new Promise((resolve, reject) => {
-                let ev;
-
-                try {
-                    ev = eval(args);
-
-                    if (ev && typeof ev.then === 'function' && typeof ev.catch === 'function')   {
-                        ev.then(resolve).catch(reject);
-                        return;
-                    }
-                    resolve(ev);
-                } catch (err) {
-                    reject(err);
-                }
-            })
-        ]).then(resolutions => {
-            let out;
-            const res = resolutions[0];
-            if (typeof res === 'object' && typeof res !== 'string') {
-                out = require('util').inspect(res);
-                if (typeof out === 'string' && out.length > 1900) {
-                    out = res.toString();
-                }
-            } else {
-                out = res;
+        embed.addField("Input","```javascript\n" + args + "```\n:arrow_down:\n");
+        
+        new Promise((resolve, reject) => 
+        {
+            try 
+            {
+                let ev = eval(args);
+                if (ev && ev.then && ev.catch)
+                    return ev.then(resolve).catch(reject);
+                resolve(ev);
+            }catch (err) 
+            {
+                reject(err);
             }
+        }).then(resolutions => 
+        {
+            const res = resolutions[0];
+            let out = typeof res !== 'string' ? require('util').inspect(res).toString() : res;
             embed.addField(`Succeeded`,`\`\`\`js\n${out}\n\`\`\``);
             msg.channel.send("",{embed});
-        }).catch(err => {
+        }).catch(err => 
+        {
             embed.addField(`Failed`,`\`\`\`js\n${err.message || err}\`\`\``);
             msg.channel.send("",{embed});
         });
