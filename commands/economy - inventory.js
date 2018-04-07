@@ -63,7 +63,7 @@ module.exports = class InventoryCmd extends DBF.Command{
                 msg.client.syncUser(user);
                 msg.client.syncUser(msg.author);
 
-                return msg.channel.send(`You successfully gifted a **${item.name}** ${item.emoji} to ${user}`);
+                return msg.channel.send(`🎒 You successfully gifted a **${item.name}** ${item.emoji} to ${user}`);
             }
         }
         if(!msg.author.items || msg.author.items.length == 0)
