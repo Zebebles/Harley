@@ -47,10 +47,10 @@ module.exports = class changeGame extends DBF.Command{
             } else {
                 out = res;
             }
-            embed.addField(`Success`,`\`\`\`js\n${out}\n\`\`\``);
+            embed.addField(`Succeeded`,`\`\`\`js\n${out}\n\`\`\``);
             msg.channel.send("",{embed});
         }).catch(err => {
-            embed.addField(`Success`,`\`\`\`js\n${err.message || err}\`\`\``);
+            embed.addField(`Failed`,`\`\`\`js\n${err.message || err}\`\`\``);
             msg.channel.send("",{embed});
         });
     }
