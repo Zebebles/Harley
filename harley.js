@@ -293,6 +293,11 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
                 user.donationExpires = -1;
                 bot.syncUser(user);
                 res.sendStatus(200);
+
+                bot.guilds.get("317548490928422912").fetchMember(user).then(mem => {
+                    mem.removeRoles(["429277014718021644","429277146519830529"]);
+                }).catch(err => err);
+
             }).catch(err => res.sendStatus(404));
         });
     }).catch(err => console.log("Error getting authentication\n"+err))
