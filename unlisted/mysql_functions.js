@@ -551,8 +551,12 @@ module.exports = function () {
                         user.repRefresh = res[0].reprefresh;
                         if(res[0].tier)
                             user.donationTier = res[0].tier;
+                        else if(user.donationTier)
+                            user.donationTier = null;
                         if(res[0].expires)
                             user.donationExpires = res[0].expires;
+                        else if(user.donationExpires)
+                            user.donationExpires = null;
                         resolve(conn);
                     })
                 });
