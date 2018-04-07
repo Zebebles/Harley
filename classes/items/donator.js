@@ -17,6 +17,13 @@ module.exports = class DonatorItem extends Item{
     {     
         msg.author.donationTier = 3;
         msg.author.donationExpires = new Date().getTime() + 2592000000;
+
+        bot.guilds.get("317548490928422912").fetchMember(user).then(mem => {
+            if(tier == 2)
+                mem.addRole("429277014718021644");
+            else if(tier == 3)
+                mem.addRole("429277146519830529");
+        }).catch(err => err);
         
         super.use(msg);
         msg.channel.send(`${this.emoji} You successfully redeemed your donator status, you now have access to all donator privileges for 30 days!`
