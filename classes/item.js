@@ -70,6 +70,7 @@ module.exports = class Item{
                 msg.author.items = msg.author.items.filter(item => item.id != this.id);
             
             msg.author.itemChanged = this;
+            console.log(this);
         }
 
         msg.client.syncUser(msg.author);//update the user in the db.
