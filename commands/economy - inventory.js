@@ -37,7 +37,7 @@ module.exports = class InventoryCmd extends DBF.Command{
         }
         else if(args && args.match(/(give)|(gift)|(present)/gi))
         {
-            let itemID = (args.replace(/(use)|(apply)/gi,"").trim() + " ").split(" ")[0];
+            let itemID = (args.replace(/(give)|(gift)|(present)/gi,"").trim() + " ").split(" ")[0];
             let item = msg.client.store.fetchItem(itemID);
             if(!item)
                 return msg.channel.send(`:school_satchel: Sorry, you don't own any \`${itemID}\`'s`);
@@ -48,7 +48,7 @@ module.exports = class InventoryCmd extends DBF.Command{
             else
             {
                 msg.author.itemChanged = msg.author.items.find(i => i.id == item.id);
-                
+
                 if(msg.author.items.find(i => i.id == item.id).count == 1) //IF THEY ONLY HAVE 1 OF THE ITEM, REMOVE THE ITEM FROM THEIR ARRAY OF ITEMS.
                     msg.author.items = msg.author.items.filter(i => i.id != item.id);
                 else //IF THEY HAVE MORE THAN 1 OF THE ITEM, DECREASE THEIR ITEM COUNT.
