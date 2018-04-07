@@ -559,19 +559,22 @@ module.exports = function () {
     }
 
     this.updateUser = function(conn, user){
+        let wait = new Promise((resolve,reject) => resolve());
         return new Promise((resolve, reject) => {
             this.addUserToEconomy(conn,user).then(conn => {
                 conn.query("UPDATE Economy SET loves = '" + user.loves + "',smacks = '" + user.smacks + "', lovereset = '" + user.refreshLoves + "', smacksreset = '" + user.refreshSmacks + "', rep = '" + user.rep + "', reprefresh = '" + user.repRefresh + "' WHERE id = '" + user.id + "'", (err, res) => {
                     if(err)
                         return reject(err);
                     if(user.itemChanged != null) //if user.items is set then update the useritems in the db.
-                        this.updateUserItem(conn, user);
+                        wait = this.updateUserItem(conn, user);
                     if(user.donationTier == -1)
                     {
                         this.dropUserFromDonators(conn, user).then(conn => {
-                            resolve(conn);
-                            user.donationTier = null;
-                            user.expires = null;
+                            wait.then(() => {
+                                resolve(conn);
+                                user.donationTier = null;
+                                user.expires = null
+                            }).catch(err => reject(err));
                         }).catch(err => reject(err));
                     }
                     else if(user.donationTier)
@@ -580,12 +583,12 @@ module.exports = function () {
                             conn.query("UPDATE Donators SET tier = " + user.donationTier + ", expires ='" + user.donationExpires + "' WHERE id = '" + user.id + "';", (err, res) => {
                                 if(err)
                                     return reject(err);
-                                resolve(conn);
+                                wait.then(() => resolve(conn)).catch(err => reject(err));
                             });
                         }).catch(err => reject(err));
                     }
                     else
-                        resolve(conn);
+                        wait.then(() => resolve(conn)).catch(err => reject(err));
                 });
             }).catch(err => reject(err));
         });
