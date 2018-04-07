@@ -464,6 +464,7 @@ module.exports = function () {
                     conn.query("DELETE FROM Items WHERE userId = '" + user.id + "' AND ItemId = '" + user.itemChanged.id + "';", (err, res) => {
                         if(err)
                             return reject(err);
+                        user.itemChanged = null;
                         resolve(conn);
                     })
                 }
@@ -473,6 +474,7 @@ module.exports = function () {
                     {
                         if(err)
                             return reject(err);
+                        user.itemChanged = null;
                         resolve(conn);
                     });
                 }
@@ -482,11 +484,12 @@ module.exports = function () {
                     {
                         if(err)
                             return reject(err);
+                        user.itemChanged = null;
                         resolve(conn);
                     })
                 }
             });
-        }).then(() => user.itemChanged = null);
+        });
     }
 
     this.loadUsersDB = function(conn, client){
