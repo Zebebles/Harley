@@ -47,12 +47,12 @@ module.exports = class InventoryCmd extends DBF.Command{
                 return msg.channel.send(`:school_satchel: Sorry, I couldn't find the recipient of your gift.`);
             else
             {
+                msg.author.items.find(i => i.id == item.id).count--;
                 msg.author.itemChanged = msg.author.items.find(i => i.id == item.id);
 
-                if(msg.author.items.find(i => i.id == item.id).count == 1) //IF THEY ONLY HAVE 1 OF THE ITEM, REMOVE THE ITEM FROM THEIR ARRAY OF ITEMS.
+                if(msg.author.items.find(i => i.id == item.id).count == 0) //IF THEY ONLY HAVE 1 OF THE ITEM, REMOVE THE ITEM FROM THEIR ARRAY OF ITEMS.
                     msg.author.items = msg.author.items.filter(i => i.id != item.id);
-                else //IF THEY HAVE MORE THAN 1 OF THE ITEM, DECREASE THEIR ITEM COUNT.
-                    msg.author.items.find(i => i.id == item.id).count--;
+                
                 if(user.items && user.items.find(i => i.id == item.id)) // IF THE USER HAS ONE OR MORE OF THE ITEM ALREADY, INCREASE THEIR COUNT OF THAT ITEM
                     user.items.find(i => i.id == item.id).count++;
                 else //GIVE THE USER THE ITEM IF THEY DONT HAVE IT ALREADY 
