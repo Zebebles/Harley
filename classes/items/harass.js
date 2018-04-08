@@ -7,7 +7,7 @@ module.exports = class HarassItem extends Item{
             id: 2,
             name: "Harass",
             description: "Bully someone for 5 hours.",
-            price: 1500,
+            price: 2000,
             emoji: ":japanese_goblin:",
             useImmediately: false,
             args: '@user'
