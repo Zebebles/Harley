@@ -341,7 +341,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         })
-        this.sendLoadGuilds(guild.id);
+        this.sendLoadGuilds(role.guild.id);
     }
 
     dropAutoRole(guild) {
