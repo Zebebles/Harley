@@ -274,6 +274,8 @@ class myClient extends DBF.Client {
         });
 
         conn.connect(function(err) {
+            if(err)
+                return console.log(err);
             loadUser(conn, user).catch(err => {
                 console.log("Error loading user " + user.username + ".\n" + err);
             }).finally(() => {
