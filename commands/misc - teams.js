@@ -18,9 +18,11 @@ module.exports = class Choose extends DBF.Command{
     }
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
-        if(!params.args || params.args == "") return params.msg.channel.send("Usage: `" + params.msg.client.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
         
-        let msg = params.msg; let args = params.args; let user = params.user;        
+        let msg = params.msg; let args = params.args; let user = params.user;  
+
+        if(!params.args || params.args == "") return params.msg.channel.send("Usage: `" + params.msg.guild.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
+
         let teamNames = [
             "Watermelon", "Banana", "Strawberry", "Grape", "Lemon", "Orange", "Pear", "Grapefruit", "Apricot", "Tangerine", "Coconut", "Blackberry", "Date", "Gooseberry", "Pomegranate", "Cantaloupe", "Cranberry"
             , "Olive", "Passion fruit", "Guava", "Raspberry", "Lime", "Kumquat", "Cat", "Dog", "Bird", "Squirrel", "Snake", "Gray wolf", "Horse", "Lion", "Pig", "Tiger", "Deer", "Bear", "Giraffe", "Cow",
@@ -36,7 +38,7 @@ module.exports = class Choose extends DBF.Command{
         shuffle(opts);
         
         if(opts.length < 2) 
-            return msg.channel.send("Usage: `" + msg.client.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
+            return msg.channel.send("Usage: `" + msg.guild.prefix + "choose opt1,opt2,opt3`").catch(err => console.log(err));
         if(!nTeams || isNaN(nTeams) || nTeams > teamNames.length || nTeams < 2)
             return msg.channel.send("You need to specify a number of teams between `2` and `" + teamNames.length + "` before you start listing members.").catch(err => console.log(err));
         else if(ppt <= 0)

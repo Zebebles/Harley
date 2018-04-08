@@ -71,7 +71,7 @@ module.exports = class InventoryCmd extends DBF.Command{
         let embed = new Discord.RichEmbed() 
         .setTitle("🎒 Inventory | " + msg.author.username)
         .setColor(msg.guild.me.displayColor)
-        .setDescription("Use `inventory use item_name` to use an item.\n");
+        .setDescription("Use `inventory use item_name` to use an item.\nUse `inventory gift item_name @user` to gift an item.");
         msg.author.items.forEach(item => {
             let fullItem = msg.client.store.fetchItem(item.id);
             embed.description += "\n"+ fullItem.emoji + " **" + fullItem.name + "** `("+item.count+")`\t-\t" + fullItem.description;

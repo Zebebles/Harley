@@ -19,7 +19,7 @@ module.exports = class prefix extends DBF.Command{
         if(!args && msg.guild.autoRole)
             msg.channel.send("The auto role for this server is `" + msg.guild.roles.get(msg.guild.autoRole).name + "`.\nUse `" + msg.guild.prefix + "autorole none` to remove it.");
         else if(!args && !msg.guild.autoRole)
-            msg.channel.send("There is not currently an auto role for this server. Use `" + msg.guild.prefix + "command autorole` for details on how to set one.");
+            msg.channel.send("There is not currently an auto role for this server.\nUse `" + msg.guild.prefix + "command autorole` for details on how to set one.");
         else{
             if(args.trim().toLowerCase() == "none" || args.trim().toLowerCase() == "remove" || args.trim().toLowerCase() == "everyone"){
                 msg.client.dropAutoRole(msg.guild);

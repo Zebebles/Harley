@@ -20,8 +20,9 @@ module.exports = class RouletteCmd extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
+        let prefix = msg.guild && msg.guild.prefix ? msg.guild.prefix : msg.client.prefix;
         if(!args || !args.match(/(red|green|black)/gi) || !args.match(/(\d+|all|half)/gi))
-            return msg.channel.send("Usage: `" + msg.guild.prefix +"roulette <red|green|black> amount`" ).catch(err => console.log(err));
+            return msg.channel.send("Usage: `" + prefix +"roulette <red|green|black> amount`" ).catch(err => console.log(err));
         
         let amount = args.match(/\d+/g) ? parseInt(args.match(/\d+/g)[0]) : (args.match(/all/gi) ? msg.author.rep : Math.floor(msg.author.rep/2));
         let color = args.match(/(red|green|black)/gi)[0];

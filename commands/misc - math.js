@@ -17,8 +17,9 @@ module.exports = class Solve extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
+        let prefix = msg.guild && msg.guild.prefix ? msg.guild.prefix : msg.client.prefix;
         if(!args)
-            return msg.channel.send("Usage: `" + msg.guild.prefix +"solve 9+10`.  Use `" + msg.guild.prefix + "commands solve` for more examples.");
+            return msg.channel.send("Usage: `" + prefix +"solve 9+10`.\nUse `" + msg.guild.prefix + "commands solve` for more examples.");
         
         try{
             let qs = args.split(/[,:;]/g) ? args.split(/[,:;]/g) : [args];

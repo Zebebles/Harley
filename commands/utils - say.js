@@ -10,17 +10,16 @@ module.exports = class saySomething extends DBF.Command{
              description: "Make Harley say something (Admin only).", //this will show in the help message
              example: ">>say Hello!",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
-             reqArgs: true
+             reqArgs: true,
+             reqUserPerms: ['ADMINISTRATOR']
         });
     }
 
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let msg = params.msg; let args = params.args; let user = params.user;
-        if ((msg.member.hasPermission("ADMINISTRATOR")) || (msg.author.id === msg.client.author) || (msg.author.id == msg.guild.ownerID)){
-            let message = args;
-            if(message == "" || !message) return;
-            msg.channel.send(message).catch(err => console.log(err));
-			msg.delete().catch(err => console.log(err));
-		}
+        let message = args;
+        if(message == "" || !message) return;
+        msg.channel.send(message).catch(err => console.log(err));
+		msg.delete().catch(err => console.log(err));
     }
 }

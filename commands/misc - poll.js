@@ -19,10 +19,11 @@ module.exports = class Hello extends DBF.Command{
     run(params = {"msg": msg, "args": args, "user": user}){ //all the code for your command goes in here.
         let myEmbed = new Discord.RichEmbed();
         let msg = params.msg; let args = params.args; let user = params.user;
-        if(!args || args == "") return msg.channel.send("Usage: `poll question? opt1,opt2,opt3`");
+        let prefix = msg.guild && msg.guild.prefix ? msg.guild.prefix : msg.client.prefix;
+        if(!args || args == "") return msg.channel.send("Usage: `" + prefix + "poll question? opt1,opt2,opt3`");
 
         if(!args.split("?"))
-            return msg.channel.send("You need to provide a question.  Usage: `" + msg.guild.prefix + "poll which discord bot is best? Harley, Harley, Harley`");
+            return msg.channel.send("You need to provide a question.\nUsage: `" + msg.guild.prefix + "poll which discord bot is best? Harley, Harley, Harley`");
 
         let question = args.split("?")[0] + "?";
         args = args.replace(question, "");

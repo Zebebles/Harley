@@ -20,11 +20,7 @@ module.exports = class Commands extends DBF.Command{
         let msg = params.msg; let args = params.args; let user = params.user;
         let groups = new Array();
         let embed = new Discord.RichEmbed();
-        let prefix;
-        if(msg.guild && msg.guild.prefix)
-            prefix = msg.guild.prefix;
-        else 
-            prefix = msg.client.prefix;
+        let prefix = msg.guild && msg.guild.prefix ? msg.guild.prefix : msg.client.prefix;
         embed.setColor([127, 161, 216]);
         
         msg.client.commands.forEach(cmd => { //populate groups array
