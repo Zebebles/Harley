@@ -39,7 +39,7 @@ module.exports = function(){
         
         var message = "";
         var channel = updated.guild.channels.filter(ch => ch.type == "text" && ch.topic).find(ch => ch.topic.toLowerCase().includes(updated.guild.prefix + "stream"));
-        if(!channel.permissionsFor(member.guild.me).has("SEND_MESSAGES") || !member.guild.me.hasPermission("EMBED_LINKS"))
+        if(!channel.permissionsFor(updated.guild.me).has("SEND_MESSAGES") || !updated.guild.me.hasPermission("EMBED_LINKS"))
             return;
         if(channel.topic.toLowerCase().includes("+here"))
             message += "@here ";
