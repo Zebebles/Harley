@@ -24,7 +24,7 @@ module.exports = class Choose extends DBF.Command{
         if(num > 100000)
             num = 100000;
         
-        let rolled = Math.floor(Math.random() * num);
+        let rolled = Math.floor(Math.random() * num)+1;
 
         msg.channel.send("I rolled `" + rolled + "`!").catch(err => console.log(err));
      }
