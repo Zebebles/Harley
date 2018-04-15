@@ -97,6 +97,7 @@ snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).
             });
             snekfetch.post("http://" + bot.auth.webserver + "/servers/commands")
             .send({commands: bot.commandsList})
+            .catch(err => console.log(err))
             .end();
 
         });
