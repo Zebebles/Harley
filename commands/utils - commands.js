@@ -85,7 +85,8 @@ module.exports = class Commands extends DBF.Command{
                                 + "**Aliases:** " + aliases + "\n"
                                 + "**Description:** " + command.description.replace(">>", prefix) + "\n"
                                 + "**Example:** `" + command.example.replace(">>", prefix).split("\n").join("`\n`") + "`");
-        };
+        }
+        else return;
 
         msg.channel.send("", {embed}).catch(err => console.log(err));
     }
