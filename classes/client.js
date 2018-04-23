@@ -40,7 +40,7 @@ class myClient extends DBF.Client {
                     +"**•**\tIf you wish to give new members a default role when they join the server, you can do so with `" + this.prefix + "autorole role_name`.\n"
                     +"**•**\tYou can also greet new members, and farewell leaving ones with `" + this.prefix + "greeting message` and `" + this.prefix + "farewell message` respectively.\n"                  
                     +"**•**\tIf you need any help, or have any issues/suggestions, you're always welcome in the support server!\n"
-                    + "**<http://www.harleybot.me/commands>**");
+                    + "**<https://www.harleybot.me/commands>**");
 
             this.loadUsers(this);
         });
@@ -185,7 +185,7 @@ class myClient extends DBF.Client {
             connections: this.voiceConnections.size,
             connlist: []
         };
-        snekfetch.post("http://"+this.auth.webserver + "/servers/status")
+        snekfetch.post("https://"+this.auth.webserver + "/servers/status")
                 .send({status})
                 .end()
                 .catch(err => {
@@ -196,17 +196,17 @@ class myClient extends DBF.Client {
 
     sendLoadGuilds(id)
     {
-        snekfetch.post("http://"+this.auth.webserver+"/servers/loadGuilds")
+        snekfetch.post("https://"+this.auth.webserver+"/servers/loadGuilds")
         .send({id})
         .end()
         .catch(err => console.log("Error sending reload guilds post" + err));
     }
 
     reRegister(){
-        snekfetch.get("http://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
+        snekfetch.get("https://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
             if(response.status != 200)
                 return console.log("Error re-registering server");
-            snekfetch.get("http://"+auth.webserver + "/servers/auth").then(authResponse => {
+            snekfetch.get("https://"+auth.webserver + "/servers/auth").then(authResponse => {
                 if(authResponse.status != 200)
                     return console.log("Error fetching auth.");
                     
@@ -255,7 +255,7 @@ class myClient extends DBF.Client {
                 console.log("Error updating user " + user.username + ".\n" + err);
             }).finally(() => {
                 conn.end();
-                snekfetch.post("http://" + webserver + "/servers/updateUser")
+                snekfetch.post("https://" + webserver + "/servers/updateUser")
                     .send({"id" : user.id})
                     .end()
                     .catch(err => {
