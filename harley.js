@@ -22,7 +22,6 @@ snekfetch.get(auth.webserver+"/servers/register?pw=" + auth.password).then(respo
             return console.log("Error fetching auth.");
         
         auth = JSON.parse(authResponse.text);
-        console.log(auth.sqlServer);
         delete response, authResponse;
         
         let bot = new myClient({
