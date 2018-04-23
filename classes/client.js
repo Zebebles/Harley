@@ -285,7 +285,6 @@ class myClient extends DBF.Client {
     }
     
     loadGuilds(guilds) {
-        console.log(this.auth.sqlServer);
         var conn = mysql.createConnection({
             host: this.auth.sqlServer,
             user: "root",
