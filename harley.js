@@ -40,7 +40,7 @@ snekfetch.get(auth.webserver+"/servers/register?pw=" + auth.password).then(respo
         bot.express.use(function(req, res, next)
         {
             res.header('Access-Control-Allow-Origin', "*");
-            if(req.ip == "::ffff:" + auth.webserver.split(":")[0] || req.ip == "::1")//if the request is from localhost or webserver
+            if(req.ip == "::ffff:" + auth.sqlServer || req.ip == "::1")//if the request is from localhost or webserver
             {
                 next();
             }
