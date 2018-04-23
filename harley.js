@@ -12,11 +12,11 @@ const HarassManager = require("./classes/harassManager.js");
 require("./unlisted/streaming.js")();
 require("./unlisted/joinleave.js")();//
 
-snekfetch.get("https://"+auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
+snekfetch.get(auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
     if(response.status != 200)
         return console.log("Error registering server");
     
-    snekfetch.get("https://"+auth.webserver + "/servers/auth").then(authResponse => {
+    snekfetch.get(auth.webserver + "/servers/auth").then(authResponse => {
         
         if(authResponse.status != 200)
             return console.log("Error fetching auth.");
@@ -95,7 +95,7 @@ snekfetch.get("https://"+auth.webserver+"/servers/register?pw=" + auth.password)
                     aliases = aliases.substr(0, aliases.length-1);
                 bot.commandsList.push({"name": cmd.name, "group": cmd.group, "aliases" : aliases , "description": cmd.description, "example": cmd.example})
             });
-            snekfetch.post("https://" + bot.auth.webserver + "/servers/commands")
+            snekfetch.post(bot.auth.webserver + "/servers/commands")
             .send({commands: bot.commandsList})
             .end()
             .catch(err => console.log(err))
@@ -108,7 +108,7 @@ snekfetch.get("https://"+auth.webserver+"/servers/register?pw=" + auth.password)
                 bot.commands.filter(cmd => !cmd.ownerOnly).forEach(cmd => {
                     bot.commandsList.push({"name": cmd.name, "group": cmd.group, "aliases" : (cmd.triggers.join(", ") || "N/A") , "description": cmd.description, "example": cmd.example})
                 });
-                snekfetch.post("https://" + bot.auth.webserver + "/servers/commands")
+                snekfetch.post(bot.auth.webserver + "/servers/commands")
                 .send({commands: bot.commandsList})
                 .end()
                 .catch(err => console.log(err));
