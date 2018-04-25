@@ -577,7 +577,7 @@ module.exports = function () {
                             this.dropUserFromDonators(conn, user).then(conn => {
                                 resolve(conn);
                                 user.donationTier = null;
-                                user.expires = null
+                                user.donationExpires = null
                             }).catch(err => reject(err));
                         }
                         else if(user.donationTier)
