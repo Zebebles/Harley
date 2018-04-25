@@ -29,7 +29,7 @@ module.exports = class userinfo extends DBF.Command{
         embed.addField("Invite Harley", "[Click here!](https://discordapp.com/oauth2/authorize?client_id=300828323443900416&scope=bot&permissions=305654848)",true);
         embed.addField("Support Server", "[Click here!](https://discord.gg/Wy5AjGS)", true);
         embed.addField("Website", "[Click here!](http://www.harleybot.me)", true);
-        embed.addField("Donate", "[Click here!](http://www.harleybot.me/donate)", true);
+        embed.addField("Donate", "[Click here!](http://www.harleybot.me/#/donate)", true);
        
         waitfor.then(invites => {
             if(invites && invites.find(inv => !inv.temporary))
