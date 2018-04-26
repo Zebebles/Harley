@@ -13,6 +13,8 @@ class myClient extends DBF.Client {
         super(options);
 
         this.on("guildCreate", guild => {
+            if(guild.prefix)
+                return;
             guild.defaultTextChannel = this.getDefaultChannel(guild);
             this.setPrefix(guild, guild.client.prefix);
             guild.disabledCommands = new Array();
@@ -55,6 +57,8 @@ class myClient extends DBF.Client {
         });
 
         this.on("guildDelete", guild => {
+            if(!guild.available)
+                return;
             var conn = mysql.createConnection({
                 host: this.auth.sqlServer,
                 user: "root",
