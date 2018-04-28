@@ -29,7 +29,7 @@ module.exports = class BlackJack extends DBF.Command{
         else if(msg.author.rep < amount)
             return msg.channel.send("You only have `" + msg.author.rep + "` rice to bet.").catch(err => console.log(err));
         else if(amount < 5)
-            return msg.channel.send("You can't bet more than 5 rice on one game.").catch(err => console.log(err));
+            return msg.channel.send("You can't bet less than 5 rice on one game.").catch(err => console.log(err));
         
         if(msg.author.hand)
             return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     
