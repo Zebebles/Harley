@@ -383,7 +383,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        this.sendLoadGuilds(guild.id);
+        this.sendLoadGuilds(msg.guild.id);
     }
 
     setFarewell(msg, farewell) {
@@ -406,7 +406,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        this.sendLoadGuilds(guild.id);
+        this.sendLoadGuilds(msg.guild.id);
     }
 
     dropGreeting(guild) {
