@@ -182,7 +182,7 @@ class myClient extends DBF.Client {
         let status = {
             status: this.user.presence.status,
             guilds: this.guilds.size,
-            connections: this.voiceConnections.size,
+            connections: 0,
             connlist: []
         };
         snekfetch.post(this.auth.webserver + "/servers/status")
