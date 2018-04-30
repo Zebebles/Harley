@@ -31,8 +31,6 @@ module.exports = class RouletteCmd extends DBF.Command{
             return msg.channel.send("**" + msg.member.displayName + "**, you don't have any rice to bet. Use `" + msg.guild.prefix + "daily` to claim your daily ration.").catch(err => console.log(err));
         else if(msg.author.rep < amount)
             return msg.channel.send("**" + msg.member.displayName + "**, you only have `" + msg.author.rep + "` rice to bet").catch(err => console.log(err));
-        else if(amount < 5)
-            return msg.channel.send("**" + msg.member.displayName + "**, you can't bet less than 5 rice on one spin.").catch(err => console.log(err));
         let draw = false;
         if(!msg.guild.roulette){
             msg.guild.roulette = new Roulette(msg.channel);

@@ -28,8 +28,6 @@ module.exports = class BlackJack extends DBF.Command{
             return msg.channel.send("You don't have any rice to bet.  Use `" + msg.guild.prefix +"daily` to claim your daily ration.").catch(err => console.log(err));
         else if(msg.author.rep < amount)
             return msg.channel.send("You only have `" + msg.author.rep + "` rice to bet.").catch(err => console.log(err));
-        else if(amount < 5)
-            return msg.channel.send("You can't bet less than 5 rice on one game.").catch(err => console.log(err));
         
         if(msg.author.hand)
             return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     
@@ -183,6 +181,7 @@ module.exports = class BlackJack extends DBF.Command{
             if(ind == 1){
                 embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " lost", msg.author.displayAvatarURL);
                 embed.description = "You lost the game of Blackjack against Harley :c\nYou now have `" + msg.author.rep + "` rice (`-" + amount + "`).";
+                embed.setColor([255,0,0]);
             }
             else if(ind != -1){    
                 embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " won", msg.author.displayAvatarURL);
@@ -190,11 +189,13 @@ module.exports = class BlackJack extends DBF.Command{
                     embed.description = "You won the game of Blackjack against Harley!\nYou now have `" + msg.author.rep + "` rice (`+" +  Math.ceil(amount*1.5) + "`).";
                 else
                     embed.description = "You won the game of Blackjack against Harley!\nYou now have `" + msg.author.rep + "` rice (`+" +  amount + "`).";
+                embed.setColor([0,255,0]);
             }
             else
             {
                 embed.setAuthor("Blackjack | " + msg.author.username + "#" + msg.author.discriminator + " drew with Harley", msg.author.displayAvatarURL);
                 embed.description = "You drew a game of Blackjack with Harley!\nYou still have `" + msg.author.rep + "` rice.";
+                embed.setColor([255, 255, 0]);
             }
             updateMessage(embed);
             msg.client.syncUser(msg.author)
