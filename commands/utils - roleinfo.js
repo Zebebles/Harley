@@ -42,7 +42,7 @@ module.exports = class userinfo extends DBF.Command{
             myEmbed.setColor(role.color);
             myEmbed.setTitle(roleName);
             myEmbed.addField("ID", "`" + roleID + "`");
-            myEmbed.addField("Color", roleColor.toUpperCase());
+            myEmbed.addField("Color", '`'+roleColor.toUpperCase()+'`');
             myEmbed.addField("Members", memCount,true);
             myEmbed.addField("Position", position,true);
             myEmbed.addField("Created",created);
