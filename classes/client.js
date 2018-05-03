@@ -237,12 +237,7 @@ class myClient extends DBF.Client {
                 console.log("Error updating user " + user.username + ".\n" + err);
             }).finally(() => {
                 conn.end();
-                snekfetch.post(webserver + "/servers/updateUser")
-                    .send({"id" : user.id})
-                    .end()
-                    .catch(err => {
-                        console.log(err);
-                    });
+                this.socketManager.socket.emit('load_user', user.id);
             });
         });
     }
