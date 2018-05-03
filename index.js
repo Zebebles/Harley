@@ -67,7 +67,7 @@ app.get('/reconnect', (req, res) =>
     if(req.query.pw == auth.password)
     {
         socket.connect();
-        socket.emit('output', harley.log);
+        setTimeout(() => socket.emit('output', harley.log), 2500);
         res.sendStatus(200);
     }
     else
