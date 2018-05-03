@@ -75,7 +75,7 @@ module.exports = class SocketManager
         return new Promise((resolve, reject) => {
             this.socket = io.connect(this.url);
             this.socket.on('auth', (auth) => resolve(auth)).on('disconnect', () => reject("Password missing from query string"));            
-            setTimeout(() => reject("Connection timed out."), 5000);
+            setTimeout(() => reject("Connection timed out"), 5000);
         });
     }
 
