@@ -1,7 +1,7 @@
 # Harley
 [![Discord Bots](https://discordbots.org/api/widget/300828323443900416.svg)](https://discordbots.org/bot/300828323443900416)
 
-[Invite Harley](https://discordapp.com/oauth2/authorize?client_id=300828323443900416&scope=bot&permissions=305654848)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Discord server](https://discord.gg/Wy5AjGS)
+[Invite Harley](https://discordapp.com/oauth2/authorize?client_id=300828323443900416&scope=bot&permissions=305654848)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Discord server](https://discord.gg/Wy5AjGS)
 
 ## What is Harley?
 Harley is a multi-purpose Discord bot that aims to provide a range of well-maintained commands that give all the functionality you need, rather than an abundance of useless ones.
