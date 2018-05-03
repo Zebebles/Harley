@@ -46,6 +46,8 @@ module.exports = class UDefine extends DBF.Command{
             myEmbed.setColor([127, 161, 216]);
 
         myEmbed.addField("Servers", guilds, true);
+        myEmbed.addField("Users", users, true);
+        myEmbed.addField("Connections", voiceConnections, true);
         myEmbed.addField("Ping", ping, true);
         myEmbed.addField("Memory usage", memUsage, true);        
         myEmbed.addField("Uptime", uptime);

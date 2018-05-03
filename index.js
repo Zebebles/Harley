@@ -1,94 +1,79 @@
 var forever = require('forever-monitor');
 const snekfetch = require("snekfetch");
 const express = require("express");
-let app = express();
+const app = express();
+const http = require('http').createServer(app).listen(3004);
+const io = require('socket.io-client');
 const auth = require("./resources/auth.json");
 const Git = require("simple-git")(__dirname);
 
 console.log("Listening on port 3002");
 
-app.listen(3002);
-app.use(function(req, res, next)
-{
-    res.header('Access-Control-Allow-Origin', "*");
-    if(req.ip == "::ffff:" + auth.sqlServer || req.ip == "::1")//if the request is from localhost or webserver
-    {
-        next();
-    }
-    else
-        res.sendStatus(401);    //send an unauthorised error.
-});
+var socket;
 
-
-app.get("/restart", function(req, res) {
-    if(req.query.hard==1){
-        res.sendStatus(200);
-        console.log("Harley hard restarted via api endpoint.");            
-        harley.stop();
-        setTimeout(() => {
-            process.exit(1);
-        },1000);
-        return;
-    }
-    console.log("Harley restarted via api endpoint.");    
-    harley.restart();
-    res.sendStatus(200);
-});
-
-app.get("/stop", function(req, res) {
-    harley.kill(true);
-    console.log("Process killed via api endpoint.");
-    res.sendStatus(200);
-});
-
-app.get("/pull", function(req, res) {
-    Git.pull((err, update) => {
-        if(err){
-            res.sendStatus(500);
-            console.log("Error pulling from api endpoint\n" + err);
-        }
-        console.log("Git Pull via api endpoint successfull.");
-        res.send(update.summary);
-    });
-});
-
-app.get("/output", function(req,res){
-    res.send(harley.log);
-});
-
-//start Harley
 var harley = new (forever.Monitor)('harley.js', {
     max: 3,
     args: ["-l logs.txt"],
 });
-
 harley.log = "";
-
 harley.start();
 
-harley.on('exit', () => {
-    snekfetch.post(auth.webserver + '/servers/stopped')
-        .send({reason: harley.log})
-        .end();
-});
-
 harley.on('stdout', data => {
-    harley.log += data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>") + "<br/>";
-    snekfetch.post(auth.webserver + '/servers/output')
-        .send({output : data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>")})
-        .end();});
+    data = data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>") + "<br/>";
+    harley.log += data;
+    socket.emit('output', data);
+});
 
 harley.on("stderr", data => {
-    harley.log += data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>") + "<br/>";
-    snekfetch.post(auth.webserver + '/servers/output')
-        .send({output : data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>")})
-        .end();
+    data = data.toString().replace(/(\n\r)|(\r\n)/g, "<br/>") + "<br/>";
+    harley.log += data;
+    socket.emit('output', data);
 });
 
+connect();
 
-/*status messages
-400 -> bad request
-401 -> unauthorised // using for when too many requests are sent from 1 ip
-500 -> internal server error // using when the bot cant send me the message for whateve reason
-200 -> ok
-*/
+function connect()
+{
+    socket = io.connect('https://www.harleybot.me:2053/server/parent?password=' + auth.password);
+    
+    socket.on('restart', hard => {
+        if(hard)
+        {
+            harley.stop();
+            setTimeout(process.exit, 100);
+        }
+        else
+            harley.restart();
+        console.log("Harley restarted via API endpoint.");
+    });
+    
+    socket.on('stop', () => {
+        harley.kill(true);
+        console.log("Process killed via api endpoint.");
+    })
+    
+    socket.on('pull', () => 
+        Git.pull((err, update) => 
+            console.log(err ? `Error pulling from api endpoint\n${err}` : `Git pull via api endpoint successfull.`)));
+    
+    socket.on('send_output', () => 
+        socket.emit('output', harley.log));
+
+    socket.on('alive', fn => {
+        fn(harley.running);
+    })
+}
+
+
+
+app.get('/reconnect', (req, res) => 
+{
+    if(req.query.pw == auth.password)
+    {
+        socket.connect();
+        socket.emit('output', harley.log);
+        res.sendStatus(200);
+    }
+    else
+        res.sendStatus(401);
+})

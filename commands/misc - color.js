@@ -49,7 +49,7 @@ module.exports = class Color extends DBF.Command{
         
         let img = new Discord.Attachment(canvas.toBuffer(), "color.png");
 
-        msg.channel.send(`**HEX**\t\`#${hex.toUpperCase()}\`\n**RGB**\t\`${rgb}\``, img).catch(err => console.log(err));
+        msg.channel.send(`**HEX**\t\`#${hex}\`\n**RGB**\t\`${rgb}\``, img).catch(err => console.log(err));
 
     }
 }

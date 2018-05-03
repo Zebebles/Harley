@@ -1,7 +1,7 @@
 const DBF = require('discordjs-bot-framework');
 const Discord = require("discord.js");
 const Promise = require("bluebird");
-const Roulette = require("../classes/roulette.js");
+const Roulette = require("../classes/Store/roulette.js");
 
 module.exports = class RouletteCmd extends DBF.Command{
     constructor(){

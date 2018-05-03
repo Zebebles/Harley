@@ -6,17 +6,20 @@ const snekfetch = require("snekfetch");
 var Promise = require("bluebird");
 const auth = require('../resources/auth.json');
 require("../unlisted/mysql_functions.js")();
-require("../unlisted/joinleave.js")();//
+require("../unlisted/joinleave.js")();
+require("../unlisted/streaming.js")();
 
 class myClient extends DBF.Client {
     constructor(options = {}) {
         super(options);
 
+        this.login();
+
         this.on("guildCreate", guild => {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
             this.setPrefix(guild, guild.client.prefix);
-            guild.disabledCommands = new Array();
-            guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = new Array());
+            guild.disabledCommands = [];
+            guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = []);
 
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([30, 216, 104]);
@@ -27,10 +30,9 @@ class myClient extends DBF.Client {
             myEmbed.setFooter(new Date().toLocaleString("en-US", {
                 "timeZone": "Australia/Melbourne"
             }));
-            this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
-                "embed": myEmbed
-            }).catch(err => console.log(err));
-            this.sendStatus(false);            
+            this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {embed: myEmbed})
+                .catch(err => console.log(err));
+            this.socketManager.sendStatus(false);            
 
             if(guild.defaultTextChannel)
                 guild.defaultTextChannel.send("**Hey, thanks for adding me! :robot:**\n"
@@ -43,6 +45,11 @@ class myClient extends DBF.Client {
                     + "**<https://www.harleybot.me/#/commands>**");
 
             this.loadUsers(this);
+        });
+
+        this.on("presenceUpdate", (old, updated) => {
+            if(updated.guild.channels.filter(ch => ch.type == "text" && ch.topic).find(ch => ch.topic.toLowerCase().includes(updated.guild.prefix + "stream")))
+                setTimeout( () => announceStream(old, updated),2000);
         });
 
         this.on("channelCreate", channel => {
@@ -80,7 +87,7 @@ class myClient extends DBF.Client {
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
             }).catch(err => console.log(err));
-            this.sendStatus(false);
+            this.messageManger.sendStatus(false);
         });
 
         this.on("guildMemberAdd", member => {
@@ -95,15 +102,12 @@ class myClient extends DBF.Client {
                         this.dropFarewell(member.guild).then(conn => {
                             conn.end();
                         }).catch(err => {
-                            console.log(err);
                             conn.end();
                         });
                     }).catch(err => {
-                        console.log(err);
                         this.dropFarewell(member.guild).then(conn => {
                             conn.end();
                         }).catch(err => {
-                            console.log(err);
                             conn.end();
                         });
                     });
@@ -133,6 +137,7 @@ class myClient extends DBF.Client {
             }
             this.loadUser(member.user);
         });
+
         this.on("guildMemberRemove", member => {
             if (member.guild.farewell && member.guild.greetChannel) {
                 var channel = member.guild.channels.get(member.guild.greetChannel);
@@ -145,15 +150,12 @@ class myClient extends DBF.Client {
                         this.dropFarewell(member.guild).then(conn => {
                             conn.end();
                         }).catch(err => {
-                            console.log(err);
                             conn.end();
                         });
                     }).catch(err => {
-                        console.log(err);
                         this.dropFarewell(member.guild).then(conn => {
                             conn.end();
                         }).catch(err => {
-                            console.log(err);
                             conn.end();
                         });
                     });
@@ -177,29 +179,9 @@ class myClient extends DBF.Client {
             return guild.channels.filter(ch => ch.type == "text" && ch.permissionsFor(guild.me).has("SEND_MESSAGES") && ch.permissionOverwrites.find(overwrite => overwrite.id == guild.defaultRole.id && new Discord.Permissions(overwrite.allow).has("SEND_MESSAGES"))).sort((a,b) => a.position-b.position).first();
     }
 
-    sendStatus(extended){
-        
-        let status = {
-            status: this.user.presence.status,
-            guilds: this.guilds.size,
-            connections: 0,
-            connlist: []
-        };
-        snekfetch.post(this.auth.webserver + "/servers/status")
-                .send({status})
-                .end()
-                .catch(err => {
-                    console.log("ERROR SENDING STATUS\n<br/>"+err);
-                });
-        return status;
-    }
-
     sendLoadGuilds(id)
     {
-        snekfetch.post(this.auth.webserver+"/servers/loadGuilds")
-        .send({id})
-        .end()
-        .catch(err => console.log("Error sending reload guilds post" + err));
+        this.socketManager.socket.emit(id ? 'load_guilds' : 'load_guild', id);  
     }
 
     reRegister(){
