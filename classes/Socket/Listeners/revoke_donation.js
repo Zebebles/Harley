@@ -8,7 +8,7 @@ module.exports = class childSocket extends Socket
         const name = "revoke_donation";
         
         const fn = (id, fn) => 
-            client.users.fetch(id).then(user => {
+            client.fetchUser(id).then(user => {
                 if(!user)
                     return fn(false);
                 else
