@@ -2,7 +2,6 @@ const DBF = require("discordjs-bot-framework");
 const Discord = require("discord.js");
 const mysql = require("mysql");
 const fetch = require("node-fetch");
-const snekfetch = require("snekfetch");
 var Promise = require("bluebird");
 const auth = require('../resources/auth.json');
 require("../unlisted/mysql_functions.js")();
@@ -182,19 +181,6 @@ class myClient extends DBF.Client {
     sendLoadGuilds(id)
     {
         this.socketManager.socket.emit(id ? 'load_guilds' : 'load_guild', id);  
-    }
-
-    reRegister(){
-        snekfetch.get(auth.webserver+"/servers/register?pw=" + auth.password).then(response => {
-            if(response.status != 200)
-                return console.log("Error re-registering server");
-            snekfetch.get(auth.webserver + "/servers/auth").then(authResponse => {
-                if(authResponse.status != 200)
-                    return console.log("Error fetching auth.");
-                    
-                this.auth = JSON.parse(authResponse.text);
-            }).catch(err => console.log("Error re-authorising)"));
-        }).catch(err => console.log("Error re-registering server"));
     }
 
     loadUsers(client){

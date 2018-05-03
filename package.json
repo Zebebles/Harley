@@ -1,7 +1,7 @@
 {
-  "name": "Mildred",
+  "name": "Harley",
   "version": "1.0.0",
-  "description": "Does Cool Stuff",
+  "description": "A multi-purpose discord bot",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
