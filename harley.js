@@ -29,8 +29,13 @@ socketManager.connect().then(auth => {
     });
 
     bot.on("commandError", data => {
-        console.log("Error running command " + data.command.name + "in " + data.message.guild.name + "\n" + data.error);
+        console.log("Error running command " + data.command.name + " in " + data.message.guild.name + "\n" + data.error);
     }); 
+
+    bot.on('commandsReloaded', () => {
+        setTimeout(() => 
+            bot.socketManager.sendCommands(),500);
+    });
 
     bot.on("ready", () =>
     {
