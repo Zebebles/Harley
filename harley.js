@@ -2,7 +2,7 @@ const myClient = require("./classes/Client.js"), SocketManager = require("./clas
 , HarassManager = require("./classes/Store/harassManager.js"), Store = require("./classes/Store/store.js");
 let auth = require("./resources/auth.json");
 
-let socketManager = new SocketManager('https://www.harleybot.me:2053/server/bot?password=' + auth.password);
+let socketManager = new SocketManager('https://www.harleybot.me:8443/server/bot?password=' + auth.password);
 
 socketManager.connect().then(auth => {
     

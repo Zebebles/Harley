@@ -9,7 +9,7 @@ module.exports = class SocketManager
     {
         this.url = url;
         this.app = express();
-        this.http = require("http").createServer(this.app).listen(3005);
+        this.http = require("http").createServer(this.app).listen(3003);
 
         //  Read and instantiate listeners.
         this.listeners = [];
