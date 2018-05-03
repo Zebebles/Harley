@@ -89,7 +89,8 @@ class myClient extends DBF.Client {
             this.socketManager.sendStatus(false);
         });
 
-        this.on("guildMemberAdd", member => {
+        this.on("guildMemberAdd", member => 
+        {
             if (member.guild.greeting && member.guild.greetChannel) {
                 var channel = member.guild.channels.get(member.guild.greetChannel);
                 var message = member.guild.greeting.replace(/\$server\$/gi, member.guild.name)
@@ -206,6 +207,7 @@ class myClient extends DBF.Client {
             password: this.auth.password
         });
         let webserver = this.auth.webserver;
+        let socketManager = this.socketManager;
         if(!user.smacks)
             user.smacks = 0;
         if(!user.loves)
@@ -223,7 +225,7 @@ class myClient extends DBF.Client {
                 console.log("Error updating user " + user.username + ".\n" + err);
             }).finally(() => {
                 conn.end();
-                this.socketManager.socket.emit('load_user', user.id);
+                socketManager.socket.emit('load_user', user.id);
             });
         });
     }
