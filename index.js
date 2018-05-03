@@ -34,7 +34,7 @@ connect();
 
 function connect()
 {
-    socket = io.connect('https://www.harleybot.me:2053/server/parent?password=' + auth.password);
+    socket = io.connect('https://www.harleybot.me:8443/server/parent?password=' + auth.password);
     
     socket.on('restart', hard => {
         if(hard)
