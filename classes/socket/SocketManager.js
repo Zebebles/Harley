@@ -96,7 +96,7 @@ module.exports = class SocketManager
 
     sendCommands()
     {
-        this.socket.emit('commands', this.client.commands.map(command => {
+        this.socket.emit('commands', this.client.commands.filter(cmd => !cmd.ownerOnly).map(command => {
             return {    name: command.name,
                         group: command.group,
                         aliases: command.triggers.join(', ') || 'N/A',
