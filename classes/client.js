@@ -86,7 +86,7 @@ class myClient extends DBF.Client {
             this.guilds.get("317548490928422912").channels.get("388501029303615490").send("", {
                 "embed": myEmbed
             }).catch(err => console.log(err));
-            this.messageManger.sendStatus(false);
+            this.socketManager.sendStatus(false);
         });
 
         this.on("guildMemberAdd", member => {
