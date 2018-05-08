@@ -1,8 +1,8 @@
 {
-  "name": "Harley",
+  "name": "Harley - Commands",
   "version": "1.0.0",
-  "description": "A multi-purpose discord bot",
-  "main": "bot.js",
+  "description": "A multi-purpose discord bot that aims to provide a range of well maintained commands rather than an abundance of useless ones.",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
