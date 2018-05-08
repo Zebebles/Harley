@@ -32,10 +32,9 @@ module.exports = class UDefine extends DBF.Command{
                     messages = messages.filter(m => m.author.bot || (m.content.match(/[a-zA-Z]?[!-)+-/:-@[-^{-}]{1,4}[a-zA-Z0-9]+/g) != null 
                                                                     ? m.content.indexOf(m.content.match(/[a-zA-Z]?[!-)+-/:-@[-^{-}]{1,4}[a-zA-Z0-9]+/g)[0]) == 0 : false));
                 if(messages.size > 0)
-                    msg.channel.bulkDelete(messages, true).then(deleted => {
-                        if(bot)
-                            msg.channel.send("Successfully removed `" + deleted.size + "` messages from the channel.").then(m => m.delete(2500));
-                    }).catch(err => msg.channel.send("There was an error doing that ... You might have to delete them all manually :confounded:").then(m => m.delete(3000)));
+                    msg.channel.bulkDelete(messages, true).then(deleted => 
+                        bot ? msg.channel.send("Successfully removed `" + deleted.size + "` messages from the channel.").then(m => m.delete(2500)) : null
+                    ).catch(err => msg.channel.send("There was an error doing that ... You might have to delete them all manually :confounded:").then(m => m.delete(3000)));
             }).catch(err => console.log(err));
         }).catch(err => console.log(err));
     }
