@@ -206,7 +206,6 @@ class myClient extends DBF.Client {
             user: "root",
             password: this.auth.password
         });
-        let webserver = this.auth.webserver;
         let socketManager = this.socketManager;
         if(!user.smacks)
             user.smacks = 0;
