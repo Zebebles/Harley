@@ -11,6 +11,7 @@ module.exports = class saySomething extends DBF.Command{
              example: ">>say Hello!",             
              guildOnly : true, //any command that refers to a guild with the discord.js library will crash if it triggered in a dm channel.  This prevents that.
              reqArgs: true,
+             reqBotPerms: ['MANAGE_MESSAGES'],
              reqUserPerms: ['ADMINISTRATOR']
         });
     }
