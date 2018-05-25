@@ -269,6 +269,14 @@ class myClient extends DBF.Client {
             }).catch(err => console.log(err)); //catch loadPrefixes
         });
 
+        setTimeout(() => 
+        {
+            if(guilds.length > 1)
+                this.socketManager.socket.emit('load_guilds');
+            else
+                this.socketManager.socket.emit('load_guild', guilds[0].id);
+        },250);
+
         guilds.forEach(guild => {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
         });

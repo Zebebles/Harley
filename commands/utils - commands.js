@@ -21,9 +21,10 @@ module.exports = class Commands extends DBF.Command{
         let groups = new Array();
         let embed = new Discord.RichEmbed();
         let prefix = msg.guild && msg.guild.prefix ? msg.guild.prefix : msg.client.prefix;
+        let commands = msg.client.commands.concat(msg.client.otherCommands);
         embed.setColor([127, 161, 216]);
         
-        msg.client.commands.forEach(cmd => { //populate groups array
+        commands.forEach(cmd => { //populate groups array
             if(!groups.find(g => g == cmd.group))
                 groups.push(cmd.group);
         });
@@ -37,9 +38,9 @@ module.exports = class Commands extends DBF.Command{
                 let message = "**" + group + "**\n";
                 
                 if(msg.author.id == msg.client.author)
-                    msg.client.commands.filter(cmd => cmd.group == group).forEach(cmd => message += "`" + cmd.name + "`, ");
+                    commands.filter(cmd => cmd.group == group).forEach(cmd => message += "`" + cmd.name + "`, ");
                 else
-                    msg.client.commands.filter(cmd => !cmd.ownerOnly && cmd.group == group).forEach(cmd => message += "`" + cmd.name + "`, ");
+                    commands.filter(cmd => !cmd.ownerOnly && cmd.group == group).forEach(cmd => message += "`" + cmd.name + "`, ");
 
                 embed.description += message.substr(0, message.length-2) + "\n\n";
             });
@@ -55,17 +56,17 @@ module.exports = class Commands extends DBF.Command{
             let message = "";
             
             if(msg.author.id == msg.client.author)
-                msg.client.commands.filter(cmd => cmd.group == group).forEach(cmd => message += "**" + cmd.name + ":** " + cmd.description + "\n\n");
+                commands.filter(cmd => cmd.group == group).forEach(cmd => message += "**" + cmd.name + ":** " + cmd.description + "\n\n");
             else
-                msg.client.commands.filter(cmd => !cmd.ownerOnly && cmd.group == group).forEach(cmd => message += "**" + cmd.name + ":** " + cmd.description + "\n\n");
+                commands.filter(cmd => !cmd.ownerOnly && cmd.group == group).forEach(cmd => message += "**" + cmd.name + ":** " + cmd.description + "\n\n");
 
             embed.description += (message);
         
         } 
-        else if(msg.client.commands.find(cmd => cmd.areYou(args.toLowerCase())))
+        else if(commands.find(cmd => cmd.areYou(args.toLowerCase())))
         { //if they want a specific command.
             
-            let command = msg.client.commands.find(cmd => cmd.areYou(args.toLowerCase()));
+            let command = commands.find(cmd => cmd.areYou(args.toLowerCase()));
             if(command.ownerOnly && msg.author.id != msg.client.author)
                 return msg.channel.send("The command **" + command.name + "** is only available for my Developer.").catch(err => console.log(err));
             embed.setTitle("Command specific information");

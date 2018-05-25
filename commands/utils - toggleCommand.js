@@ -18,10 +18,11 @@ module.exports = class ToggleCommand extends DBF.Command{
 
     run(params = {"msg": msg, "args": args, "user" : user}){ //all the code for your command goes in here.
         let msg = params.msg; var args = params.args;
+        let commands = msg.client.commands.concat(msg.client.otherCommands);
         if(!args)
             return listDisabledCommands();
         //filter out toggle and help, filter commands by group and name/triggers.  Will return an array of either 1 or many.
-        let command = msg.client.commands.filter(cmd => (!cmd.areYou("toggle") && !cmd.areYou("help") && (cmd.areYou(args) || cmd.group.trim().toLowerCase() == args.trim().toLowerCase())));
+        let command = commands.filter(cmd => (!cmd.areYou("toggle") && !cmd.areYou("help") && (cmd.areYou(args) || cmd.group.trim().toLowerCase() == args.trim().toLowerCase())));
         if(!command || !command[0])
             return msg.channel.send("Couldn't find any commands under `" + args + "`.  Usage: `toggle command_name`").catch(err => console.log(err));
         if(command.length > 1)
@@ -65,18 +66,13 @@ module.exports = class ToggleCommand extends DBF.Command{
             msg.channel.send(message).catch(err => console.log(err));
                 
         }).catch(err => msg.channel.send("Timed out.  Please try again :)" + err));            
+        
         function listDisabledCommands(){
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor(msg.guild.me.displayColor);
             myEmbed.setTitle("Disabled commands");
-            let message = "";
-            msg.guild.disabledCommands.forEach(cmd => message += "`"+cmd + "`\n");
-            if(message == "") message = "N/A";
-            myEmbed.addField("Server wide", message, true);
-            message = "";
-            msg.channel.disabledCommands.forEach(cmd => message += "`"+cmd + "`\n");
-            if(message == "") message = "N/A";
-            myEmbed.addField("This channel only", message, true);
+            myEmbed.addField("Server wide", msg.guild.disabledCommands.length ? '`'+msg.guild.disabledCommands.join('`\n`')+'`' : 'N/A', true);
+            myEmbed.addField("This channel only", msg.guild.disabledCommands.length ? '`'+msg.channel.disabledCommands.join('`\n`')+'`' : 'N/A', true);
             msg.channel.send("",{"embed": myEmbed}).catch(err => console.log(err));
         }
     }
