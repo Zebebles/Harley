@@ -24,11 +24,11 @@ module.exports = class Help extends DBF.Command{
             prefix = msg.guild.prefix;
         else 
             prefix = msg.client.prefix;
-        
-        if(args && msg.client.commands.find(cmd => cmd.areYou(args.toLowerCase()))) //if they're looking for command specific help
-            return msg.client.commands.find(cmd => cmd.areYou("commands")).run(params);
-        else if(args && msg.client.commands.find(cmd => cmd.group.toLowerCase() == args.toLowerCase()))
-            return msg.client.commands.find(cmd => cmd.areYou("commands")).run(params);
+        let commands = msg.client.commands.concat(msg.client.otherCommands);
+        if(args && commands.find(cmd => cmd.areYou(args.toLowerCase()))) //if they're looking for command specific help
+            return commands.find(cmd => cmd.areYou("commands")).run(params);
+        else if(args && commands.find(cmd => cmd.group.toLowerCase() == args.toLowerCase()))
+            return commands.find(cmd => cmd.areYou("commands")).run(params);
         else{ //if they're just looking for general help
             embed.setTitle("Information");
             embed.setColor([127, 161, 216]);
