@@ -6,8 +6,10 @@ module.exports = class childSocket extends Socket
     {
         const name = "load_guild";
         
-        const fn = (id) => 
+        const fn = (id) => {
             client.loadGuilds([client.guilds.get(id)]);
+            console.log(id);
+        }
 
         super(client, name, fn);
     }

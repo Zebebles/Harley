@@ -248,7 +248,10 @@ class myClient extends DBF.Client {
         });
     }
     
-    loadGuilds(guilds) {
+    loadGuilds(guilds) 
+    {
+        if(!guilds)
+            return;
         var conn = mysql.createConnection({
             host: this.auth.sqlServer,
             user: "root",
