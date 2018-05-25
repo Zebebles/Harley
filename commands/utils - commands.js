@@ -43,9 +43,7 @@ module.exports = class Commands extends DBF.Command{
                     commands.filter(cmd => !cmd.ownerOnly && cmd.group == group).forEach(cmd => message += "`" + cmd.name + "`, ");
 
                 embed.description += message.substr(0, message.length-2) + "\n\n";
-            });
-            embed.description += "**Music**\nHarley's music module is hosted seperately from everything else to achieve the best performance possible.\nIf you wish to see a list of the music commands, you can view them on the website [here](http://www.harleybot.me/#/commands), or use `" + prefix + "commands music`";
-        
+            });        
         }
         else if (groups.find(g => g.toLowerCase() == args.toLowerCase()))
         { //if they want a list of commands in a specific group.

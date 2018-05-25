@@ -272,13 +272,8 @@ class myClient extends DBF.Client {
             }).catch(err => console.log(err)); //catch loadPrefixes
         });
 
-        setTimeout(() => 
-        {
-            if(guilds.length > 1)
-                this.socketManager.socket.emit('load_guilds');
-            else
-                this.socketManager.socket.emit('load_guild', guilds[0].id);
-        },250);
+        setTimeout(() => this.sendLoadGuilds(guilds.length == 1 ? guild[0].id : null),250);
+
 
         guilds.forEach(guild => {
             guild.defaultTextChannel = this.getDefaultChannel(guild);
@@ -300,7 +295,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     setAutoRole(role) {
@@ -318,7 +313,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         })
-        this.sendLoadGuilds(role.guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     dropAutoRole(guild) {
@@ -335,7 +330,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         })
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     setGreeting(msg, greeting) {
@@ -358,7 +353,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        this.sendLoadGuilds(msg.guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     setFarewell(msg, farewell) {
@@ -381,7 +376,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        this.sendLoadGuilds(msg.guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     dropGreeting(guild) {
@@ -407,7 +402,7 @@ class myClient extends DBF.Client {
                     conn.end()
                 });
         });
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     dropFarewell(guild) {
@@ -433,7 +428,7 @@ class myClient extends DBF.Client {
                     conn.end()
                 });
         });
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 
     disableCommand(guild, channelId, commandName) {
@@ -456,7 +451,8 @@ class myClient extends DBF.Client {
                 conn.end()
             });
         });
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
+        
     }
 
     enableCommand(guild, channelId, commandName) {
@@ -479,7 +475,7 @@ class myClient extends DBF.Client {
                 conn.end()
             });
         });
-        this.sendLoadGuilds(guild.id);
+        setTimeout(() => this.sendLoadGuilds(guild.id),250);
     }
 }
 module.exports = myClient;
