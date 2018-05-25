@@ -11,6 +11,7 @@ module.exports = class childSocket extends Socket
             const areYou = client.commands[0].areYou;
             client.otherCommands = commands.filter(cmd => !client.commands.find(c => c.areYou(cmd.name)));
             client.otherCommands.forEach(cmd => cmd.areYou = areYou);
+            console.log(client.otherCommands);
         }
         super(client, name, fn);
     }

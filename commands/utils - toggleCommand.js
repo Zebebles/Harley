@@ -17,12 +17,12 @@ module.exports = class ToggleCommand extends DBF.Command{
     }
 
     run(params = {"msg": msg, "args": args, "user" : user}){ //all the code for your command goes in here.
-        let msg = params.msg; var args = params.args;
+        let msg = params.msg, args = params.args ? params.args.trim().toLowerCase() : null;
         let commands = msg.client.commands.concat(msg.client.otherCommands);
         if(!args)
             return listDisabledCommands();
         //filter out toggle and help, filter commands by group and name/triggers.  Will return an array of either 1 or many.
-        let command = commands.filter(cmd => (!cmd.areYou("toggle") && !cmd.areYou("help") && (cmd.areYou(args) || cmd.group.trim().toLowerCase() == args.trim().toLowerCase())));
+        let command = commands.filter(cmd => (!cmd.areYou("toggle") && !cmd.areYou("help") && (cmd.areYou(args) || cmd.group.trim().toLowerCase() == args)));
         if(!command || !command[0])
             return msg.channel.send("Couldn't find any commands under `" + args + "`.  Usage: `toggle command_name`").catch(err => console.log(err));
         if(command.length > 1)
