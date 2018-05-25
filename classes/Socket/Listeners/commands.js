@@ -8,7 +8,7 @@ module.exports = class childSocket extends Socket
         
         const fn = (commands) => 
         {
-            client.otherCommands = commands.filter(cmd => client.commands.find(c => c.areYou(cmd.name)));
+            client.otherCommands = commands.filter(cmd => !client.commands.find(c => c.areYou(cmd.name)));
             console.log(client.otherCommands);       
         };
 
