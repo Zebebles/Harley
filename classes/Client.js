@@ -14,11 +14,9 @@ class myClient extends DBF.Client {
 
         this.login();
 
-        this.on("guildCreate", guild => {
-            guild.defaultTextChannel = this.getDefaultChannel(guild);
-            this.setPrefix(guild, guild.client.prefix);
-            guild.disabledCommands = [];
-            guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = []);
+        this.on("guildCreate", guild => 
+        {
+            this.loadGuilds([guild]);
 
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([30, 216, 104]);
@@ -61,19 +59,6 @@ class myClient extends DBF.Client {
         });
 
         this.on("guildDelete", guild => {
-            var conn = mysql.createConnection({
-                host: this.auth.sqlServer,
-                user: "root",
-                password: this.auth.password
-            });
-
-            conn.connect(function (err) {
-                removeGuild(conn, guild).catch(err => {
-                    console.log(err);
-                    conn.end();
-                }).then((conn) => conn.end());
-            });
-
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([247, 112, 79]);
             myEmbed.setTitle("Server left.");

@@ -359,8 +359,8 @@ module.exports = function () {
                     conn.query("SELECT * FROM DisabledCommands WHERE guildId = " + guild.id, (err, res) => {
                         if (err)
                             return reject(err);
-                        guild.disabledCommands = new Array();
-                        guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = new Array());
+                        guild.disabledCommands = [];
+                        guild.channels.filter(ch => ch.type == "text").forEach(ch => ch.disabledCommands = []);
                         res.forEach(result => {
                             if (result.channelId == "all")
                                 guild.disabledCommands.push(result.command);
