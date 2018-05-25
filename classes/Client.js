@@ -70,7 +70,7 @@ class myClient extends DBF.Client {
             var timeout = setTimeout(() => 
             {
                 this.removedGuilds = this.removedGuilds.filter(g => g.id == guild.id);
-                
+
                 var conn = mysql.createConnection({
                     host: this.auth.sqlServer,
                     user: "root",
@@ -85,7 +85,7 @@ class myClient extends DBF.Client {
                 });
             },3600000);
 
-            this.removedGuilds.push({id: g.id, timeout});
+            this.removedGuilds.push({id: guild.id, timeout});
 
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([247, 112, 79]);
