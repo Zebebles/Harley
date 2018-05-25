@@ -272,7 +272,7 @@ class myClient extends DBF.Client {
             }).catch(err => console.log(err)); //catch loadPrefixes
         });
 
-        setTimeout(() => this.sendLoadGuilds(guilds.length == 1 ? guild[0].id : null),250);
+        setTimeout(() => this.sendLoadGuilds(guilds.length == 1 ? guilds[0].id : null),250);
 
 
         guilds.forEach(guild => {
