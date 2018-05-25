@@ -17,6 +17,7 @@ socketManager.connect().then(auth => {
     bot.socketManager = socketManager;
     bot.socketManager.client = bot;
     bot.otherCommands = [];
+    bot.removedGuilds = [];
 
     bot.on("missingPermissions", data => {
         if(data.bot)

@@ -17,6 +17,13 @@ class myClient extends DBF.Client {
         this.on("guildCreate", guild => 
         {
             this.loadGuilds([guild]);
+            
+            let guildRemoved = this.removedGuilds.find(g => g.id == guild.id);
+            if(guildRemoved)
+            {
+                this.removedGuilds.splice(this.removedGuilds.indexOf(guildRemoved), 1);
+                return clearTimeout(guildRemoved.timeout);
+            }
 
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([30, 216, 104]);
@@ -50,7 +57,7 @@ class myClient extends DBF.Client {
         });
 
         this.on("channelCreate", channel => {
-            channel.disabledCommands = new Array();
+            channel.disabledCommands = [];
         });
 
         this.on("channelDelete", channel => {
@@ -59,6 +66,27 @@ class myClient extends DBF.Client {
         });
 
         this.on("guildDelete", guild => {
+            
+            var timeout = setTimeout(() => 
+            {
+                this.removedGuilds = this.removedGuilds.filter(g => g.id == guild.id);
+                
+                var conn = mysql.createConnection({
+                    host: this.auth.sqlServer,
+                    user: "root",
+                    password: this.auth.password
+                });
+
+                conn.connect(function (err) {
+                    removeGuild(conn, guild).catch(err => {
+                        console.log(err);
+                        conn.end();
+                    }).then((conn) => conn.end());
+                });
+            },3600000);
+
+            this.removedGuilds.push({id: g.id, timeout});
+
             let myEmbed = new Discord.RichEmbed();
             myEmbed.setColor([247, 112, 79]);
             myEmbed.setTitle("Server left.");
