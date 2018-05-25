@@ -40,7 +40,6 @@ socketManager.connect().then(auth => {
 
     bot.on("ready", () =>
     {
-        console.log("Test");
         bot.loadGuilds(bot.guilds.array())
         console.log("Loaded guilds from DB");
         bot.loadUsers(bot);
