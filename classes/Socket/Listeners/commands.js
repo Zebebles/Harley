@@ -12,7 +12,7 @@ module.exports = class childSocket extends Socket
             client.otherCommands = commands.filter(cmd => !client.commands.find(c => c.areYou(cmd.name)));
             client.otherCommands.forEach(cmd => 
             {
-                console.log(cmd);
+                cmd.triggers = cmd.aliases.split(', ');
                 cmd.areYou = areYou;
             });
         }
