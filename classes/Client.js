@@ -181,7 +181,7 @@ class myClient extends DBF.Client {
 
     sendLoadGuilds(id)
     {
-        this.socketManager.socket.emit(id ? 'load_guilds' : 'load_guild', id);  
+        this.socketManager.socket.emit(id ? 'load_guild' : 'load_guilds', id);  
     }
 
     loadUsers(client){
