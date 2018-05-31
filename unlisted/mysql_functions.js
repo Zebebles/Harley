@@ -98,7 +98,7 @@ module.exports = function () {
                             waitfor = updateGuildPrefix(conn, guild, guild.client.prefix).catch(err => reject(err));
                         } else {
                             if (guild.name != res[0].name)
-                                conn.query("UPDATE Guilds SET name = \"" + guild.name.replace(/[^ -~]/g, "*") + "\" WHERE id = " + guild.id, function (err, res) {
+                                conn.query("UPDATE Guilds SET name = \"" +  guild.name.replace(/[^ -~]|['"]/g, "*") + "\" WHERE id = " + guild.id, function (err, res) {
                                     if (err)
                                         console.log(err);
                                 });
