@@ -72,7 +72,7 @@ module.exports = class ToggleCommand extends DBF.Command{
             myEmbed.setColor(msg.guild.me.displayColor);
             myEmbed.setTitle("Disabled commands");
             myEmbed.addField("Server wide", msg.guild.disabledCommands.length ? '`'+msg.guild.disabledCommands.join('`\n`')+'`' : 'N/A', true);
-            myEmbed.addField("This channel only", msg.guild.disabledCommands.length ? '`'+msg.channel.disabledCommands.join('`\n`')+'`' : 'N/A', true);
+            myEmbed.addField("This channel only", msg.channel.disabledCommands.length ? '`'+msg.channel.disabledCommands.join('`\n`')+'`' : 'N/A', true);
             msg.channel.send("",{"embed": myEmbed}).catch(err => console.log(err));
         }
     }
