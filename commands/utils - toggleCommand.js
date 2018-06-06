@@ -31,17 +31,19 @@ module.exports = class ToggleCommand extends DBF.Command{
             msg.channel.send("Would you like to toggle **" + command[0].name + "** for the whole server, or just this channel? Type `server` or `channel`.").catch(err => console.log(err));
         
         const filter = m => m.author.id == msg.author.id;
-        msg.channel.awaitMessages(filter, {maxMatches: 1, time: 10000}).then( collected => {
+        msg.channel.awaitMessages(filter, {maxMatches: 1, time: 10000}).then( collected => 
+        {
             if(!collected || collected.size == 0)
                 return msg.channel.send("Timed out.  Please try again :)").catch(err => console.log(err));
             let channelId = "all";
-            if(collected.first().content.match("channel"))
+            if(collected.first().content.match(/channel/gi))
                 channelId = msg.channel.id;
-            else if (!collected.first().content.match("server"))
+            else if (!collected.first().content.match(/server/gi))
                 return msg.channel.send("Invalid choice.  Please try again :)").catch(err => console.log(err));
             let enabled = 0;
             let disabled = 0;
-            command.forEach(comm => {
+            command.forEach(comm => 
+            {
                 if( (channelId == "all" && msg.guild.disabledCommands.find(cmd => cmd == comm.name)) || (channelId != "all" && msg.channel.disabledCommands.find(cmd => cmd == comm.name)) ){
                     msg.client.enableCommand(msg.guild, channelId, comm.name);
                     enabled++;
