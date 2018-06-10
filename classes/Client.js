@@ -110,31 +110,20 @@ class myClient extends DBF.Client {
                     .replace(/\$mention\$/gi, "<@" + member.user.id + ">")
                     .replace(/\$count\$/gi, member.guild.members.size);
                 if (!channel)
-                    this.dropGreeting(member.guild).then((conn) => {
-                        this.dropFarewell(member.guild).then(conn => {
-                            conn.end();
-                        }).catch(err => {
-                            conn.end();
-                        });
-                    }).catch(err => {
-                        this.dropFarewell(member.guild).then(conn => {
-                            conn.end();
-                        }).catch(err => {
-                            conn.end();
-                        });
-                    });
-                    else if(!channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
-                        return;
-                    else
-                        channel.send(message).catch(err => console.log(err));
+                {
+                    this.dropGreeting(member.guild);
+                    this.dropFarewell(member.guild);
+                }
+                else if(!channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
+                    return;
+                else
+                    channel.send(message).catch(err => console.log(err));
             }
             if(member.guild.autoRole && (member.guild.me.hasPermission("MANAGE_ROLES")||member.guild.me.hasPermission("ADMINISTRATOR")))
             {
                 if(member.guild.roles.get(member.guild.autoRole))
-                {
                     if(member.guild.me.highestRole.position > member.guild.roles.get(member.guild.autoRole).position)
                         member.addRole(member.guild.autoRole).catch(err => console.log("Error trying to add auto role for " + member.guild.name + ".  Role ID: " + member.guild.autoRole + "\n\n" + err));
-                }
                 else
                     member.client.dropAutoRole(member.guild);
             }
@@ -158,19 +147,10 @@ class myClient extends DBF.Client {
                     .replace(/\$mention\$/gi, "<@" + member.user.id + ">")
                     .replace(/\$count\$/gi, member.guild.members.size);
                 if (!channel)
-                    this.dropGreeting(member.guild).then((conn) => {
-                        this.dropFarewell(member.guild).then(conn => {
-                            conn.end();
-                        }).catch(err => {
-                            conn.end();
-                        });
-                    }).catch(err => {
-                        this.dropFarewell(member.guild).then(conn => {
-                            conn.end();
-                        }).catch(err => {
-                            conn.end();
-                        });
-                    });
+                {
+                    this.dropGreeting(member.guild);
+                    this.dropFarewell(member.guild);
+                }
                 else if(!channel.permissionsFor(channel.guild.me) || !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES"))
                     return;
                 else
