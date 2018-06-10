@@ -69,7 +69,7 @@ module.exports = class Database
         return new Promise((resolve, reject) => 
         {
             let transactionError = "";
-            this.open().then(conn => {
+            this.open().then(() => {
                 async.some(queries, 
                     (query, callback) =>
                         conn.query(query, (err, res) => err ? callback(err) : null),
