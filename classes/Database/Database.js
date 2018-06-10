@@ -9,8 +9,8 @@ module.exports = class Database
         this.client = client;
         this.certs = {
             user: "root",
-            password: auth.password,
-            host: auth.sqlServer    };
+            password: this.auth.password,
+            host: this.auth.sqlServer    };
         
         this.conn = mysql.createConnection(this.certs);
         this.connected = false;        
