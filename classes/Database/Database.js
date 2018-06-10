@@ -65,10 +65,10 @@ module.exports = class Database
     //  METHOD TO RUN A FULL TRANSACTION INCLUDING CONNECTING
     runFullTransaction(queries)
     {
+        let conn = this.conn;        
         return new Promise((resolve, reject) => 
         {
             let transactionError = "";
-            let conn = this.conn;
             this.open().then(conn => {
                 async.some(queries, 
                     (query, callback) =>
