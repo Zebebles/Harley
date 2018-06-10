@@ -1,5 +1,5 @@
 const myClient = require("./classes/Client.js"), SocketManager = require("./classes/Socket/SocketManager.js")
-, HarassManager = require("./classes/Store/harassManager.js"), Store = require("./classes/Store/store.js");
+, HarassManager = require("./classes/Store/harassManager.js"), Store = require("./classes/Store/store.js"), Database = require("./classes/Database/Database.js");
 let auth = require("./resources/auth.json");
 
 let socketManager = new SocketManager('https://www.harleybot.me:8443/server/bot?password=' + auth.password);
@@ -46,6 +46,7 @@ socketManager.connect().then(auth => {
         bot.loadUsers(bot);
         bot.store = new Store();
         bot.harassManager = new HarassManager(bot);
+        bot.database = new Database(bot);
 
         bot.user.setPresence({game : {name: bot.prefix + "help"}});
 

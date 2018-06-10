@@ -65,7 +65,6 @@ class myClient extends DBF.Client {
         });
 
         this.on("guildDelete", guild => {
-            
             var timeout = setTimeout(() => 
             {
                 this.removedGuilds = this.removedGuilds.filter(g => g.id == guild.id);
