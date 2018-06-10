@@ -32,7 +32,7 @@ module.exports = class Database
                 else
                 {
                     this.connected = true;
-                    resolve(this.conn);
+                    resolve();
                 }
             });   
         });
@@ -68,11 +68,11 @@ module.exports = class Database
         return new Promise((resolve, reject) => 
         {
             let transactionError = "";
+            let conn = this.conn;
             this.open().then(conn => {
                 async.some(queries, 
-                    (query, callback) =>{
-                        console.log(query);
-                        conn.query(query, (err, res) => err ? callback(err) : null)},
+                    (query, callback) =>
+                        conn.query(query, (err, res) => err ? callback(err) : null),
                     error =>
                         transactionError += error + '\n'
                 );
