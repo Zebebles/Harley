@@ -58,7 +58,7 @@ module.exports = class Database
                 error => 
                     transactionError += error + '\n'
             );
-            return transactionError ? reject(transactionError) : resolve(conn);
+            return transactionError != "" ? reject(transactionError) : resolve(conn);
         });
     }
 
@@ -76,7 +76,7 @@ module.exports = class Database
                         transactionError += error + '\n'
                 );
                 this.close();
-                return transactionError ? reject(transactionError) : resolve(this.conn);
+                return transactionError != "" ? reject(transactionError) : resolve(this.conn);
             }).catch(err => 
                 reject(err));
         });
