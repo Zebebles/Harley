@@ -70,8 +70,9 @@ module.exports = class Database
             let transactionError = "";
             this.open().then(conn => {
                 async.some(queries, 
-                    (query, callback) =>
-                        conn.query(query, (err, res) => err ? callback(err) : null),
+                    (query, callback) =>{
+                        console.log(query);
+                        conn.query(query, (err, res) => err ? callback(err) : null)},
                     error =>
                         transactionError += error + '\n'
                 );
