@@ -40,7 +40,7 @@ module.exports = class childSocket extends Socket
                 if(!user.donationTier || user.donationTier < tier)
                     user.donationTier = tier;
                 if(user.donationExpires)
-                    user.donationExpires = user.donationExpires += 2592000000;
+                    user.donationExpires = parseInt(user.donationExpires) + 2592000000;
                 else
                     user.donationExpires = new Date().getTime() + 2592000000;
                 
