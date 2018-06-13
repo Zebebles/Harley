@@ -344,7 +344,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        setTimeout(() => this.sendLoadGuilds(guild.id),250);
+        setTimeout(() => this.sendLoadGuilds(msg.guild.id),250);
     }
 
     setFarewell(msg, farewell) {
@@ -367,7 +367,7 @@ class myClient extends DBF.Client {
                 conn.end();
             });
         });
-        setTimeout(() => this.sendLoadGuilds(guild.id),250);
+        setTimeout(() => this.sendLoadGuilds(msg.guild.id),250);
     }
 
     dropGreeting(guild) {
