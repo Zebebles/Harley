@@ -50,18 +50,18 @@ module.exports = class userinfo extends DBF.Command{
 
 		let membertime = getTimeString(datejoined);
 		let discordTime = getTimeString(mem.user.createdAt);
-		let tier = msg.author.donationTier && msg.author.donationTier != -1 ? (msg.author.donationTier == 3 ? "Legend" : (msg.author.donationTier == 2 ? "Friend" : "Supporter")) : "";
+		let tier = user.donationTier && user.donationTier != -1 ? (user.donationTier == 3 ? "Legend" : (user.donationTier == 2 ? "Friend" : "Supporter")) : "";
 		let myembed = new Discord.RichEmbed();
 
 		myembed.setThumbnail(avatar);
 		myembed.setColor(mem.displayColor);
-		myembed.setURL(msg.author.displayAvatarURL);
-		myembed.setAuthor(displayname + "#"+descrim, msg.author.displayAvatarURL);
+		myembed.setURL(user.displayAvatarURL);
+		myembed.setAuthor(displayname + "#"+descrim, user.displayAvatarURL);
 		if(displayname != username)
-			myembed.setAuthor(username + "#"+descrim + " (" + displayname + ")", msg.author.displayAvatarURL);
+			myembed.setAuthor(username + "#"+descrim + " (" + displayname + ")", user.displayAvatarURL);
 		myembed.addField("ID", id);
 		myembed.addField("Bot", bot, true);
-		msg.author.rep != null ? myembed.addField("Rice", msg.author.rep,true) : null;
+		user.rep != null ? myembed.addField("Rice", user.rep,true) : null;
 		if(tier)
 			myembed.addField("Donator Tier", tier);
 		myembed.addField("Joined Discord", discordTime);
