@@ -32,7 +32,7 @@ module.exports = class prefix extends DBF.Command{
                     role = msg.guild.roles.find(r => r.name.toLowerCase().includes(args.toLowerCase()));
                 if(!role)
                     return msg.channel.send("I couldn't find any roles under `" + args + "`");
-                if(msg.guild.me.highestRole.position < role.position)
+                if(msg.guild.me.highestRole.position <= role.position)
                     return msg.channel.send("I need to have a role that is ordered above `" + role.name + "` to add people to it.").catch(err => console.log(err));
                 else if (role.managed)
                     return msg.channel.send("I can't add people the role `" + role.name + "`");
