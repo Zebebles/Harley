@@ -32,6 +32,8 @@ module.exports = class BlackJack extends DBF.Command{
         if(msg.author.hand)
             return msg.channel.send("You're already in a game of Blackjack.").catch(err => console.log(err));     
 
+        let timeout = setTimeout(() => winner(-1), 60000); //  ends the game on a tie if it takes too long.
+        
         let reactions = msg.guild.me.hasPermission("MANAGE_MESSAGES") && msg.guild.me.hasPermission("ADD_REACTIONS");
         let cardsPool = [1,2,3,4,5,6,7,8,9,10,11,12,13
                         ,1,2,3,4,5,6,7,8,9,10,11,12,13
@@ -58,7 +60,6 @@ module.exports = class BlackJack extends DBF.Command{
         
         countCards(1);
 
-        let timeout = setTimeout(() => winner(-1), 60000); //  ends the game on a tie if it takes too long.
 
         updateMessage(buildEmbed()).then(() => {
             if(reactions){ //if harley has perms to edit reactions
