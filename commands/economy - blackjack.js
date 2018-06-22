@@ -58,6 +58,8 @@ module.exports = class BlackJack extends DBF.Command{
         
         countCards(1);
 
+        let timeout = setTimeout(() => winner(0), 60000); //  ends the game on a tie if it takes too long.
+
         updateMessage(buildEmbed()).then(() => {
             if(reactions){ //if harley has perms to edit reactions
                 filter = (r, user) => user.id == msg.author.id && emojis.find(e => r.emoji.name == e);
@@ -229,7 +231,9 @@ module.exports = class BlackJack extends DBF.Command{
             return embed;
         }
 
-        function cleanUp(){
+        function cleanUp()
+        {
+            clearTimeout(timeout);
             if(reactions && msg.author.bjm)
                 msg.author.bjm.clearReactions().catch(err => console.log(err));
             msg.author.bjm = null;
