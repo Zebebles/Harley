@@ -236,7 +236,7 @@ module.exports = class BlackJack extends DBF.Command{
         {
             clearTimeout(timeout);
             if(reactions && msg.author.bjm)
-                msg.author.bjm.clearReactions().catch(err => console.log(err));
+                msg.author.bjm.clearReactions().catch(err => err);
             msg.author.bjm = null;
             msg.author.hand = null;
             msg.author.emoji = null;
