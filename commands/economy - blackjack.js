@@ -58,7 +58,7 @@ module.exports = class BlackJack extends DBF.Command{
         
         countCards(1);
 
-        let timeout = setTimeout(() => winner(0), 60000); //  ends the game on a tie if it takes too long.
+        let timeout = setTimeout(() => winner(-1), 60000); //  ends the game on a tie if it takes too long.
 
         updateMessage(buildEmbed()).then(() => {
             if(reactions){ //if harley has perms to edit reactions
